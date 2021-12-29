@@ -102,6 +102,10 @@ landlordSchema.pre('save',(next)=>{
         bcrypt.hash(user.password, salt, null, function(err, hash){
             if(err){return next(err)}
 
+            else if(user.password == hash){
+                return next("new password cannot be same as previous password")
+            }
+
             user.password = hash;
             next();
         })
