@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const {isDate} = require("validator")
-const {isPostalCode} = require("validator")
 const sitesSchema = new mongoose.Schema({
     landlord_id:{
         type:mongoose.Schema.Types.ObjectId,
@@ -43,8 +42,7 @@ const sitesSchema = new mongoose.Schema({
     }],
 
     rent:{
-        type:Number,
-        
+        required:Number,
         required:[true,'Please enter rent']
     },
 
@@ -74,9 +72,9 @@ const sitesSchema = new mongoose.Schema({
         }
     ],
 
-    type_site:{
+    type:{
         enum:['Room','Land','Shops'],
-        type:String,
+        required:String,
         required:true
     },
 
@@ -104,4 +102,4 @@ const sitesSchema = new mongoose.Schema({
 
 },{timestamps:true});
 
-module.exports = mongoose.model("Site",sitesSchema);
+module.exports = mongoose.model("Sites",sitesSchema)
