@@ -45,7 +45,7 @@ function Lsignin() {
                                         <label className="custom-control-label p_remember" for="customCheck1">Remember Me</label>
                                     </div>
                                     <div className="form-group pr_form-group form-button pr_form-button">
-                                        <input type="submit" name="signin" id="signin" class="form-submit" value="Sign In" />
+                                        <input type="submit" name="signin" id="signin" className="form-submit" value="Sign In" />
                                     </div>
                                     <div className='p_mem'>Not a member? <a href='#'>Sign Up</a></div>
                                 </form>
