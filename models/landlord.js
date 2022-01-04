@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt")
-const {isEmail,isDate} = require("validator")
+const {isEmail,isDate,isPostalCode} = require("validator")
 
 const landlordSchema = new mongoose.Schema({
     name:{
