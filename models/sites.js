@@ -1,9 +1,12 @@
 const mongoose = require("mongoose");
 const {isDate} = require("validator")
+const {isPostalCode} = require("validator")
+
 const sitesSchema = new mongoose.Schema({
     landlord_id:{
         type:mongoose.Schema.Types.ObjectId,
-        required:true
+        ref:"Landlord",
+       required:true,
     },
 
     alias_name:{
@@ -30,9 +33,9 @@ const sitesSchema = new mongoose.Schema({
             required:[true,'Please enter your country']
         },
         pincode:{
-            type:Number,
+            type:String,
             required:[true,'Please enter your pincode'],
-            validate:[isPostalCode,'Please enter proper pin code']
+            
         },
         landmark:{
             type:String,
@@ -42,7 +45,7 @@ const sitesSchema = new mongoose.Schema({
     }],
 
     rent:{
-        required:Number,
+        type:Number,
         required:[true,'Please enter rent']
     },
 
@@ -55,26 +58,14 @@ const sitesSchema = new mongoose.Schema({
         type:Boolean,
     },
 
-    charges_param:[
-        {
-            electricity:{
-                type:Number,
-                required:Boolean
-            },
-            water:{
-                type:Number,
-                required:Boolean
-            },
-            food:{
-                type:Number,
-                required:Boolean
-            },
-        }
-    ],
+    charges_param:{
+type:Object,
+required:true
+    },
 
-    type:{
+    type_site:{
         enum:['Room','Land','Shops'],
-        required:String,
+        type:String,
         required:true
     },
 
@@ -93,13 +84,15 @@ const sitesSchema = new mongoose.Schema({
     },
     current_tenant:{
         type:mongoose.Schema.Types.ObjectId,
-        required:true
+        
+       
     },
     requested_tenant:{
         type:mongoose.Schema.Types.ObjectId,
-        required:true
+      
+       
     }
 
 },{timestamps:true});
 
-module.exports = mongoose.model("Sites",sitesSchema)
+module.exports = mongoose.models.Sites||mongoose.model("Sites",sitesSchema)
