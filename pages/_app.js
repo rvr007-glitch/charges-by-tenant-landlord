@@ -3,15 +3,15 @@ import '../styles/p_auth.css'
 import '../styles/generateCharges.css'
 import "../styles/Profile.css";
 import "../styles/Landing.css"
-import "../node_modules/bootstrap/dist/css/bootstrap.css";
+// import "../node_modules/bootstrap/dist/css/bootstrap.css";
 
 import { useEffect } from "react";
 
 
 function MyApp({ Component, pageProps }) {
-  useEffect(() => {
-    import("bootstrap/dist/js/bootstrap");
-  }, []);
+  // useEffect(() => {
+  //   import("bootstrap/dist/js/bootstrap");
+  // }, []);
   return <Component {...pageProps} />;
 }
 

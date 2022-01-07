@@ -1,6 +1,7 @@
 import { connectToDatabase } from "../../../../db/connect"
 import { sendError } from "../../../../helpers/help";
 import { sendSuccess } from "../../../../helpers/help";
+import { send } from "../../../../utility/sendMail";
 var constants = require("../../../../helpers/constants")
 const bcrypt = require("bcrypt");
 var Landlord = require("../../../../models/landlord")
@@ -13,6 +14,7 @@ export default async function handler(req,res){
 
     var PASSWORD = generatePassword()
     console.log(PASSWORD)
+
 
     if(req.method === "POST"){
 
@@ -67,7 +69,7 @@ export default async function handler(req,res){
                         return sendError(res,err.message,constants.REGISTER_ERROR)
                     }
                     else{
-                        
+                        send(data.email, "Confirmation Mail with Password", `Your current password for login is: <h1>${PASSWORD}</h1>.`)
                         return sendSuccess(res,data)
                     }
                 })

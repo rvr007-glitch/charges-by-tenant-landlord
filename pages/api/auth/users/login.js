@@ -1,4 +1,3 @@
-import { Logger } from "log4js";
 import { connectToDatabase } from "../../../../db/connect"
 import { sendError } from "../../../../helpers/help";
 import { sendSuccess } from "../../../../helpers/help";
@@ -41,7 +40,7 @@ export default async function handler(req,res){
       
     } else {
      
-      Logger.error()
+
       return sendError(res,"Token not provided",constants.NULL_TOKEN)
     }
 }
