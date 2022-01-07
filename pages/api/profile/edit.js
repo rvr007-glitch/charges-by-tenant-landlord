@@ -1,7 +1,7 @@
 import { sendSuccess, sendError } from "../../../helpers/help";
 var constants = require("../../../helpers/constants")
 import connectMongoDb from "../../../db/connect";
-import { ApiError } from "next/dist/server/api-utils";
+
 var Landlord = require("../../../models/landlord")
 const {isEmail} = require("validator");
 const jwt = require("jsonwebtoken")
@@ -12,7 +12,7 @@ const config = require("../../../config/config")
 //var nodemailer = reuire("nodemailer");
 
 export default async function handler(req,res){
-if(req.method ==="POST"){
+if(req.method =="POST"){
     if(req.body.password){
         
         try{
@@ -81,24 +81,24 @@ if(typeof bearerHeader !== 'undefined') {
                  Landlord.findByIdAndUpdate(authData.id,{                
                  
                   
-                   address:[{
+                   address:{
                        first_line:req.body.first_line,
-                       city:req.body.city,
-                       state:req.body.state,
-                       Country:req.body.Country,
-                       pincode:req.body. pincode,
-                       landmark:req.body. landmark,
+                       city:req.body.address.city,
+                       state:req.body.address.state,
+                       Country:req.body.address.Country,
+                       pincode:req.body.address.pincode,
+                       landmark:req.body.address.landmark,
    
    
    
-                   }],
+                   },
                    DOB:req.body.DOB,
                    occupation: req.body.occupation,
                    verification:req.body.verification,
 
                    account:{
                     acc_num:req.body.account.acc_num,
-                    ifsc:req.body.ifsc,
+                    ifsc:req.body.account.ifsc,
 
                    }
              
@@ -107,12 +107,9 @@ if(typeof bearerHeader !== 'undefined') {
    
        
                },(err,data)=>{
-                   if(err){
-                       return sendError(res,err.message,constants.BAD_REQUEST)
-                   }
-                   else{
+                   
                     return sendSuccess(res,data);
-                   }
+                   
                 
                })
               
@@ -134,12 +131,10 @@ if(typeof bearerHeader !== 'undefined') {
   return sendError(res,"token not availanle",constants.NULL_TOKEN)
 }
 }
-else{
-return sendError(res, "server error", 500)
-}
 
 
-    if(req.method === "PUT"){
+
+  else  if(req.method === "PUT"){
         if(req.body.password){
         
             try{
@@ -181,7 +176,5 @@ return sendError(res, "server error", 500)
       return sendError(res,"token not availanle",constants.NULL_TOKEN)
     }
 }
-else{
-  return sendError(res, "server error", 500)
-}
+
 }
