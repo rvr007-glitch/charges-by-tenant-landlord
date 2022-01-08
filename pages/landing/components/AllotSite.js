@@ -32,31 +32,31 @@ function AllotPopup() {
                         <div className='p_mradio'>
                             <input 
                             type="radio" 
-                            class="btn-check" 
+                            className="btn-check" 
                             name="options" 
                             id="option1" 
                             value="email"
                             onChange={(e) => onValueChange(e)}
                             />
-                            <label class="btn btn-warning" for="option1">Email</label>
+                            <label className="btn btn-warning" htmlFor="option1">Email</label>
                             <input 
                             type="radio" 
-                            class="btn-check" 
+                            className="btn-check" 
                             name="options" 
                             id="option2" 
                             value="user"
                             onChange={(e) => onValueChange(e)}
                             />
-                            <label class="btn btn-warning" for="option2">User-Id</label>
+                            <label className="btn btn-warning" htmlFor="option2">User-Id</label>
                                 </div>
                                 {selectedValue == 'email' ?
-                                    <div class="form-group">
-                                        <label className='p_mlabel1' for="InputEmail">Email Address of tenant</label>
-                                        <input type="email" class="form-control" id="InputEmail" placeholder="Email-Id" />
+                                    <div className="form-group">
+                                        <label className='p_mlabel1' htmlFor="InputEmail">Email Address of tenant</label>
+                                        <input type="email" className="form-control" id="InputEmail" placeholder="Email-Id" />
                                     </div> :
-                                    <div class="form-group">
-                                        <label className='p_mlabel1' for="InputEmail">User-Id of tenant</label>
-                                        <input type="email" class="form-control" id="InputEmail" placeholder="User-Id" />
+                                    <div className="form-group">
+                                        <label className='p_mlabel1' htmlFor="InputEmail">User-Id of tenant</label>
+                                        <input type="email" className="form-control" id="InputEmail" placeholder="User-Id" />
                                     </div>}
                             </form>
                         </Modal.Body>
