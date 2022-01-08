@@ -1,5 +1,4 @@
 
-import { connectToDatabase } from "../../db/db"
 const mongoose = require("mongoose");
 const Site =require("../../models/sites");
 import { sendError,sendSuccess } from "../../helpers/help";
