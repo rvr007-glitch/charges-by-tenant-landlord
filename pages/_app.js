@@ -1,12 +1,12 @@
-import '../styles/globals.css'
-import '../styles/p_auth.css'
-import '../styles/generateCharges.css'
+import "../styles/globals.css";
+import "../styles/p_auth.css";
+import "../styles/generateCharges.css";
 import "../styles/Profile.css";
-import "../styles/Landing.css"
+import "../styles/Landing.css";
+import "../styles/CreateSite.css";
 // import "../node_modules/bootstrap/dist/css/bootstrap.css";
 
 import { useEffect } from "react";
-
 
 function MyApp({ Component, pageProps }) {
   // useEffect(() => {
@@ -21,4 +21,4 @@ MyApp.getInitialProps = async (ctx) => {
   return {};
 };
 
-export default MyApp
+export default MyApp;
