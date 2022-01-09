@@ -1,7 +1,7 @@
 import Header from "../components/Header"
 import RentersList from "./components/RentersList"
 import Image from 'next/image'
-import Particular_Site from '../../public/images/particularSite.png'
+import ParticularSite from '../../public/images/ParticularSite.png'
 import NameLabel from '../components/NameLabel';
 import AllotPopup from "./components/AllotSite";
 
@@ -32,7 +32,7 @@ export default function particular_site() {
                         </div>
                     </div>
                     <div className='p_psite'>
-                        <Image src={Particular_Site} alt="sub" />
+                        <Image src={ParticularSite} alt="sub" />
                     </div>
                 </div>
                 <div className="p_particular">
