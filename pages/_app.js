@@ -1,17 +1,20 @@
 import '../styles/globals.css'
 import '../styles/p_auth.css'
 import '../styles/generateCharges.css'
+import "../styles/particularSite.css"
 import "../styles/Profile.css";
 import "../styles/Landing.css"
-// import "../node_modules/bootstrap/dist/css/bootstrap.css";
+import "../node_modules/bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/css/bootstrap.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { useEffect } from "react";
 
 
 function MyApp({ Component, pageProps }) {
-  // useEffect(() => {
-  //   import("bootstrap/dist/js/bootstrap");
-  // }, []);
+  useEffect(() => {
+    import("bootstrap/dist/js/bootstrap");
+  }, []);
   return <Component {...pageProps} />;
 }
 
