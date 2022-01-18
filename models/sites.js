@@ -1,12 +1,9 @@
 const mongoose = require("mongoose");
-const {isDate} = require("validator")
-const {isPostalCode} = require("validator")
-
+const {isDate,isPostalCode} = require("validator")
 const sitesSchema = new mongoose.Schema({
     landlord_id:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Landlord",
-       required:true,
+        required:true
     },
 
     alias_name:{
@@ -14,7 +11,7 @@ const sitesSchema = new mongoose.Schema({
         required:true
     },
 
-    address:[{
+    address:{
         first_line:{
             type:String,
             required:[true,'Please enter your address'],
@@ -28,21 +25,21 @@ const sitesSchema = new mongoose.Schema({
             type:String,
             required:[true,'Please enter your state']
         },
-        Country:{
+        country:{
             type:String,
             required:[true,'Please enter your country']
         },
         pincode:{
-            type:String,
+            type:Number,
             required:[true,'Please enter your pincode'],
-            
+            validate:[isPostalCode,'Please enter proper pin code']
         },
         landmark:{
             type:String,
             //not setting required as true, keeping it optional
         }
 
-    }],
+    },
 
     rent:{
         type:Number,
@@ -54,16 +51,26 @@ const sitesSchema = new mongoose.Schema({
         required:[true,'Please enter deposit amount']
     },
 
-    isOcuupied:{
-        type:Boolean,
+    status:{
+        type:String,
+        default:"0"
     },
 
-    charges_param:{
-type:Object,
-required:true
-    },
+    charges_param:
+        {
+            electricity:{
+                type:Number,
+                
+            },
+            water:{
+                type:Number,
+                
+            }
+            
+        }
+    ,
 
-    type_site:{
+    Type:{
         enum:['Room','Land','Shops'],
         type:String,
         required:true
@@ -73,26 +80,15 @@ required:true
         type:Array
     },
 
-    date:{
-        type:Date,
-        required:[true,'Please generate date'],
-        default:Date.now
-    },
-
     history:{
         type:Array
     },
-    current_tenant:{
+    tenant:{
         type:mongoose.Schema.Types.ObjectId,
-        
-       
-    },
-    requested_tenant:{
-        type:mongoose.Schema.Types.ObjectId,
-      
-       
+        ref:"Tenant"
     }
+    
 
 },{timestamps:true});
 
-module.exports = mongoose.models.Sites||mongoose.model("Sites",sitesSchema)
+module.exports = mongoose.model("Sites",sitesSchema)
