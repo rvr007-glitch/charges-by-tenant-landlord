@@ -14,19 +14,19 @@ const Taskbar = () => {
 
       <Icons
         classprop="fad fa-user-circle S_icon S_icon0"
-        path="/profile/tenant"
+        path="/profile/landlord"
       ></Icons>
       <Icons
         classprop="fal fa-home-lg-alt S_icon S_icon1"
-        path="/landing/tenant"
+        path="/landing/landlord"
       ></Icons>
       <Icons
         classprop="fal fa-grip-lines-vertical S_icon S_icon2"
-        path="/charges/totalCharges"
+        path="/charges/generateCharges"
       ></Icons>
       <Icons
         classprop="fal fa-rupee-sign S_icon S_icon3"
-        path="/transaction/TenantHistory"
+        path="/createSite/CreateSiteForm"
       ></Icons>
       <LogOut classprop="fal fa-sign-out S_icon S_icon5"></LogOut>
     </div>
