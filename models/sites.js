@@ -1,105 +1,87 @@
 const mongoose = require("mongoose");
-const {isDate} = require("validator")
-const sitesSchema = new mongoose.Schema({
-    landlord_id:{
-        type:mongoose.Schema.Types.ObjectId,
-        required:true
+const { isDate, isPostalCode } = require("validator");
+const sitesSchema = new mongoose.Schema(
+  {
+    landlord_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
     },
 
-    alias_name:{
-        type:String,
-        required:true
+    alias_name: {
+      type: String,
+      required: true,
     },
 
-    address:[{
-        first_line:{
-            type:String,
-            required:[true,'Please enter your address'],
-            
-        },
-        city:{
-            type:String,
-            required:[true,'Please enter your city']
-        },
-        state:{
-            type:String,
-            required:[true,'Please enter your state']
-        },
-        Country:{
-            type:String,
-            required:[true,'Please enter your country']
-        },
-        pincode:{
-            type:Number,
-            required:[true,'Please enter your pincode'],
-            validate:[isPostalCode,'Please enter proper pin code']
-        },
-        landmark:{
-            type:String,
-            //not setting required as true, keeping it optional
-        }
-
-    }],
-
-    rent:{
-        required:Number,
-        required:[true,'Please enter rent']
+    address: {
+      first_line: {
+        type: String,
+        required: [true, "Please enter your address"],
+      },
+      city: {
+        type: String,
+        required: [true, "Please enter your city"],
+      },
+      state: {
+        type: String,
+        required: [true, "Please enter your state"],
+      },
+      country: {
+        type: String,
+        required: [true, "Please enter your country"],
+      },
+      pincode: {
+        type: Number,
+        required: [true, "Please enter your pincode"],
+        validate: [isPostalCode, "Please enter proper pin code"],
+      },
+      landmark: {
+        type: String,
+        //not setting required as true, keeping it optional
+      },
     },
 
-    deposit:{
-        type:Number,
-        required:[true,'Please enter deposit amount']
+    rent: {
+      type: Number,
+      required: [true, "Please enter rent"],
     },
 
-    isOcuupied:{
-        type:Boolean,
+    deposit: {
+      type: Number,
+      required: [true, "Please enter deposit amount"],
     },
 
-    charges_param:[
-        {
-            electricity:{
-                type:Number,
-                required:Boolean
-            },
-            water:{
-                type:Number,
-                required:Boolean
-            },
-            food:{
-                type:Number,
-                required:Boolean
-            },
-        }
-    ],
-
-    type:{
-        enum:['Room','Land','Shops'],
-        required:String,
-        required:true
+    status: {
+      type: String,
+      default: "0",
     },
 
-    alloted_tenant:{
-        type:Array
+    charges_param: {
+      electricity: {
+        type: Number,
+      },
+      water: {
+        type: Number,
+      },
+    },
+    Type: {
+      enum: ["Room", "Land", "Shops"],
+      type: String,
+      required: true,
     },
 
-    date:{
-        type:Date,
-        required:[true,'Please generate date'],
-        default:Date.now
+    alloted_tenant: {
+      type: Array,
     },
 
-    history:{
-        type:Array
+    history: {
+      type: Array,
     },
-    current_tenant:{
-        type:mongoose.Schema.Types.ObjectId,
-        required:true
+    tenant: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Tenant",
     },
-    requested_tenant:{
-        type:mongoose.Schema.Types.ObjectId,
-        required:true
-    }
+  },
+  { timestamps: true }
+);
 
-},{timestamps:true});
-
-module.exports = mongoose.model("Sites",sitesSchema)
+module.exports = mongoose.model("Sites", sitesSchema);

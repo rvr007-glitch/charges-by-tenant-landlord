@@ -1,0 +1,46 @@
+.a-head-container {
+  display: flex;
+  justify-content: center;
+}
+
+.a-top-head {
+  font-size: 1.5vw;
+  font-weight: bold;
+  width: 60%;
+  background: #023c40;
+  text-align: center;
+  padding: 1%;
+  margin: 20px;
+  color: white;
+  border-radius: 10px;
+}
+
+.a-create-bottom-radio-container {
+  padding: opx 20px;
+}
+
+.addField-container {
+  position: relative;
+}
+
+.a-right-align-button {
+  position: absolute;
+  right: 8%;
+  margin: 4px;
+}
+
+.a-left-div {
+  background-color: black;
+}
+
+.a-finalButton-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10vh;
+}
+
+.a-final-generateButton {
+  padding: 13px 25px !important;
+  margin-bottom: 50px;
+}

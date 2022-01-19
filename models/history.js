@@ -1,49 +1,34 @@
 const mongoose = require("mongoose");
 
-const {isEmail,isDate} = require("validator");
+const { isEmail, isDate } = require("validator");
 
-const historySchema = new mongoose.Schema({
-    tenant_id:{
-        type:mongoose.Schema.Types.ObjectId,
-        requred:true
+const historySchema = new mongoose.Schema(
+  {
+    tenant_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Tenant",
     },
-    site_id:{
-        type:mongoose.Schema.Types.ObjectId,
-        requred:true
+    site_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Sites",
+      required: true,
     },
-    requested_at:{
-        type:Date,
+    status: {
+      type: String,
+      default: "0",
     },
-    joined_at:{
-        type:Date,
+
+    requested_at: {
+      type: Date,
     },
-    leave_at:{
-        type:Date,
-    }
+    joined_at: {
+      type: Date,
+    },
+    left_at: {
+      type: Date,
+    },
+  },
+  { timestamps: true }
+);
 
-},{timestamps:true})
-
-historySchema.pre("save",(next) => {
-
-if(this.requested('requested_at')){
-   this.requested_at = Date.now;
-   next(); 
-}
-
-else if(this.joined('joined_at')){
-    this.joined_at = Date.now;
-    next(); 
-}
-
-else if(this.left('leave_at')){
-    this.leave_at = Date.now;
-    next(); 
-}
-
-else{
-    return next();
-}
-
-})
-
-module.exports = mongoose.model("History",historySchema);
+module.exports = mongoose.model("History", historySchema);
