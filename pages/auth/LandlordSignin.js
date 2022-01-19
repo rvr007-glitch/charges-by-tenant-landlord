@@ -21,7 +21,7 @@ function Lsignin() {
     password: "",
   });
 
-  var  {email, password} = details;
+  var { email, password } = details;
 
   const onChange = (e) => {
     setDetails({ ...details, [e.target.name]: e.target.value });

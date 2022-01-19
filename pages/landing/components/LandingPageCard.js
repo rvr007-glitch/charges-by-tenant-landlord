@@ -5,13 +5,17 @@ import HorizontalLine from "./HorizontalLine";
 function LandingPageCard(props) {
   return (
     <section className="a-card">
-      <div className={`container shadow-lg text-white a-landing-card mt-5 ${props.cclass}`} style={{ width: "65vw" }}>
+      <div
+        className={`container shadow-lg text-white a-landing-card mt-5 ${props.cclass}`}
+        style={{ width: "65vw" }}
+      >
         <div className="row justify-content-md-center p-3">
           <div className="col col-lg-4 a-image-container">
             <img
               className="card-img-top a-landing-card-image"
               src="/images/homePage.png"
-              alt="Card image cap" />
+              alt="Card image cap"
+            />
           </div>
           <div className="col col-lg-8">
             <div className="card-body a-card-body">
@@ -25,10 +29,7 @@ function LandingPageCard(props) {
                     leftHeading="Owner"
                     rightdata={"Vivek Khan"}
                   />
-                  <LandingCardContent
-                    leftHeading="Rent"
-                    rightdata="15000/-"
-                  />
+                  <LandingCardContent leftHeading="Rent" rightdata="15000/-" />
                   <LandingCardContent
                     leftHeading="Address"
                     rightdata="
