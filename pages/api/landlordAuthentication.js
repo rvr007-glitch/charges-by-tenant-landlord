@@ -16,11 +16,11 @@
 //         var {name, email, username, contact} = req.body;
 
 //         //for the email check weather the eamil is already registered or not in the validator or over here
-//         var password = "q2345678" //create a function that creates a random password 
+//         var password = "q2345678" //create a function that creates a random password
 //         var landlord = new Landlord({
 //           name, email, username, contact, password
 //         });
-        
+
 //         await landlord.save()
 //         return sendSuccess(res, landlord)
 

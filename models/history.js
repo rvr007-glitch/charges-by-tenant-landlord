@@ -1,32 +1,34 @@
 const mongoose = require("mongoose");
 
-const {isEmail,isDate} = require("validator");
+const { isEmail, isDate } = require("validator");
 
-const historySchema = new mongoose.Schema({
-    tenant_id:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Tenant"
+const historySchema = new mongoose.Schema(
+  {
+    tenant_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Tenant",
     },
-    site_id:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Sites",
-        required:true
+    site_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Sites",
+      required: true,
     },
-    status:{
-        type:String,
-        default:"0"
+    status: {
+      type: String,
+      default: "0",
     },
-    
-    requested_at:{
-        type:Date,
-    },
-    joined_at:{
-        type:Date,
-    },
-    left_at:{
-        type:Date,
-    }
 
-},{timestamps:true})
+    requested_at: {
+      type: Date,
+    },
+    joined_at: {
+      type: Date,
+    },
+    left_at: {
+      type: Date,
+    },
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.model("History",historySchema);
+module.exports = mongoose.model("History", historySchema);

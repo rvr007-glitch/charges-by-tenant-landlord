@@ -1,93 +1,83 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt")
-const {isEmail,isDate,isPostalCode} = require("validator")
+const bcrypt = require("bcrypt");
+const { isEmail, isDate, isPostalCode } = require("validator");
 
-const landlordSchema = new mongoose.Schema({
-    name:{
-        type:String,
-        required:[true,'Please enter a name'],
-        min:3,
-        max:25
+const landlordSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Please enter a name"],
+      min: 3,
+      max: 25,
     },
-    username:{
-        type:String,
-       
-        min:3,
-        max:25,
-        unique:true
-    },
-    email:{
-        type:String,
-        required:[true,'Please enter a email'],
-        unique:true,
-        validate:[isEmail,'Please Enter a valid email']
-    },
-    contact:{
-        type:Number,
-        
-    },
-    password:{
-        type:String,
-        required:[true,'Please enter your password'],
-        min:5
-    },
-    DOB:{
-        type:Date,
-        
-        validate:[isDate,'Please enter a valid date']
-    },
-    address:{
-        first_line:{
-            type:String,
-           
-            
-        },
-        city:{
-            type:String,
-            
-        },
-        state:{
-            type:String,
-           
-        },
-        Country:{
-            type:String,
-       
-        },
-        pincode:{
-            type:String,
-         
-            
-        },
-        landmark:{
-            type:String,
-            //not setting required as true, keeping it optional
-        }
+    username: {
+      type: String,
 
+      min: 3,
+      max: 25,
+      unique: true,
     },
-    occupation:{
-        type:String,
-        
+    email: {
+      type: String,
+      required: [true, "Please enter a email"],
+      unique: true,
+      validate: [isEmail, "Please Enter a valid email"],
     },
-    verification:{
-        type:String,
-        enum:['Aadhar','VoterID','PanCard'],
-       
+    contact: {
+      type: Number,
     },
-    account:{
-        acc_num:{
-            type:String,
-            
-        },
-        ifsc:{
-            type:String,
-            
-        }
+    password: {
+      type: String,
+      required: [true, "Please enter your password"],
+      min: 5,
     },
-    site_list:{
-        type:Array
-    }
-},{timestamps:true});
+    DOB: {
+      type: Date,
+
+      validate: [isDate, "Please enter a valid date"],
+    },
+    address: {
+      first_line: {
+        type: String,
+      },
+      city: {
+        type: String,
+      },
+      state: {
+        type: String,
+      },
+      Country: {
+        type: String,
+      },
+      pincode: {
+        type: String,
+      },
+      landmark: {
+        type: String,
+        //not setting required as true, keeping it optional
+      },
+    },
+    occupation: {
+      type: String,
+    },
+    verification: {
+      type: String,
+      enum: ["Aadhar", "VoterID", "PanCard"],
+    },
+    account: {
+      acc_num: {
+        type: String,
+      },
+      ifsc: {
+        type: String,
+      },
+    },
+    site_list: {
+      type: Array,
+    },
+  },
+  { timestamps: true }
+);
 
 //when landlord updates password
 // landlordSchema.pre('save',(next)=>{
@@ -113,4 +103,5 @@ const landlordSchema = new mongoose.Schema({
 
 // });
 
-module.exports =mongoose.models.Landlord|| mongoose.model("Landlord",landlordSchema);
+module.exports =
+  mongoose.models.Landlord || mongoose.model("Landlord", landlordSchema);

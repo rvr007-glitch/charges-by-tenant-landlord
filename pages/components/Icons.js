@@ -1,9 +1,9 @@
 const Icons = (props) => {
-    return (
-        <div>
-            <i className={props.classprop}></i>
-        </div>
-    )
-}
+  return (
+    <div>
+      <i className={props.classprop}></i>
+    </div>
+  );
+};
 
-export default Icons
+export default Icons;
