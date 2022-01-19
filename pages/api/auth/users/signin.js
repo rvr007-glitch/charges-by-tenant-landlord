@@ -8,7 +8,7 @@ var constants = require("../../../../helpers/constants");
 import { sendError } from "../../../../helpers/help";
 import { sendSuccess } from "../../../../helpers/help";
 
-export default async function handler(req, res) {
+export default function handler(req, res) {
   if (req.method === "POST") {
     var email = req.body.email;
     var password = req.body.password;

@@ -55,7 +55,7 @@ function Lsignin() {
       router.push(redirect || "/landing/landlord");
     } catch (err) {
       console.log(err);
-      enqueueSnackbar(err.message, { variant: "error" });
+      enqueueSnackbar(err.response?.data?.message, { variant: "error" });
     }
   };
   return (

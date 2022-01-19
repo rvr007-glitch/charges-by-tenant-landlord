@@ -15,8 +15,7 @@ function Lsignup() {
   const { redirect } = router.query;
   const { dispatch, state } = useContext(Store);
   const [details, setDetails] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     contact: "",
     email: "",
   });
@@ -58,7 +57,7 @@ function Lsignup() {
       enqueueSnackbar("User Signed Up Successfully", { variant: "success" });
       router.push(redirect || "/landing/landlord");
     } catch (err) {
-      enqueueSnackbar(err.message, { variant: "error" });
+      enqueueSnackbar(err.response?.data?.message, { variant: "error" });
     }
   };
 
@@ -100,23 +99,10 @@ function Lsignup() {
                     <input
                       className="pa_input"
                       type="text"
-                      name="firstName"
-                      id="firstName"
+                      name="name"
+                      id="name"
                       onChange={(e) => onChange(e)}
-                      placeholder="Your First Name"
-                    />
-                  </div>
-                  <div className="form-group pr_form-group">
-                    <label htmlFor="email">
-                      <i className="fas fa-envelope"></i>
-                    </label>
-                    <input
-                      className="pa_input"
-                      type="text"
-                      name="lastName"
-                      id="lastName"
-                      onChange={(e) => onChange(e)}
-                      placeholder="Your Last Name"
+                      placeholder="Your Name"
                     />
                   </div>
                   <div className="form-group pr_form-group">
