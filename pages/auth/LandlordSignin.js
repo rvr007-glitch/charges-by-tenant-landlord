@@ -21,6 +21,8 @@ function Lsignin() {
     password: "",
   });
 
+  var  {email, password} = details;
+
   const onChange = (e) => {
     setDetails({ ...details, [e.target.name]: e.target.value });
     console.log([e.target.name] + " " + e.target.value);
@@ -103,6 +105,7 @@ function Lsignin() {
                       className="pa_input"
                       type="text"
                       name="email"
+                      value={email}
                       onChange={(e) => onChange(e)}
                       placeholder="Your Name"
                     />
@@ -115,6 +118,7 @@ function Lsignin() {
                       className="pa_input"
                       type="password"
                       name="password"
+                      value={password}
                       placeholder="Password"
                       onChange={(e) => onChange(e)}
                     />

@@ -1,5 +1,7 @@
 const Site = require("../../../models/sites");
+import constants from "../../../helpers/constants";
 import { sendError, sendSuccess } from "../../../helpers/help";
+import { auth } from "../../../utility/auth";
 const Landlord=require("../../../models/landlord")
 export default async function handler(req, res) {
     //get
@@ -17,6 +19,14 @@ export default async function handler(req, res) {
     }
 }
 const Siteget = async (req, res) => {
+    var landlord_id;
+    auth(req, res, (err, data) => {
+        if(err) return sendError(res, err.msg, constants.JWT_ERROR);
+        else{
+            landlord_id = data.id;
+        }
+
+    })
 
     try {
         const { id } = req.query;
@@ -27,6 +37,7 @@ const Siteget = async (req, res) => {
         console.log(data);
 
         const siteinfo = await Site.findById(data).populate('landlord_id');
+        if(siteinfo.landlord_id._id!= landlord_id) return sendError(res, "Unauth Access", 200);
 
         return sendSuccess(res, siteinfo);
     }
