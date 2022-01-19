@@ -23,7 +23,7 @@ function LandingPageCard(props) {
                 <span className="a-landing-card-heading"> Alias Name: </span>
                 <span className="a-landing-card-data">Home2</span>
               </h5>
-              <p className="card-text">
+              <div className="card-text">
                 <div className="container">
                   <LandingCardContent
                     leftHeading="Owner"
@@ -36,7 +36,7 @@ function LandingPageCard(props) {
                     Flat no. 108, Lakshmipuram Society"
                   />
                 </div>
-              </p>
+              </div>
               <div className="container">
                 <div>
                   <div className="a-button-container">
