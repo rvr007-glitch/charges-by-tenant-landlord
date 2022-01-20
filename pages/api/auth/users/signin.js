@@ -1,7 +1,6 @@
 var Landlord = require("../../../../models/landlord");
 const { isEmail } = require("validator");
 const jwt = require("jsonwebtoken");
-
 const bcrypt = require("bcrypt");
 const config = require("../../../../config/config");
 var constants = require("../../../../helpers/constants");

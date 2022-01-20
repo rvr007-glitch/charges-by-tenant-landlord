@@ -6,7 +6,8 @@ var constants = require("../../../../helpers/constants");
 const bcrypt = require("bcrypt");
 var Landlord = require("../../../../models/landlord");
 const { isEmail, isAlpha, isNumeric } = require("validator");
-//var nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
+const config = require("../../../../config/config");
 
 export default async function handler(req, res) {
   var PASSWORD = generatePassword();
