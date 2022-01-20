@@ -10,6 +10,10 @@ import { Store } from "../../utility/Store";
 import axios from "axios";
 import Cookies from "js-cookie";
 
+
+  // anujjaddhu@gmail.com
+  // 45qbfxrs
+
 function Lsignin() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const router = useRouter();
@@ -52,7 +56,7 @@ function Lsignin() {
       dispatch({ type: "USER_LOGIN", payload: data });
       Cookies.set("userInfo", JSON.stringify(data));
       enqueueSnackbar("User Signed In Successfully", { variant: "success" });
-      router.push(redirect || "/landing/landlord");
+      router.push(redirect || "/profile/landlord");
     } catch (err) {
       console.log(err);
       enqueueSnackbar(err.response?.data?.message, { variant: "error" });

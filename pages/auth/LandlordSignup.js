@@ -18,7 +18,6 @@ function Lsignup() {
   const { dispatch, state } = useContext(Store);
   const [details, setDetails] = useState({
     name: "",
-    // lastName: "",
     contact: "",
     email: "",
   });
@@ -58,7 +57,7 @@ function Lsignup() {
       console.log(data);
       Cookies.set("userInfo", JSON.stringify(data));
       enqueueSnackbar("User Signed Up Successfully", { variant: "success" });
-      router.push(redirect || "/landing/landlord");
+      router.push(redirect || "/profile/landlord");
     } catch (err) {
       enqueueSnackbar(err.response?.data?.message, { variant: "error" });
     }
