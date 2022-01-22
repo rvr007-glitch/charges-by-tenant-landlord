@@ -2,11 +2,18 @@ import HomePageBanner from "./components/HomePageBanner";
 import Features from "./components/Features";
 import GetStarted from "./components/GetStarted";
 import Taskbar from "../profile/components/Taskbar";
+import { useRouter } from "next/router";
 import { Store } from "../../utility/Store";
 import { useContext } from "react";
 
 function HomePage() {
-  const { state, dispatch } = useContext(Store);
+  const { dispatch, state } = useContext(Store);
+  const router = useRouter();
+
+  if (state.userInfo) {
+    router.push("/profile/landlord");
+  }
+
   return (
     <>
       <HomePageBanner />

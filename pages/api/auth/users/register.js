@@ -6,12 +6,11 @@ var constants = require("../../../../helpers/constants");
 const bcrypt = require("bcrypt");
 var Landlord = require("../../../../models/landlord");
 const { isEmail, isAlpha, isNumeric } = require("validator");
-const jwt = require("jsonwebtoken");
-const config = require("../../../../config/config");
+//var nodemailer = require("nodemailer");
 
 export default async function handler(req, res) {
   var PASSWORD = generatePassword();
-  console.log(PASSWORD);
+  console.log("Password::::" + PASSWORD);
 
   if (req.method === "POST") {
     if (!req.body.email || !req.body.contact || !req.body.name) {
