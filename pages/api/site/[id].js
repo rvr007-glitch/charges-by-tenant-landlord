@@ -3,6 +3,7 @@ import constants from "../../../helpers/constants";
 import { sendError, sendSuccess } from "../../../helpers/help";
 import { auth } from "../../../utility/auth";
 const Landlord = require("../../../models/landlord");
+
 export default async function handler(req, res) {
   //get
   if (req.method == "GET") {

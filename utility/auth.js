@@ -1,4 +1,4 @@
-exports.auth = (req, res, cb) => {
+exports.auth = async (req, res, cb) => {
   const jwt = require("jsonwebtoken");
   const config = require("../config/config");
   const constants = require("../helpers/constants");

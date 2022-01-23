@@ -53,6 +53,7 @@ const sitesSchema = new mongoose.Schema(
     status: {
       type: String,
       default: "0",
+      required:true
     },
 
     charges_param: {
@@ -63,10 +64,6 @@ const sitesSchema = new mongoose.Schema(
       enum: ["Room", "Land", "Shops"],
       type: String,
       required: true,
-    },
-
-    alloted_tenant: {
-      type: Array,
     },
 
     history: {

@@ -4,57 +4,92 @@ const mongoose = require("mongoose");
 var Tenant = require("../../../models/tenant");
 var Sites = require("../../../models/sites");
 var History = require("../../../models/history");
+import { auth } from "../../../utility/auth";
 const jwt = require("jsonwebtoken");
-
+const {isEmail} = require("validator")
 const bcrypt = require("bcrypt");
 const config = require("../../../config/config");
 
 export default async function handler(req, res) {
-  if (req.method === "POST") {
-    var siteId = "61ec6495892136db190346f4";
-    var siteData = await Sites.findById(siteId);
-    if (siteData) {
-      if (siteData.status === "0") {
-        var tenantData = await Tenant.find({ email: req.body.email || "" });
-        if (tenantData) {
-          var newHist = new History({
-            site_id: siteId,
-            tenant_id: tenantData[0]?._id,
-            requested_at: Date.now(),
-          });
+  
+  if(req.method == "POST"){
+    var siteId = req.body.siteId
+    var email = req.body.email
 
-          var histData = await newHist.save();
-
-          if (histData) {
-            console.log(histData);
-            var data = await Sites.findByIdAndUpdate(histData.site_id, {
-              $set: { tenant: histData.tenant_id, status: "1" },
-              $push: { history: histData._id },
-            });
-            if (data) {
-              return sendSuccess(res, { data });
-            } else {
-              return sendError(res, "some error", constants.SERVER_ERROR);
-            }
-          } else {
-            return sendError(
-              res,
-              "error in saving history data",
-              constants.SERVER_ERROR
-            );
-          }
-        } else {
-          return sendError(res, "no such tenant exist", constants.SERVER_ERROR);
-        }
-      } else {
-        return sendError(
-          res,
-          "can't send request as status is not 0",
-          constants.SERVER_ERROR
-        );
-      }
-    } else {
-      return sendError(res, "no such site exist", constants.SERVER_ERROR);
+    if(!isEmail(email)){
+      return sendError(res,"invalid email",500)
     }
+
+    Sites.findById(siteId, function(err,siteData){
+      if(err)return sendError(res,err.message,500)
+      else{
+
+        const bearerHeader = req.headers['authorization'];
+        if(typeof bearerHeader !== 'undefined') {
+          // Split at the space
+            const bearer = bearerHeader.split(' ');
+            // Get token from array
+            const bearerToken = bearer[1];
+            // Set the token
+            req.token = bearerToken;
+
+            jwt.verify(req.token,config.SECRET_KEY,(err,authData) => {
+              if(err)return sendError(res,err,constants.JWT_VERIFY)
+              else{
+                if(authData.id == siteData.landlord_id){
+                  if(siteData.status === "0"){
+                    Tenant.find({email:email}, function(err, TenantData){
+                      if(err){return sendError(res,err.message,500)}
+                      else{
+                      if(TenantData[0]?._id){
+                        var newHist = new History({
+                          tenant_id: TenantData[0]._id,
+                          site_id: siteId,
+                          requested_at: Date.now()
+                        })
+      
+                        newHist.save(function(err, histData){
+                          if(err){return sendError(res,err.message, 500)}
+                          Sites.findByIdAndUpdate(siteId, {$set:{status:"1"}, $push:{history:histData._id}}, function(err,updateSData){
+                            if(err)return sendError(res,err.message,500)
+                            Tenant.findByIdAndUpdate(TenantData[0]._id, {$push:{history:histData._id}}, function(err,updateTData){
+                              if(err)return sendError(res,err.message,500)
+                              else{
+                                Sites.findById(siteId, function(err,data){
+                                  if(err)return sendError(res,err.message,500)
+                                  else{
+                                    return sendSuccess(res,data)
+                                  }
+                                })
+                              }
+                            })
+                          })
+                        })
+                      }
+                      else{
+                        return sendError(res,"No such tenant",500)
+                      }
+                    }
+                    })
+                  }
+                  else{
+                    return sendError(res,"can't send request",500)
+                  }
+                }
+                else{
+                  return sendError(res,"not authorize",500)
+                }
+              }
+            })
+
+        }
+        else{
+          return sendError(res,"token not available",500)
+        }
+        
+      }
+          
+      })
   }
 }
+
