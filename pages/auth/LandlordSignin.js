@@ -53,7 +53,7 @@ function Lsignin() {
       Cookies.set("userInfo", JSON.stringify(res.data));
       localStorage.setItem("userInfo", JSON.stringify(res.data));
       enqueueSnackbar("User Signed In Successfully", { variant: "success" });
-      router.push("/landing/landlord");
+      router.push("/profile/landlord");
     } catch (err) {
       console.log(err);
       enqueueSnackbar(err.response?.data?.message, { variant: "error" });
