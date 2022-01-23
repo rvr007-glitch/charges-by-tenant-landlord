@@ -5,6 +5,7 @@ import "../styles/homepage.css";
 import "../styles/Landing.css";
 import "../styles/p_auth.css";
 import "../styles/Profile.css";
+import "../styles/EditProfile.css";
 import "bootstrap/dist/css/bootstrap.css";
 // import "../node_modules/bootstrap/dist/css/bootstrap.css";
 

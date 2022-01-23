@@ -10,12 +10,15 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 function Lsignup() {
+  // anujjaddhu@gmail.com
+  // 45qbfxrs
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const router = useRouter();
   const { redirect } = router.query;
   const { dispatch, state } = useContext(Store);
   const [details, setDetails] = useState({
     name: "",
+    // lastName: "",
     contact: "",
     email: "",
   });
@@ -42,9 +45,9 @@ function Lsignup() {
     submitHandler(details);
   };
 
-  if (state.userInfo) {
-    router.push("/profile/tenant");
-  }
+  // if (state.userInfo) {
+  //   router.push("/profile/tenant");
+  // }
 
   const submitHandler = async (details) => {
     closeSnackbar();
@@ -105,6 +108,19 @@ function Lsignup() {
                       placeholder="Your Name"
                     />
                   </div>
+                  {/* <div className="form-group pr_form-group">
+                    <label htmlFor="email">
+                      <i className="fas fa-envelope"></i>
+                    </label>
+                    <input
+                      className="pa_input"
+                      type="text"
+                      name="lastName"
+                      id="lastName"
+                      onChange={(e) => onChange(e)}
+                      placeholder="Your Last Name"
+                    />
+                  </div> */}
                   <div className="form-group pr_form-group">
                     <label className="pr_label" htmlFor="email">
                       <i className="fas fa-envelope"></i>
