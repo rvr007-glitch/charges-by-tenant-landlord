@@ -9,7 +9,7 @@ const Details = (props) => {
       <div className="rightTop_details">
         <div className="details_head">
           <div className="headWriting">
-            <h5>Hi Bot!!</h5>
+            <h5>Hi {props.details?.name}</h5>
             <div className="head_secondLine">Welcome to your profile page.</div>
           </div>
           <Link href="/editprofile/EditLandlord">
@@ -17,11 +17,11 @@ const Details = (props) => {
           </Link>
         </div>
         <div className="details">
-          <div className="email">{props.email}</div>
-          <div className="details1">{props.detail1}</div>
-          <div className="details2">{props.detail2}</div>
-          <div className="details3">{props.detail3}</div>
-          <div className="details4">{props.detail4}</div>
+          <div className="email">Email: {props.details?.email}</div>
+          <div className="details1">Contact: {props.details?.contact}</div>
+          <div className="details2">Username: {props.details?.username}</div>
+          {/* <div className="details3">Kuch bhi</div>
+          <div className="details4">Kuch bhi returns</div> */}
         </div>
       </div>
     </div>
