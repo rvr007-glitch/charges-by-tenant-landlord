@@ -11,15 +11,15 @@ const config = require("../../../config/config");
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    var siteId = "61d887d294331617558a91c3";
+    var siteId = "61ec6495892136db190346f4";
     var siteData = await Sites.findById(siteId);
     if (siteData) {
       if (siteData.status === "0") {
-        var tenantData = await Tenant.find({ email: req.body.email });
+        var tenantData = await Tenant.find({ email: req.body.email || "" });
         if (tenantData) {
           var newHist = new History({
             site_id: siteId,
-            tenant_id: tenantData[0]._id,
+            tenant_id: tenantData[0]?._id,
             requested_at: Date.now(),
           });
 

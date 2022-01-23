@@ -52,7 +52,7 @@ function Lsignin() {
       dispatch({ type: "USER_LOGIN", payload: data });
       Cookies.set("userInfo", JSON.stringify(data));
       enqueueSnackbar("User Signed In Successfully", { variant: "success" });
-      router.push(redirect || "/landing/landlord");
+      router.push("/landing/landlord");
     } catch (err) {
       console.log(err);
       enqueueSnackbar(err.response?.data?.message, { variant: "error" });
