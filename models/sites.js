@@ -53,6 +53,7 @@ const sitesSchema = new mongoose.Schema(
     status: {
       type: String,
       default: "0",
+      required:true
     },
 
     charges_param: {
@@ -69,10 +70,6 @@ const sitesSchema = new mongoose.Schema(
       required: true,
     },
 
-    alloted_tenant: {
-      type: Array,
-    },
-
     history: {
       type: Array,
     },
@@ -84,4 +81,4 @@ const sitesSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Sites", sitesSchema);
+module.exports = mongoose.models.Site || mongoose.model("Site", sitesSchema);

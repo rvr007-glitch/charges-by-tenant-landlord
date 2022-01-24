@@ -1,4 +1,4 @@
-exports.auth = (req, res, cb) => {
+exports.auth = async (req, res, cb) => {
   const jwt = require("jsonwebtoken");
   const config = require("../config/config");
   const constants = require("../helpers/constants");
@@ -14,10 +14,10 @@ exports.auth = (req, res, cb) => {
     req.token = bearerToken;
     // Next middleware
     jwt.verify(req.token, config.SECRET_KEY, (err, authData) => {
-      if (err) return sendError(res, err, constants.JWT_VERIFY);
+      //if (err) return sendError(res, err, constants.JWT_VERIFY);
       cb(err, authData);
     });
   } else {
-    cb({ msg: "token not available" }, null);
+    cb( {message:"token not available"}, null);
   }
 };

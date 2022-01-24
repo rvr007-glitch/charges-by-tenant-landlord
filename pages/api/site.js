@@ -8,8 +8,11 @@ export default async function Sitesave(req, res) {
   if (req.method === "POST") {
     var landlord_id;
     auth(req, res, (err, data) => {
+      
+      if(err) return sendError(res,err.message,500)
       landlord_id = data.id;
     });
+    
     try {
       var { alias_name, rent, deposit, charges_param, type_site } = req.body;
       if (!alias_name) {
@@ -49,8 +52,17 @@ export default async function Sitesave(req, res) {
         history: req.body.history,
       });
 
-      const site = await newSite.save();
-      return sendSuccess(res, site, 200);
+
+      newSite.save(function(err, siteData){
+        
+        Landlord.findByIdAndUpdate(siteData.landlord_id, {
+          $push: { site_list: siteData._id },
+        }, (err, data)=>{
+          if(err) return sendError(res, "Pushing Site id in Landlord schema error", constants.UPDATE_ERROR)
+          return sendSuccess(res, siteData)
+        })
+      });
+
     } catch (err) {
       console.log(err);
       return sendError(res, err.message, 500);

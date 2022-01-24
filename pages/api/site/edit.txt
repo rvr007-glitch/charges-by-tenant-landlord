@@ -1,0 +1,22 @@
+request send by lanlord to tenant:-
+    first site check
+    authentication of site with landlord
+    tenant exist or not
+    status of site:-
+        if 0 then OK:-
+            first create History
+            change status of site to 1, push histtory id in history Array in sites
+            push histtory id in history Array in tenant to whom req has sent
+
+        else not OK
+
+
+tenant accept request:-
+    
+    first fetch history schema using history id given by user
+    authentication for tenant, history.tenant_id = tenant._id
+    check status of history schema 
+    if 0 then OK:-
+        change status to 1 in hsitory Schema and add joined_at field in history Schema
+        change status to 2 in Sites schema
+    else NOT OK     
