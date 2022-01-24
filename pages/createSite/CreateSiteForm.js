@@ -7,8 +7,91 @@ import CreateBottomRadioPart from "./components/CreateBottomRadioPart";
 import NormalBootstrapButton from "./components/NormalBootstrapButton";
 import MyModal from "./components/MyModal";
 import Image from "next/image";
+import { useSnackbar } from "notistack";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
+import { Store } from "../../utility/Store";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 function CreateSiteForm() {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const router = useRouter();
+  const { redirect } = router.query;
+  const { dispatch, state } = useContext(Store);
+
+  const [details, setDetails] = useState({
+    alias_name: "",
+    rent: "",
+    deposit: "",
+    first_line: "",
+    city: "",
+    state: "",
+    country: "India",
+    pincode: "",
+    landmark: "",
+    type_site: "",
+    charges_params: {
+      electricity: {
+        fixed: false,
+      },
+      water: {
+        fixed: true,
+        value: 300,
+      },
+      internet: {
+        fixed: true,
+        value: 1000,
+      },
+    },
+  });
+  console.log(details.charges_params.water.value);
+
+  const onChange = (e) => {
+    setDetails({ ...details, [e.target.name]: e.target.value });
+    // console.log(details);
+  };
+
+  // const onChangeRadio = (e) => {
+  //   setDetails({...details, [e.target.name]: })
+  // }
+
+  function submitHandler() {
+    console.log(details);
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    submitHandler(details);
+    console.log(details);
+  };
+
+  const getDetails = async () => {
+    if (state.userInfo?.token) {
+      closeSnackbar();
+      let config = {
+        headers: {
+          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
+        },
+      };
+      try {
+        axios.post("/api/auth/users/login", {}, config).then((res) => {
+          dispatch({
+            type: "USER_INFO_FETCHING",
+            payload: res.data?.data,
+          });
+        });
+
+        enqueueSnackbar("Data Retrieved", { variant: "success" });
+      } catch (err) {
+        console.log(err);
+        enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+      }
+    } else {
+      enqueueSnackbar("Signup", { varient: "success" });
+    }
+  };
+
   return (
     // <!-- Bootstrap CSS -->
     // <section className="a-create-side-main text-white">
@@ -29,7 +112,11 @@ function CreateSiteForm() {
               <form>
                 <div className="row">
                   <div className="form-group col-md-6">
-                    <VerticalInput name="Alias name" />
+                    <VerticalInput
+                      fieldName="Alias name"
+                      name="alias_name"
+                      onChange={onChange}
+                    />
                   </div>
 
                   <div className="form-group col-md-6 py-3">
@@ -38,16 +125,41 @@ function CreateSiteForm() {
                     <div className="container py-3">
                       <div className="row">
                         <div className="col-3">
-                          <RadioButton name="Room" />
+                          <RadioButton
+                            value="Room"
+                            name="Room"
+                            groupName="type_site"
+                            // checked="checked"
+                            details={details}
+                            onChange={onChange}
+                          />
                         </div>
                         <div className="col-3">
-                          <RadioButton name="Land" />
+                          <RadioButton
+                            value="Land"
+                            name="Land"
+                            groupName="type_site"
+                            details={details}
+                            onChange={onChange}
+                          />
                         </div>
                         <div className="col-3">
-                          <RadioButton name="Shop" />
+                          <RadioButton
+                            value="Shop"
+                            name="Shop"
+                            groupName="type_site"
+                            details={details}
+                            onChange={onChange}
+                          />
                         </div>
                         <div className="col-3">
-                          <RadioButton name="Other" />
+                          <RadioButton
+                            value="Other"
+                            name="Other"
+                            groupName="type_site"
+                            details={details}
+                            onChange={onChange}
+                          />
                         </div>
                       </div>
                     </div>
@@ -56,32 +168,63 @@ function CreateSiteForm() {
 
                 <div className="row">
                   <div className="form-group col-md-6">
-                    <VerticalInput name="Rent" />
+                    <VerticalInput
+                      fieldName="Rent"
+                      name="rent"
+                      onChange={onChange}
+                    />
                   </div>
                   <div className="form-group col-md-6">
-                    <VerticalInput name="Deposit" />
+                    <VerticalInput
+                      fieldName="Deposit"
+                      name="deposit"
+                      onChange={onChange}
+                    />
                   </div>
                 </div>
 
                 <div className="a-address-container">
-                  <HorizontalInput name="Flat no:" />
-                  <HorizontalInput name="Street:" />
+                  <HorizontalInput
+                    fieldName="Flat no:"
+                    name="first_line"
+                    onChange={onChange}
+                  />
+                  <HorizontalInput
+                    fieldName="Landmark:"
+                    name="landmark"
+                    onChange={onChange}
+                  />
                   <div className="row">
                     <div className="col-6">
-                      <HorizontalInput name="City:" />
+                      <HorizontalInput
+                        fieldName="City:"
+                        name="city"
+                        onChange={onChange}
+                      />
                     </div>
                     <div className="col-6">
-                      <HorizontalInput name="Zip:" />
+                      <HorizontalInput
+                        fieldName="Pin Code:"
+                        name="pincode"
+                        onChange={onChange}
+                      />
                     </div>
                   </div>
 
-                  <div className="form-group col-md-4">
+                  <div className="form-group">
                     <div className="form-group row">
-                      <div className="col-4">
-                        <label htmlFor="inputState">State</label>
+                      <div className="col-3">
+                        <label htmlFor="inputState">State:</label>
                       </div>
-                      <div className="col-8">
+                      <div className="col-3">
                         <StateOptions />
+                      </div>
+                      <div className="col-6">
+                        <HorizontalInput
+                          fieldName="Country:"
+                          name="country"
+                          onChange={onChange}
+                        />
                       </div>
                     </div>
                   </div>
@@ -93,8 +236,8 @@ function CreateSiteForm() {
 
             <div className="a-monthly-container container">
               <div className="container a-create-bottom-radio-container">
-                <CreateBottomRadioPart name="Electricity" />
-                <CreateBottomRadioPart name="Water" />
+                <CreateBottomRadioPart value="Electricity" name="Electricity" />
+                <CreateBottomRadioPart value="Water" name="Water" />
               </div>
             </div>
 
@@ -112,7 +255,8 @@ function CreateSiteForm() {
             </div>
             <div className="a-finalButton-container">
               <NormalBootstrapButton
-                name="Generate Site"
+                fieldName="Generate Site"
+                onClick={onSubmit}
                 classNameProp="btn-warning a-final-generateButton"
               />
             </div>

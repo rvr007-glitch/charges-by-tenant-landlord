@@ -11,10 +11,19 @@ const CreateBottomRadioPart = (props) => {
           <div className="container">
             <div className="row">
               <div className="col-6">
-                <RadioButton name="Fixed" />
+                <RadioButton
+                  name="Fixed"
+                  value="fixed"
+                  groupName={props.name}
+                  // checked="checked"
+                />
               </div>
               <div className="col-6">
-                <RadioButton name="Variable" />
+                <RadioButton
+                  name="Variable"
+                  value="variable"
+                  groupName={props.name}
+                />
               </div>
             </div>
           </div>
