@@ -10,7 +10,7 @@ const { isEmail, isAlpha, isNumeric } = require("validator");
 
 export default async function handler(req, res) {
   var PASSWORD = generatePassword();
-  console.log(PASSWORD);
+  console.log("Password::::" + PASSWORD);
 
   if (req.method === "POST") {
     if (!req.body.email || !req.body.contact || !req.body.name) {

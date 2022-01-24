@@ -38,21 +38,22 @@ function Lsignin() {
   //   id(details.email.length == 0);
   // };
 
-  // if (state.userInfo) {
-  //   router.push("/profile/tenant");
-  // }
+  if (state.userInfo) {
+    router.push("/profile/landlord");
+  }
 
   const submitHandler = async (details) => {
     closeSnackbar();
 
     try {
       console.log(details);
-      const { data } = await axios.post("/api/auth/users/signin", details);
+      const res = await axios.post("/api/auth/users/signin", details);
       console.log(details);
-      dispatch({ type: "USER_LOGIN", payload: data });
-      Cookies.set("userInfo", JSON.stringify(data));
+      dispatch({ type: "USER_SIGNIN", payload: res.data });
+      Cookies.set("userInfo", JSON.stringify(res.data));
+      localStorage.setItem("userInfo", JSON.stringify(res.data));
       enqueueSnackbar("User Signed In Successfully", { variant: "success" });
-      router.push("/landing/landlord");
+      router.push(redirect || "/profile/landlord");
     } catch (err) {
       console.log(err);
       enqueueSnackbar(err.response?.data?.message, { variant: "error" });

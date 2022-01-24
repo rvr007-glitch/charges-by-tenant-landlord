@@ -30,9 +30,9 @@ const sitesSchema = new mongoose.Schema(
         required: [true, "Please enter your country"],
       },
       pincode: {
-        type: String,
+        type: Number,
         required: [true, "Please enter your pincode"],
-        // validate: [isPostalCode, "Please enter proper pin code"],
+        validate: [isPostalCode, "Please enter proper pin code"],
       },
       landmark: {
         type: String,
@@ -57,8 +57,12 @@ const sitesSchema = new mongoose.Schema(
     },
 
     charges_param: {
-      type: Object,
-      required: true
+      electricity: {
+        type: Number,
+      },
+      water: {
+        type: Number,
+      },
     },
     Type: {
       enum: ["Room", "Land", "Shops"],
@@ -77,4 +81,4 @@ const sitesSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.models.Sites || mongoose.model("Sites", sitesSchema);
+module.exports = mongoose.model("Sites", sitesSchema);
