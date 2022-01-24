@@ -11,6 +11,7 @@ const bcrypt = require("bcrypt");
 const config = require("../../../config/config");
 
 export default async function handler(req, res) {
+
   
   if(req.method == "POST"){
     var siteId = req.body.siteId
