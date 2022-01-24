@@ -12,8 +12,11 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     var landlord_id;
     auth(req, res, (err, data) => {
+      
+      if(err) return sendError(res,err.message,500)
       landlord_id = data.id;
     });
+    
     try {
       var { alias_name, rent, deposit, charges_param, type_site } = req.body;
       if (!alias_name) {
@@ -51,6 +54,7 @@ export default async function handler(req, res) {
       });
 
       newSite.save(function(err, siteData){
+        
         Landlord.findByIdAndUpdate(siteData.landlord_id, {
           $push: { site_list: siteData._id },
         }, (err, data)=>{
