@@ -31,4 +31,4 @@ const historySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("History", historySchema);
+module.exports = mongoose.models.History || mongoose.model("History", historySchema);
