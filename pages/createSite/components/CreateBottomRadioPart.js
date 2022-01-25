@@ -14,9 +14,11 @@ const CreateBottomRadioPart = (props) => {
       if (e.target.value == "fixed") {
         setDisable(false);
         setValueInput({ ...valueInput, fixed: true });
+        e.target.checked = true;
       } else {
         setDisable(true);
         setValueInput({ ...valueInput, fixed: false, value: null });
+        e.target.checked = true;
       }
     } else {
       setValueInput({ ...valueInput, [e.target.name]: e.target.value });
@@ -43,6 +45,7 @@ const CreateBottomRadioPart = (props) => {
                   value="fixed"
                   groupName={props.name}
                   onChange={(e) => onValueChange(e)}
+                  checked={valueInput.fixed ? true : false}
                 />
               </div>
               <div className="col-4">
@@ -51,6 +54,7 @@ const CreateBottomRadioPart = (props) => {
                   value="variable"
                   groupName={props.name}
                   onChange={(e) => onValueChange(e)}
+                  checked={valueInput.fixed ? false : true}
                 />
               </div>
               <div className="col-4">
@@ -60,6 +64,7 @@ const CreateBottomRadioPart = (props) => {
                   id="inputEmail3"
                   placeholder="Amount"
                   name="value"
+                  value={valueInput.value}
                   onChange={(e) => onValueChange(e)}
                   disabled={disable}
                   defaultValue={props.name == "country" ? "India" : ""}

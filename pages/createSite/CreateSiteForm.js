@@ -57,7 +57,6 @@ function CreateSiteForm() {
   const updateCharges = (fieldName) => {
     console.log(fieldName);
     var temp = Object.keys(fieldName)[0];
-    console.log("temp" + temp);
     setCharges({ ...charges, [`${temp}`]: fieldName[temp] });
   };
 
@@ -84,8 +83,6 @@ function CreateSiteForm() {
     var result = Object.keys(resultant)[0];
     var tempCharges = charges;
     tempCharges[`${result}`] = resultant[`${result}`];
-
-    // setCharges({ ...charges, result: resultant.result });
     setCharges(tempCharges);
   }
 
@@ -116,8 +113,6 @@ function CreateSiteForm() {
   };
 
   return (
-    // <!-- Bootstrap CSS -->
-    // <section className="a-create-side-main text-white">
     <section className="a-create-side-main">
       <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
