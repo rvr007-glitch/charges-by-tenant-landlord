@@ -9,7 +9,7 @@ import MyModal from "./components/MyModal";
 import Image from "next/image";
 import { useSnackbar } from "notistack";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Store } from "../../utility/Store";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -34,6 +34,7 @@ function CreateSiteForm() {
     charges_params: {
       electricity: {
         fixed: false,
+        value: null,
       },
       water: {
         fixed: true,
@@ -45,16 +46,30 @@ function CreateSiteForm() {
       },
     },
   });
-  console.log(details.charges_params.water.value);
+  const [charges, setCharges] = useState({});
+  var { charges_params } = details;
+  useEffect(() => {
+    setCharges(charges_params);
+  }, [details]);
+
+  var charges_params_keys = Object.keys(charges_params);
+
+  const updateCharges = (fieldName) => {
+    console.log(fieldName);
+    var temp = Object.keys(fieldName)[0];
+    charges_params[`${temp}`] = fieldName[temp];
+    setCharges(charges_params);
+    console.log(charges_params);
+  };
+
+  useEffect(() => {
+    setDetails({ ...details, charges_params });
+  }, [charges_params]);
 
   const onChange = (e) => {
     setDetails({ ...details, [e.target.name]: e.target.value });
     // console.log(details);
   };
-
-  // const onChangeRadio = (e) => {
-  //   setDetails({...details, [e.target.name]: })
-  // }
 
   function submitHandler() {
     console.log(details);
@@ -124,17 +139,15 @@ function CreateSiteForm() {
 
                     <div className="container py-3">
                       <div className="row">
-                        <div className="col-3">
+                        <div className="col-4">
                           <RadioButton
                             value="Room"
                             name="Room"
                             groupName="type_site"
-                            // checked="checked"
-                            details={details}
                             onChange={onChange}
                           />
                         </div>
-                        <div className="col-3">
+                        <div className="col-4">
                           <RadioButton
                             value="Land"
                             name="Land"
@@ -143,21 +156,11 @@ function CreateSiteForm() {
                             onChange={onChange}
                           />
                         </div>
-                        <div className="col-3">
+                        <div className="col-4">
                           <RadioButton
                             value="Shop"
                             name="Shop"
                             groupName="type_site"
-                            details={details}
-                            onChange={onChange}
-                          />
-                        </div>
-                        <div className="col-3">
-                          <RadioButton
-                            value="Other"
-                            name="Other"
-                            groupName="type_site"
-                            details={details}
                             onChange={onChange}
                           />
                         </div>
@@ -236,8 +239,11 @@ function CreateSiteForm() {
 
             <div className="a-monthly-container container">
               <div className="container a-create-bottom-radio-container">
-                <CreateBottomRadioPart value="Electricity" name="Electricity" />
-                <CreateBottomRadioPart value="Water" name="Water" />
+                {charges_params
+                  ? charges_params_keys.map((data) => {
+                      return <CreateBottomRadioPart value={data} name={data} />;
+                    })
+                  : ""}
               </div>
             </div>
 
@@ -251,6 +257,7 @@ function CreateSiteForm() {
                 fieldName="Enter the field name:"
                 placeholderProp="Amount"
                 classNameProp="a-right-align-button"
+                updateCharges={updateCharges}
               />
             </div>
             <div className="a-finalButton-container">
