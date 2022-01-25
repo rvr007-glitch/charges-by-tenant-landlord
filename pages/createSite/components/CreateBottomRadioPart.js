@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RadioButton from "./RadioButton";
 
 const CreateBottomRadioPart = (props) => {
@@ -10,6 +10,7 @@ const CreateBottomRadioPart = (props) => {
   });
 
   function onValueChange(e) {
+    
     if (e.target.type == "radio") {
       if (e.target.value == "fixed") {
         setDisable(false);
@@ -23,12 +24,19 @@ const CreateBottomRadioPart = (props) => {
     } else {
       setValueInput({ ...valueInput, [e.target.name]: e.target.value });
     }
-    // console.log(valueInput);
+  }
+
+  useEffect(() => {
     var result = {};
     result[props.name] = valueInput;
     // console.log(result);
     props.pushCharges(result);
-  }
+  }, [valueInput]);
+  
+ 
+    // console.log(valueInput);
+    
+
 
   return (
     <section>

@@ -7,7 +7,7 @@ function HorizontalInput(props) {
         </label>
         <div className="col-sm-10">
           <input
-            type="email"
+            type="text"
             className="form-control"
             id="inputEmail3"
             placeholder="Email"

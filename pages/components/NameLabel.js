@@ -5,7 +5,7 @@ const NameLabel = (props) => {
     <div>
       <span className="p_label">{props.label}</span>
       <span>
-        <input className="ip" type="text" />
+        <input className="ip" type="text" value={props.detail} />
       </span>
     </div>
   );

@@ -4,8 +4,83 @@ import Image from "next/image";
 import ParticularSite from "../../public/images/ParticularSite.png";
 import NameLabel from "../components/NameLabel";
 import AllotPopup from "./components/AllotSite";
+import React, { useContext, useEffect, useState } from "react";
+import { Store } from "../../utility/Store";
+import Cookies from "js-cookie";
+import { useSnackbar } from "notistack";
+import axios from "axios";
 
 export default function particular_site() {
+
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { dispatch, state } = useContext(Store);
+  useEffect(async () => {
+    await getDetails();
+  }, []);
+
+  const getDetails = async () => {
+    if(state.userInfo?.token){
+      closeSnackbar();
+      enqueueSnackbar("Signin", {varient: "success"});
+      let config = {
+        headers: {
+          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
+        },
+      };
+      try {
+        axios.post("/api/auth/users/login", {}, config).then((res) => {
+          dispatch({
+            type: "USER_INFO_FETCHING",
+            payload: res.data?.data,
+          });
+        });
+        
+        enqueueSnackbar("Data Retrieved", { variant: "success" });
+      } catch (err) {
+        console.log(err);
+        enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+      }
+    }else{
+      enqueueSnackbar("Login/Signup required", {varient: "success"});
+    }
+  };
+
+  var siteId = [];
+  siteId = state.userInfo?.site_list
+  console.log(siteId?siteId[0]:null)
+
+  useEffect(() => {
+    getSite();
+  }, [siteId]);
+  
+
+  const getSite = async () => {
+    if(state.userInfo?.token){
+      closeSnackbar();
+      enqueueSnackbar("Signin", {varient: "success"});
+      let config = {
+        headers: {
+          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
+        },
+      };
+      try {
+        axios.post(`/api/site/${siteId?siteId[0]:null}`, {}, config).then((res) => {
+          dispatch({
+            type: "USER_INFO_FETCHING",
+            payload: res.data?.data,
+          });
+        });
+        
+        enqueueSnackbar("Data Retrieved", { variant: "success" });
+      } catch (err) {
+        console.log(err);
+        enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+      }
+    }else{
+      enqueueSnackbar("Signup", {varient: "success"});
+    }
+  };
+
   return (
     <>
       <div className="p_sitepage">
@@ -19,7 +94,7 @@ export default function particular_site() {
         <div className="p_site">
           <div className="p_sitecontainer">
             <div>
-              <NameLabel label="Site Name" />
+              <NameLabel label="Site Name" details={state.userInfo?.siteDetail?.alias_name} />
             </div>
             <div>
               <NameLabel label="Site Type" />
@@ -33,8 +108,7 @@ export default function particular_site() {
                 rows="5"
                 cols="33"
               >
-                Street: 294, Maharaja Mansion, Sardar Vallabhbhai Patel Rd,
-                Mumbai, Maharashtra
+                {state.siteDetail?.address?.first_line}
               </textarea>
             </div>
           </div>

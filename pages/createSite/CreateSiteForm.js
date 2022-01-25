@@ -30,39 +30,33 @@ function CreateSiteForm() {
     country: "India",
     pincode: "",
     landmark: "",
-    type_site: "",
+    Type: "",
     charges_params: {},
-    // charges_params: {
-    //   electricity: {
-    //     fixed: false,
-    //     value: null,
-    //   },
-    //   water: {
-    //     fixed: true,
-    //     value: 300,
-    //   },
-    //   internet: {
-    //     fixed: true,
-    //     value: 1000,
-    //   },
-    // },
   });
-  const [charges, setCharges] = useState(details.charges_params);
-  useEffect(() => {
-    setCharges(charges);
-  }, [details]);
 
-  var charges_params_keys = Object.keys(charges);
 
+  //charges_params has became a local variable that can be used
+  var {charges_params} = details;
+
+  //saving the keys of the charges params object
+  var charges_params_keys = Object.keys(charges_params);
+
+  //updating the charges by the modal
   const updateCharges = (fieldName) => {
     console.log(fieldName);
     var temp = Object.keys(fieldName)[0];
-    setCharges({ ...charges, [`${temp}`]: fieldName[temp] });
+    charges_params[temp] = fieldName[temp];
+    setDetails({...details, charges_params});
   };
 
-  useEffect(() => {
-    setDetails({ ...details, charges_params: charges });
-  }, [charges]);
+  //this function updates the value of the parameters
+  const pushCharges = (resultant = null) =>  {
+    var result = Object.keys(resultant)[0];
+    charges_params[`${result}`] = resultant[`${result}`];
+    setDetails({...details, charges_params})
+  }
+
+
 
   const onChange = (e) => {
     setDetails({ ...details, [e.target.name]: e.target.value });
@@ -71,6 +65,7 @@ function CreateSiteForm() {
 
   function submitHandler() {
     console.log(details);
+    createSite();
   }
 
   const onSubmit = (e) => {
@@ -79,14 +74,9 @@ function CreateSiteForm() {
     console.log(details);
   };
 
-  function pushCharges(resultant = null) {
-    var result = Object.keys(resultant)[0];
-    var tempCharges = charges;
-    tempCharges[`${result}`] = resultant[`${result}`];
-    setCharges(tempCharges);
-  }
+  //sending the backend request for saving the site
 
-  const getDetails = async () => {
+  const createSite = async () => {
     if (state.userInfo?.token) {
       closeSnackbar();
       let config = {
@@ -95,22 +85,26 @@ function CreateSiteForm() {
         },
       };
       try {
-        axios.post("/api/auth/users/login", {}, config).then((res) => {
+        await axios.post("/api/site", details, config).then((res) => {
           dispatch({
-            type: "USER_INFO_FETCHING",
-            payload: res.data?.data,
+            type: "CREATING_SITE",
+            payload: res.data,
           });
         });
-
-        enqueueSnackbar("Data Retrieved", { variant: "success" });
+        router.push("/landing/particularSite")
+        enqueueSnackbar("Site Created!👏🏻", { variant: "success" });
       } catch (err) {
         console.log(err);
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
       }
     } else {
-      enqueueSnackbar("Signup", { varient: "success" });
+      enqueueSnackbar("Login/Signup Required", { varient: "success" });
     }
   };
+
+  const updateState = (inputParam) => {
+    setDetails({...details, state: inputParam})
+  }
 
   return (
     <section className="a-create-side-main">
@@ -146,7 +140,7 @@ function CreateSiteForm() {
                           <RadioButton
                             value="Room"
                             name="Room"
-                            groupName="type_site"
+                            groupName="Type"
                             onChange={onChange}
                           />
                         </div>
@@ -154,7 +148,7 @@ function CreateSiteForm() {
                           <RadioButton
                             value="Land"
                             name="Land"
-                            groupName="type_site"
+                            groupName="Type"
                             details={details}
                             onChange={onChange}
                           />
@@ -163,7 +157,7 @@ function CreateSiteForm() {
                           <RadioButton
                             value="Shop"
                             name="Shop"
-                            groupName="type_site"
+                            groupName="Type"
                             onChange={onChange}
                           />
                         </div>
@@ -223,7 +217,7 @@ function CreateSiteForm() {
                         <label htmlFor="inputState">State:</label>
                       </div>
                       <div className="col-3">
-                        <StateOptions />
+                        <StateOptions updateState={updateState}/>
                       </div>
                       <div className="col-6">
                         <HorizontalInput
