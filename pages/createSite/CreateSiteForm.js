@@ -46,25 +46,23 @@ function CreateSiteForm() {
       },
     },
   });
-  const [charges, setCharges] = useState({});
-  var { charges_params } = details;
+  const [charges, setCharges] = useState(details.charges_params);
   useEffect(() => {
     setCharges(charges_params);
   }, [details]);
 
-  var charges_params_keys = Object.keys(charges_params);
+  var charges_params_keys = Object.keys(charges);
 
   const updateCharges = (fieldName) => {
     console.log(fieldName);
     var temp = Object.keys(fieldName)[0];
-    charges_params[`${temp}`] = fieldName[temp];
-    setCharges(charges_params);
+    setCharges({...charges, [`${temp}`]:fieldName[temp]});
     console.log(charges_params);
   };
 
   useEffect(() => {
-    setDetails({ ...details, charges_params });
-  }, [charges_params]);
+    setDetails({ ...details, charges });
+  }, [charges]);
 
   const onChange = (e) => {
     setDetails({ ...details, [e.target.name]: e.target.value });
