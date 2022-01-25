@@ -16,6 +16,11 @@ function Lsignup() {
   const router = useRouter();
   const { redirect } = router.query;
   const { dispatch, state } = useContext(Store);
+
+  if (state.userInfo) {
+    router.push("/profile/landlord");
+  }
+
   const [details, setDetails] = useState({
     name: "",
     // lastName: "",
@@ -45,20 +50,16 @@ function Lsignup() {
     submitHandler(details);
   };
 
-  // if (state.userInfo) {
-  //   router.push("/profile/tenant");
-  // }
-
   const submitHandler = async (details) => {
     closeSnackbar();
     try {
-      console.log(details);
-      const { data } = await axios.post("/api/auth/users/register", details);
-      dispatch({ type: "USER_LOGIN", payload: data });
-      console.log(data);
-      Cookies.set("userInfo", JSON.stringify(data));
+      const res = await axios.post("/api/auth/users/register", details);
+      dispatch({ type: "USER_SIGNUP", payload: res.data });
+      console.log(res.data);
+      Cookies.set("userInfo", JSON.stringify(res.data));
+      localStorage.setItem("userInfo", JSON.stringify(res.data));
       enqueueSnackbar("User Signed Up Successfully", { variant: "success" });
-      router.push(redirect || "/landing/landlord");
+      router.push(redirect || "/profile/landlord");
     } catch (err) {
       enqueueSnackbar(err.response?.data?.message, { variant: "error" });
     }

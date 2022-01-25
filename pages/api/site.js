@@ -1,14 +1,10 @@
 const mongoose = require("mongoose");
 const Site = require("../../models/sites");
-import { connectToDatabase } from "../../db/connect";
-var Landlord = require("../../models/landlord")
 import { sendError, sendSuccess } from "../../helpers/help";
 import { auth } from "../../utility/auth";
-import constants from "../../helpers/constants"
-
 
 ///POST
-export default async function handler(req, res) {
+export default async function Sitesave(req, res) {
   if (req.method === "POST") {
     var landlord_id;
     auth(req, res, (err, data) => {
@@ -35,23 +31,27 @@ export default async function handler(req, res) {
       var newSite = new Site({
         landlord_id, //token
         alias_name: req.body.alias_name,
-        status: 0,
-        address: 
+        address: [
           {
             first_line: req.body.first_line,
             city: req.body.city,
             state: req.body.state,
-            country: req.body.country,
+            Country: req.body.country,
             pincode: req.body.pincode,
             landmark: req.body.landmark,
           },
+        ],
 
         rent: req.body.rent,
         deposit: req.body.deposit,
-        isOcuupied: false,
+        isOcuupied: req.body.isOcuupied,
+
         charges_param: req.body.charges_params,
-        Type: req.body.type_site,
+        type_site: req.body.type_site,
+        alloted_tenant: req.body.alloted_tenant,
+        history: req.body.history,
       });
+
 
       newSite.save(function(err, siteData){
         
@@ -62,6 +62,7 @@ export default async function handler(req, res) {
           return sendSuccess(res, siteData)
         })
       });
+
     } catch (err) {
       console.log(err);
       return sendError(res, err.message, 500);
