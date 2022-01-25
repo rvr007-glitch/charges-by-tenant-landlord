@@ -31,24 +31,25 @@ function CreateSiteForm() {
     pincode: "",
     landmark: "",
     type_site: "",
-    charges_params: {
-      electricity: {
-        fixed: false,
-        value: null,
-      },
-      water: {
-        fixed: true,
-        value: 300,
-      },
-      internet: {
-        fixed: true,
-        value: 1000,
-      },
-    },
+    charges_params: {},
+    // charges_params: {
+    //   electricity: {
+    //     fixed: false,
+    //     value: null,
+    //   },
+    //   water: {
+    //     fixed: true,
+    //     value: 300,
+    //   },
+    //   internet: {
+    //     fixed: true,
+    //     value: 1000,
+    //   },
+    // },
   });
   const [charges, setCharges] = useState(details.charges_params);
   useEffect(() => {
-    setCharges(charges_params);
+    setCharges(charges);
   }, [details]);
 
   var charges_params_keys = Object.keys(charges);
@@ -56,8 +57,8 @@ function CreateSiteForm() {
   const updateCharges = (fieldName) => {
     console.log(fieldName);
     var temp = Object.keys(fieldName)[0];
-    setCharges({...charges, [`${temp}`]:fieldName[temp]});
-    console.log(charges_params);
+    console.log("temp" + temp);
+    setCharges({ ...charges, [`${temp}`]: fieldName[temp] });
   };
 
   useEffect(() => {
@@ -78,6 +79,10 @@ function CreateSiteForm() {
     submitHandler(details);
     console.log(details);
   };
+
+  function pushCharges(resultant = null) {
+    setCharges({ ...charges, resultant });
+  }
 
   const getDetails = async () => {
     if (state.userInfo?.token) {
@@ -237,11 +242,17 @@ function CreateSiteForm() {
 
             <div className="a-monthly-container container">
               <div className="container a-create-bottom-radio-container">
-                {charges_params
+                {charges_params_keys.length
                   ? charges_params_keys.map((data) => {
-                      return <CreateBottomRadioPart value={data} name={data} />;
+                      return (
+                        <CreateBottomRadioPart
+                          value={data}
+                          name={data}
+                          pushCharges={pushCharges}
+                        />
+                      );
                     })
-                  : ""}
+                  : "Please add fields using Add Field button"}
               </div>
             </div>
 

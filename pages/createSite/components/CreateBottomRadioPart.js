@@ -4,13 +4,30 @@ import RadioButton from "./RadioButton";
 const CreateBottomRadioPart = (props) => {
   const [disable, setDisable] = useState(true);
 
+  const [valueInput, setValueInput] = useState({
+    fixed: true,
+    value: 0,
+  });
+
   function onValueChange(e) {
-    if (e.target.value == "fixed") {
-      setDisable(false);
+    if (e.target.type == "radio") {
+      if (e.target.value == "fixed") {
+        setDisable(false);
+        setValueInput({ ...valueInput, fixed: true });
+      } else {
+        setDisable(true);
+        setValueInput({ ...valueInput, fixed: false, value: null });
+      }
     } else {
-      setDisable(true);
+      setValueInput({ ...valueInput, [e.target.name]: e.target.value });
     }
+    console.log(valueInput);
+    var result = {};
+    result[props.name] = valueInput;
+    console.log(result);
+    props.pushCharges(result);
   }
+
   return (
     <section>
       <div className="row">
@@ -42,8 +59,8 @@ const CreateBottomRadioPart = (props) => {
                   className="form-control"
                   id="inputEmail3"
                   placeholder="Amount"
-                  name={props.name}
-                  onChange={props.onChange}
+                  name="value"
+                  onChange={(e) => onValueChange(e)}
                   disabled={disable}
                   defaultValue={props.name == "country" ? "India" : ""}
                 />
