@@ -62,7 +62,7 @@ function CreateSiteForm() {
   };
 
   useEffect(() => {
-    setDetails({ ...details, charges });
+    setDetails({ ...details, charges_params: charges });
   }, [charges]);
 
   const onChange = (e) => {
@@ -81,7 +81,12 @@ function CreateSiteForm() {
   };
 
   function pushCharges(resultant = null) {
-    setCharges({ ...charges, resultant });
+    var result = Object.keys(resultant)[0];
+    var tempCharges = charges;
+    tempCharges[`${result}`] = resultant[`${result}`];
+
+    // setCharges({ ...charges, result: resultant.result });
+    setCharges(tempCharges);
   }
 
   const getDetails = async () => {

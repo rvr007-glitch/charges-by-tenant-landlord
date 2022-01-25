@@ -21,10 +21,10 @@ const CreateBottomRadioPart = (props) => {
     } else {
       setValueInput({ ...valueInput, [e.target.name]: e.target.value });
     }
-    console.log(valueInput);
+    // console.log(valueInput);
     var result = {};
     result[props.name] = valueInput;
-    console.log(result);
+    // console.log(result);
     props.pushCharges(result);
   }
 
