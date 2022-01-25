@@ -90,9 +90,10 @@ function CreateSiteForm() {
             type: "CREATING_SITE",
             payload: res.data,
           });
-        });
-        router.push("/landing/particularSite")
+          router.push(`/landing/particularSite?id=${res.data.data._id}`)
         enqueueSnackbar("Site Created!👏🏻", { variant: "success" });
+        });
+        
       } catch (err) {
         console.log(err);
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });

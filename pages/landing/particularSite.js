@@ -8,9 +8,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { Store } from "../../utility/Store";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
+import { useRouter } from "next/router";
 import axios from "axios";
 
 export default function particular_site() {
+
+
+  const router = useRouter()
+  console.log(router.query.id);
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { dispatch, state } = useContext(Store);
@@ -45,39 +50,39 @@ export default function particular_site() {
     }
   };
 
-  var siteId = [];
-  siteId = state.userInfo?.site_list
-  console.log(siteId?siteId[0]:null)
 
   useEffect(() => {
     getSite();
-  }, [siteId]);
+  }, []);
   
+  console.log(Cookies.get("userInfo"))
 
   const getSite = async () => {
-    if(state.userInfo?.token){
+    if(Cookies.get("userInfo")){
       closeSnackbar();
-      enqueueSnackbar("Signin", {varient: "success"});
+
       let config = {
         headers: {
-          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
+          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token
         },
       };
+      
       try {
-        axios.post(`/api/site/${siteId?siteId[0]:null}`, {}, config).then((res) => {
-          dispatch({
-            type: "USER_INFO_FETCHING",
-            payload: res.data?.data,
-          });
-        });
         
-        enqueueSnackbar("Data Retrieved", { variant: "success" });
+          await axios.get(`/api/site/${router.query.id}`, config).then((res) => {
+            dispatch({
+              type: "GET_PARTICULAR_SITE",
+              payload: res.data,
+            });
+          });
+          
+          enqueueSnackbar("Site Loaded", { variant: "success" });
       } catch (err) {
         console.log(err);
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
       }
     }else{
-      enqueueSnackbar("Signup", {varient: "success"});
+      enqueueSnackbar("Signup/signin Required", {varient: "success"});
     }
   };
 
@@ -94,10 +99,10 @@ export default function particular_site() {
         <div className="p_site">
           <div className="p_sitecontainer">
             <div>
-              <NameLabel label="Site Name" details={state.userInfo?.siteDetail?.alias_name} />
+              <NameLabel label="Site Name" details={state.siteDetail?.alias_name} />
             </div>
             <div>
-              <NameLabel label="Site Type" />
+              <NameLabel label="Site Type"details={state.siteDetail?.Type} />
             </div>
             <div>
               <span className="p_label">Address:</span>
@@ -107,8 +112,8 @@ export default function particular_site() {
                 name="story"
                 rows="5"
                 cols="33"
+                value={`${state.siteDetail?.address?.first_line}, ${state.siteDetail?.address?.landmark}, ${state.siteDetail?.address?.city}, ${state.siteDetail?.address?.state}, ${state.siteDetail?.address?.country} P.O: ${state.siteDetail?.address?.pincode}` }
               >
-                {state.siteDetail?.address?.first_line}
               </textarea>
             </div>
           </div>
