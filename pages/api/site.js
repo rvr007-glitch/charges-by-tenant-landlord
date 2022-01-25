@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 const Site = require("../../models/sites");
+import constants from "../../helpers/constants";
 import { sendError, sendSuccess } from "../../helpers/help";
+import {connectMongoDb} from "../../db/connect"
 import { auth } from "../../utility/auth";
+const Landlord = require("../../models/landlord")
+
 
 ///POST
 export default async function Sitesave(req, res) {
@@ -14,7 +18,7 @@ export default async function Sitesave(req, res) {
     });
     
     try {
-      var { alias_name, rent, deposit, charges_param, type_site } = req.body;
+      var { alias_name, rent, deposit, charges_param, Type } = req.body;
       if (!alias_name) {
         return sendError(res, "Alias name is not provided", 400);
       }
@@ -25,43 +29,40 @@ export default async function Sitesave(req, res) {
         return sendError(res, "Please Mention the Deposit", 400);
       }
 
-      if (!type_site) {
+      if (!Type) {
         return sendError(res, "Type of Site cant be left empty", 400);
       }
       var newSite = new Site({
         landlord_id, //token
         alias_name: req.body.alias_name,
-        address: [
+        address: 
           {
             first_line: req.body.first_line,
             city: req.body.city,
             state: req.body.state,
-            Country: req.body.country,
+            country: req.body.country,
             pincode: req.body.pincode,
             landmark: req.body.landmark,
           },
-        ],
-
         rent: req.body.rent,
         deposit: req.body.deposit,
         isOcuupied: req.body.isOcuupied,
-
         charges_param: req.body.charges_params,
-        type_site: req.body.type_site,
+        Type: req.body.Type,
         alloted_tenant: req.body.alloted_tenant,
         history: req.body.history,
       });
 
 
-      newSite.save(function(err, siteData){
-        
+      let siteData =  await newSite.save()
+        if(!siteData) return sendError(res, "Site Creation Failed!", constants.BAD_REQUEST)
         Landlord.findByIdAndUpdate(siteData.landlord_id, {
           $push: { site_list: siteData._id },
         }, (err, data)=>{
           if(err) return sendError(res, "Pushing Site id in Landlord schema error", constants.UPDATE_ERROR)
           return sendSuccess(res, siteData)
         })
-      });
+    
 
     } catch (err) {
       console.log(err);
