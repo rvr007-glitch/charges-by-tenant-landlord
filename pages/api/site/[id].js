@@ -35,6 +35,8 @@ const Siteget = async (req, res) => {
       return sendError(res, "Site Id can't be NULL it should be a valid MongoId", 400);
     }
 
+    console.log(data)
+
     Site.aggregate([
       { $match: { _id: mongoose.Types.ObjectId(data) } },
             {

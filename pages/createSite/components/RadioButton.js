@@ -4,8 +4,11 @@ function RadioButton(props) {
       <input
         type="radio"
         id="customRadioInline1"
-        name="customRadioInline1"
+        name={props.groupName}
         className="custom-control-input"
+        value={props.value}
+        // checked={props.checked}
+        onChange={props.onChange}
       />
       <label className="custom-control-label" htmlFor="customRadioInline1">
         {props.name}
