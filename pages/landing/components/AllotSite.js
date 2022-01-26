@@ -1,18 +1,84 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Modal from "react-bootstrap/Modal";
 import LandingPageCard from "./LandingPageCard";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useSnackbar } from "notistack";
+import { useRouter } from "next/router";
+import { Store } from "../../../utility/Store";
 
-function AllotPopup() {
+function AllotPopup(props) {
+
+  const [details, setDetails ] = useState({
+    email:"",
+    siteId: props.siteId
+  })
   const [show, setShow] = useState(false);
   const [selectedValue, setSelectedValue] = useState("email");
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const router = useRouter()
+  const { dispatch, state } = useContext(Store);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   function onValueChange(e) {
     setSelectedValue(e.target.value);
     console.log(e.target.value);
   }
+  const getSite = async () => {
+    if(Cookies.get("userInfo")){
+      closeSnackbar();
+
+      let config = {
+        headers: {
+          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token
+        },
+      };
+      
+      try {
+        
+          await axios.get(`/api/site/${router.query.id}`, config).then((res) => {
+            dispatch({
+              type: "GET_PARTICULAR_SITE",
+              payload: res.data,
+            });
+          });
+          
+          // enqueueSnackbar("Site Loaded", { variant: "success" });
+      } catch (err) {
+        console.log(err);
+        enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+      }
+    }else{
+      enqueueSnackbar("Signup/signin Required", {varient: "success"});
+    }
+  };
+
+  const onChange = (e) => {
+    setDetails({...details, [e.target.name]: e.target.value})
+  }
+
+  const handleSubmit = async () => {
+    console.log(details)
+    let config = {
+      headers: {
+        authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token
+      },
+    };
+
+    try {
+      await axios.post("/api/site/reqtenant", details, config).then((res) => {
+        console.log(res.data)
+      })
+      handleClose();
+      getSite();
+    } catch (error) {
+      enqueueSnackbar(error.response?.data?.message, {varient: "success"});
+    }
+  }
+
+  const{email} = details
 
   return (
     <>
@@ -31,7 +97,7 @@ function AllotPopup() {
             <p className="p_mlabel">Allot via</p>
           </div>
           <form>
-            <div className="p_mradio">
+            {/* <div className="p_mradio">
               <input
                 type="radio"
                 className="btn-check"
@@ -54,7 +120,7 @@ function AllotPopup() {
               <label className="btn btn-warning" htmlFor="option2">
                 User-Id
               </label>
-            </div>
+            </div> */}
             {selectedValue == "email" ? (
               <div className="form-group">
                 <label className="p_mlabel1" htmlFor="InputEmail">
@@ -65,6 +131,8 @@ function AllotPopup() {
                   className="form-control"
                   id="InputEmail"
                   placeholder="Email-Id"
+                  name="email"
+                  onChange={(e) => onChange(e)}
                 />
               </div>
             ) : (
@@ -87,7 +155,7 @@ function AllotPopup() {
             Close
           </Button>
           <div className="p_mbtn">
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary" onClick={handleSubmit}>
               Allot Tenant
             </Button>
           </div>
