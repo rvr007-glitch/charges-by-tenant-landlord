@@ -120,14 +120,18 @@ export default function particular_site() {
           </div>
         </div>
         <div className="p_particular">
-          <RentersList
+          {state.siteDetail.current_tenant?.length > 0 ?<RentersList
             head="Renters Alloted"
+            tenantDetails = {state.siteDetail?.current_tenant[0]}
+            historyDetail = {state.siteDetail?.history[0]}
+            rent = {state.siteDetail?.rent}
+            deposit = {state.siteDetail?.deposit}
             flat="Flat No."
             loc="Location"
             rentedFrom="RentedFrom"
             rentedTill="Rented Till"
             deposit="Deposit"
-          />
+          /> : "There no Tenant for this site"}
         </div>
         {/* <div className='btn3'>
                     <button className='btn1 p_btr'>Add New Tenant</button>

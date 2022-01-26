@@ -19,8 +19,8 @@ const RentersList = (props) => {
       <table className="table table-striped">
         <thead>
           <tr>
-            <th scope="col">{props.flat}</th>
-            <th scope="col">{props.loc}</th>
+            <th scope="col">Name</th>
+            {/* <th scope="col">{props.loc}</th> */}
             <th scope="col">{props.rentedFrom}</th>
             <th scope="col">{props.rentedTill}</th>
             <th scope="col">
@@ -30,13 +30,13 @@ const RentersList = (props) => {
         </thead>
         <tbody>
           <tr>
-            <th scope="row">Flat-403</th>
-            <td>Near Road, XYZ Town, AUS</td>
+            <th scope="row">{props.tenantDetails?.firstName}</th>
+            {/* <td>Near Road, XYZ Town, AUS</td> */}
+            <td>{props.historyDetail?.joined_at ?props.historyDetail?.joined_at : "Requested"} </td>
+            <td>{props.historyDetail?.joined_at ? props.historyDetail?.leave_at ? props.historyDetail?.leave_at : "Presently Living" : "Requested"}</td>
             <td></td>
-            <td></td>
-            <td>1200</td>
           </tr>
-          <tr>
+          {/* <tr>
             <th scope="row">Flat-404</th>
             <td>Near Road, PQR Town, CAN</td>
             <td></td>
@@ -70,7 +70,7 @@ const RentersList = (props) => {
             <td></td>
             <td></td>
             <td>1390</td>
-          </tr>
+          </tr> */}
         </tbody>
       </table>
     </div>
