@@ -11,10 +11,6 @@ import { Store } from "../../../utility/Store";
 
 function AllotPopup(props) {
 
-  const [details, setDetails ] = useState({
-    email:"",
-    siteId: props.siteId
-  })
   const [show, setShow] = useState(false);
   const [selectedValue, setSelectedValue] = useState("email");
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -22,6 +18,11 @@ function AllotPopup(props) {
   const { dispatch, state } = useContext(Store);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [details, setDetails ] = useState({
+    email:"",
+    siteId: router.query.id
+  })
   function onValueChange(e) {
     setSelectedValue(e.target.value);
     console.log(e.target.value);
@@ -70,11 +71,12 @@ function AllotPopup(props) {
     try {
       await axios.post("/api/site/reqtenant", details, config).then((res) => {
         console.log(res.data)
+        enqueueSnackbar("Request Sent!", {variant: "success"})
       })
       handleClose();
       getSite();
     } catch (error) {
-      enqueueSnackbar(error.response?.data?.message, {varient: "success"});
+      enqueueSnackbar(error.response?.data?.message, {variant: "failed"});
     }
   }
 
