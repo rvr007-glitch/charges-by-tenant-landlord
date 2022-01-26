@@ -4,8 +4,86 @@ import Image from "next/image";
 import ParticularSite from "../../public/images/ParticularSite.png";
 import NameLabel from "../components/NameLabel";
 import AllotPopup from "./components/AllotSite";
+import React, { useContext, useEffect, useState } from "react";
+import { Store } from "../../utility/Store";
+import Cookies from "js-cookie";
+import { useSnackbar } from "notistack";
+import { useRouter } from "next/router";
+import axios from "axios";
 
-export default function particular_site() {
+export default function ParticularSiteComponent() {
+
+
+  const router = useRouter()
+  console.log(router.query.id);
+
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { dispatch, state } = useContext(Store);
+  useEffect(async () => {
+    await getDetails();
+  }, []);
+
+  const getDetails = async () => {
+    if(state.userInfo?.token){
+      closeSnackbar();
+      enqueueSnackbar("Signin", {varient: "success"});
+      let config = {
+        headers: {
+          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
+        },
+      };
+      try {
+        axios.post("/api/auth/users/login", {}, config).then((res) => {
+          dispatch({
+            type: "USER_INFO_FETCHING",
+            payload: res.data?.data,
+          });
+        });
+        
+        enqueueSnackbar("Data Retrieved", { variant: "success" });
+      } catch (err) {
+        console.log(err);
+        enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+      }
+    }else{
+      enqueueSnackbar("Login/Signup required", {varient: "success"});
+    }
+  };
+
+
+  useEffect(() => {
+    getSite();
+  }, []);
+  
+  const getSite = async () => {
+    if(Cookies.get("userInfo")){
+      closeSnackbar();
+
+      let config = {
+        headers: {
+          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token
+        },
+      };
+      
+      try {
+        
+          await axios.get(`/api/site/${router.query.id}`, config).then((res) => {
+            dispatch({
+              type: "GET_PARTICULAR_SITE",
+              payload: res.data,
+            });
+          });
+          
+          // enqueueSnackbar("Site Loaded", { variant: "success" });
+      } catch (err) {
+        console.log(err);
+        enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+      }
+    }else{
+      enqueueSnackbar("Signup/signin Required", {varient: "success"});
+    }
+  };
+
   return (
     <>
       <div className="p_sitepage">
@@ -19,10 +97,10 @@ export default function particular_site() {
         <div className="p_site">
           <div className="p_sitecontainer">
             <div>
-              <NameLabel label="Site Name" />
+              <NameLabel label="Site Name" details={state.siteDetail?.alias_name} />
             </div>
             <div>
-              <NameLabel label="Site Type" />
+              <NameLabel label="Site Type"details={state.siteDetail?.Type} />
             </div>
             <div>
               <span className="p_label">Address:</span>
@@ -32,9 +110,8 @@ export default function particular_site() {
                 name="story"
                 rows="5"
                 cols="33"
+                value={`${state.siteDetail?.address?.first_line}, ${state.siteDetail?.address?.landmark}, ${state.siteDetail?.address?.city}, ${state.siteDetail?.address?.state}, ${state.siteDetail?.address?.country} P.O: ${state.siteDetail?.address?.pincode}` }
               >
-                Street: 294, Maharaja Mansion, Sardar Vallabhbhai Patel Rd,
-                Mumbai, Maharashtra
               </textarea>
             </div>
           </div>
@@ -43,14 +120,17 @@ export default function particular_site() {
           </div>
         </div>
         <div className="p_particular">
-          <RentersList
+          {state.siteDetail.current_tenant?.length > 0 ?<RentersList
             head="Renters Alloted"
+            tenantDetails = {state.siteDetail?.current_tenant[0]}
+            historyDetail = {state.siteDetail?.history[0]}
+            rent = {state.siteDetail?.rent}
+            deposit = {state.siteDetail?.deposit}
             flat="Flat No."
             loc="Location"
             rentedFrom="RentedFrom"
             rentedTill="Rented Till"
-            deposit="Deposit"
-          />
+          /> : "There no Tenant for this site"}
         </div>
         {/* <div className='btn3'>
                     <button className='btn1 p_btr'>Add New Tenant</button>

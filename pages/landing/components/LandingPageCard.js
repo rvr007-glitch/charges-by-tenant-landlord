@@ -1,8 +1,16 @@
 import LandingCardButton from "./LandingCardButton";
 import LandingCardContent from "./LandingCardContent";
 import HorizontalLine from "./HorizontalLine";
+import { useRouter } from "next/router";
 
 function LandingPageCard(props) {
+
+  const router = useRouter()
+  const { redirect } = router.query;
+
+  const changePange = () => {
+    router.push(`/landing/particularSite?id=${props._id}`)
+  }
   return (
     <section className="a-card">
       <div
@@ -21,25 +29,24 @@ function LandingPageCard(props) {
             <div className="card-body a-card-body">
               <h5 className="card-title a-landing-card-title">
                 <span className="a-landing-card-heading"> Alias Name: </span>
-                <span className="a-landing-card-data">Home2</span>
+                <span className="a-landing-card-data">{props.alias_name}</span>
               </h5>
               <div className="card-text">
                 <div className="container">
                   <LandingCardContent
                     leftHeading="Owner"
-                    rightdata={"Vivek Khan"}
+                    rightdata={props.owner}
                   />
-                  <LandingCardContent leftHeading="Rent" rightdata="15000/-" />
+                  <LandingCardContent leftHeading="Rent" rightdata={`${props.rent}/-`} />
                   <LandingCardContent
                     leftHeading="Address"
-                    rightdata="
-                    Flat no. 108, Lakshmipuram Society"
+                    rightdata={props.address}
                   />
                 </div>
               </div>
               <div className="container">
                 <div>
-                  <div className="a-button-container">
+                  <div className="a-button-container" onClick={() => changePange(props._id)}>
                     <LandingCardButton
                       classNameProp={props.class1}
                       name={props.text1}

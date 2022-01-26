@@ -11,6 +11,22 @@ function MyModal(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [fieldName, setFieldName] = useState({});
+
+  const handleSubmit = () => {
+    props.updateCharges(fieldName);
+    handleClose();
+  };
+
+  const onChange = (e) => {
+    setFieldName({
+      [e.target.value]: {
+        fixed: false,
+        value: null,
+      },
+    });
+  };
+
   return (
     <>
       <Button
@@ -29,9 +45,16 @@ function MyModal(props) {
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>{props.fieldName}</Form.Label>
-              <Form.Control type="email" placeholder={props.placeholderProp} />
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Field Name"
+                // value={fieldName}
+                onChange={onChange}
+                required
+              />
             </Form.Group>
-            <div className="form-group col-md-6 py-3">
+            {/* <div className="form-group col-md-6 py-3">
               <label htmlFor="input">Type</label>
 
               <div className="container py-3">
@@ -44,11 +67,11 @@ function MyModal(props) {
                   </div>
                 </div>
               </div>
-            </div>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            </div> */}
+            {/* <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Amount:</Form.Label>
               <Form.Control type="email" placeholder="Enter Amount" />
-            </Form.Group>
+            </Form.Group> */}
           </Form>
         </Modal.Body>
 
@@ -56,7 +79,7 @@ function MyModal(props) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleSubmit}>
             Save Changes
           </Button>
         </Modal.Footer>

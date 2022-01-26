@@ -11,7 +11,7 @@ const Identity = (props) => {
             src="/images/Profile.svg"
             alt="Profile"
           />
-          <div className="name">Shyam123</div>
+          <div className="name">{props.userDetails?.name}</div>
         </div>
         <div className="S_menu">
           <div className="S_option S_option1" onClick={() => props.onShow1()}>

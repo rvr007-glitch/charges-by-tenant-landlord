@@ -1,6 +1,10 @@
 function StateOptions(props) {
+  const onChange =(e) => {
+    props.updateState(e.target.value)
+  }
+  
   return (
-    <select id="inputState" className="form-control px-3">
+    <select id="inputState" className="form-control px-3" onChange={(e) => onChange(e)}>
       <option selected>Choose</option>
       <option value="AN">Andaman and Nicobar Islands</option>
       <option value="AP">Andhra Pradesh</option>
@@ -36,7 +40,7 @@ function StateOptions(props) {
       <option value="TN">Tamil Nadu</option>
       <option value="TG">Telangana</option>
       <option value="TR">Tripura</option>
-      <option value="UP">Uttar Pradesh</option>
+      <option value="Uttar Pradesh">Uttar Pradesh</option>
       <option value="UT">Uttarakhand</option>
       <option value="WB">West Bengal</option>
     </select>

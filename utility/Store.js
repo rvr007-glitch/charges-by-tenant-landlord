@@ -6,6 +6,8 @@ const initialState = {
   userInfo: Cookies.get("userInfo")
     ? JSON.parse(Cookies.get("userInfo")).data
     : null,
+  siteDetail: {},
+  mySites: []
 };
 
 function reducer(state, action) {
@@ -16,6 +18,12 @@ function reducer(state, action) {
       return { ...state, userInfo: action.payload?.profile };
     case "USER_INFO_FETCHING":
       return { ...state, userInfo: action.payload?.profile };
+    case "CREATING_SITE":
+      return {...state, siteDetail: action.payload?.data}
+    case "GET_PARTICULAR_SITE":
+      return {...state, siteDetail: action.payload?.data[0]}
+    case "GET_ALL_SITES":
+      return {...state, mySites: action.payload?.data}
     case "USER_LOGOUT":
       Cookies.remove("userInfo")
       return {

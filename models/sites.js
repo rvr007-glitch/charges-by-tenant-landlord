@@ -27,16 +27,12 @@ const sitesSchema = new mongoose.Schema(
       },
       country: {
         type: String,
-        required: [true, "Please enter your country"],
       },
       pincode: {
-        type: Number,
-        required: [true, "Please enter your pincode"],
-        validate: [isPostalCode, "Please enter proper pin code"],
+        type: String,
       },
       landmark: {
         type: String,
-        //not setting required as true, keeping it optional
       },
     },
 
@@ -57,12 +53,8 @@ const sitesSchema = new mongoose.Schema(
     },
 
     charges_param: {
-      electricity: {
-        type: Number,
-      },
-      water: {
-        type: Number,
-      },
+      type: Object,
+      required: true
     },
     Type: {
       enum: ["Room", "Land", "Shops"],
