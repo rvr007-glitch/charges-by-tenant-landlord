@@ -55,8 +55,6 @@ export default function particular_site() {
     getSite();
   }, []);
   
-  console.log(Cookies.get("userInfo"))
-
   const getSite = async () => {
     if(Cookies.get("userInfo")){
       closeSnackbar();
@@ -76,7 +74,7 @@ export default function particular_site() {
             });
           });
           
-          enqueueSnackbar("Site Loaded", { variant: "success" });
+          // enqueueSnackbar("Site Loaded", { variant: "success" });
       } catch (err) {
         console.log(err);
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });

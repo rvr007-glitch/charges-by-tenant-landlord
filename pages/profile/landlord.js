@@ -79,8 +79,7 @@ export default function Home() {
   const getDetails = async () => {
     if(state.userInfo?.token){
       closeSnackbar();
-      enqueueSnackbar("Signin", {varient: "success"});
-      let config = {
+        let config = {
         headers: {
           authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
         },
