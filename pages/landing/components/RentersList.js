@@ -24,7 +24,7 @@ const RentersList = (props) => {
             <th scope="col">{props.rentedFrom}</th>
             <th scope="col">{props.rentedTill}</th>
             <th scope="col">
-              {props.deposit} ( <i className="fas fa-rupee-sign"></i> )
+              Deposit( <i className="fas fa-rupee-sign"></i> )
             </th>
           </tr>
         </thead>
@@ -34,7 +34,7 @@ const RentersList = (props) => {
             {/* <td>Near Road, XYZ Town, AUS</td> */}
             <td>{props.historyDetail?.joined_at ?props.historyDetail?.joined_at : "Requested"} </td>
             <td>{props.historyDetail?.joined_at ? props.historyDetail?.leave_at ? props.historyDetail?.leave_at : "Presently Living" : "Requested"}</td>
-            <td></td>
+            <td> <i className="fas fa-rupee-sign"></i> {props.deposit}</td>
           </tr>
           {/* <tr>
             <th scope="row">Flat-404</th>

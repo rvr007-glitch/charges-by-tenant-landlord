@@ -11,7 +11,7 @@ import { useSnackbar } from "notistack";
 import { useRouter } from "next/router";
 import axios from "axios";
 
-export default function particular_site() {
+export default function ParticularSiteComponent() {
 
 
   const router = useRouter()
@@ -130,7 +130,6 @@ export default function particular_site() {
             loc="Location"
             rentedFrom="RentedFrom"
             rentedTill="Rented Till"
-            deposit="Deposit"
           /> : "There no Tenant for this site"}
         </div>
         {/* <div className='btn3'>

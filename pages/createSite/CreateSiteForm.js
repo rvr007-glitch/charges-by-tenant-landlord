@@ -238,12 +238,13 @@ function CreateSiteForm() {
             <div className="a-monthly-container container">
               <div className="container a-create-bottom-radio-container">
                 {charges_params_keys.length
-                  ? charges_params_keys.map((data) => {
+                  ? charges_params_keys.map((data, index) => {
                       return (
                         <CreateBottomRadioPart
                           value={data}
                           name={data}
                           pushCharges={pushCharges}
+                          key={index}
                         />
                       );
                     })

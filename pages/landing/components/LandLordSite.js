@@ -8,7 +8,7 @@ const LandLordSite = ({siteDetails, userDetails}) => {
     <>
     <Heading head="Your Sites" />
       <HorizontalLine />
-    {siteDetails.map(site => {
+    {siteDetails.map((site, index) => {
       return (
         <LandingPageCard
         _id={site._id}
@@ -23,6 +23,7 @@ const LandLordSite = ({siteDetails, userDetails}) => {
         text2="History"
         class3="btn-success px-2"
         text3="Paid"
+        key={index}
       />
       )
     })}

@@ -18,7 +18,7 @@ export default async function Sitesave(req, res) {
     });
     
     try {
-      var { alias_name, rent, deposit, charges_param, Type } = req.body;
+      var { alias_name, rent, deposit, Type } = req.body;
       if (!alias_name) {
         return sendError(res, "Alias name is not provided", 400);
       }
