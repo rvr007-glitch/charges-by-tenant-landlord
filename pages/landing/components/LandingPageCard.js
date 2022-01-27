@@ -4,17 +4,16 @@ import HorizontalLine from "./HorizontalLine";
 import { useRouter } from "next/router";
 
 function LandingPageCard(props) {
-
-  const router = useRouter()
+  const router = useRouter();
   const { redirect } = router.query;
 
   const changePange = () => {
-    router.push(`/landing/particularSite?id=${props._id}`)
-  }
+    router.push(`/landing/particularSite?id=${props._id}`);
+  };
   return (
     <section className="a-card">
       <div
-        className={`container shadow-lg text-white a-landing-card mt-5 ${props.cclass}`}
+        className={`container shadow-lg a-landing-card mt-5 ${props.cclass}`}
         style={{ width: "65vw" }}
       >
         <div className="row justify-content-md-center p-3">
@@ -37,7 +36,10 @@ function LandingPageCard(props) {
                     leftHeading="Owner"
                     rightdata={props.owner}
                   />
-                  <LandingCardContent leftHeading="Rent" rightdata={`${props.rent}/-`} />
+                  <LandingCardContent
+                    leftHeading="Rent"
+                    rightdata={`${props.rent}/-`}
+                  />
                   <LandingCardContent
                     leftHeading="Address"
                     rightdata={props.address}
@@ -46,7 +48,10 @@ function LandingPageCard(props) {
               </div>
               <div className="container">
                 <div>
-                  <div className="a-button-container" onClick={() => changePange(props._id)}>
+                  <div
+                    className="a-button-container"
+                    onClick={() => changePange(props._id)}
+                  >
                     <LandingCardButton
                       classNameProp={props.class1}
                       name={props.text1}

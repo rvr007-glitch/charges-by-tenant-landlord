@@ -12,9 +12,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 
 export default function ParticularSiteComponent() {
-
-
-  const router = useRouter()
+  const router = useRouter();
   console.log(router.query.id);
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -24,9 +22,9 @@ export default function ParticularSiteComponent() {
   }, []);
 
   const getDetails = async () => {
-    if(state.userInfo?.token){
+    if (state.userInfo?.token) {
       closeSnackbar();
-      enqueueSnackbar("Signin", {varient: "success"});
+      enqueueSnackbar("Signin", { varient: "success" });
       let config = {
         headers: {
           authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
@@ -39,48 +37,46 @@ export default function ParticularSiteComponent() {
             payload: res.data?.data,
           });
         });
-        
+
         enqueueSnackbar("Data Retrieved", { variant: "success" });
       } catch (err) {
         console.log(err);
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
       }
-    }else{
-      enqueueSnackbar("Login/Signup required", {varient: "success"});
+    } else {
+      enqueueSnackbar("Login/Signup required", { varient: "success" });
     }
   };
-
 
   useEffect(() => {
     getSite();
   }, []);
-  
+
   const getSite = async () => {
-    if(Cookies.get("userInfo")){
+    if (Cookies.get("userInfo")) {
       closeSnackbar();
 
       let config = {
         headers: {
-          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token
+          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
         },
       };
-      
+
       try {
-        
-          await axios.get(`/api/site/${router.query.id}`, config).then((res) => {
-            dispatch({
-              type: "GET_PARTICULAR_SITE",
-              payload: res.data,
-            });
+        await axios.get(`/api/site/${router.query.id}`, config).then((res) => {
+          dispatch({
+            type: "GET_PARTICULAR_SITE",
+            payload: res.data,
           });
-          
-          // enqueueSnackbar("Site Loaded", { variant: "success" });
+        });
+
+        // enqueueSnackbar("Site Loaded", { variant: "success" });
       } catch (err) {
         console.log(err);
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
       }
-    }else{
-      enqueueSnackbar("Signup/signin Required", {varient: "success"});
+    } else {
+      enqueueSnackbar("Signup/signin Required", { varient: "success" });
     }
   };
 
@@ -97,10 +93,13 @@ export default function ParticularSiteComponent() {
         <div className="p_site">
           <div className="p_sitecontainer">
             <div>
-              <NameLabel label="Site Name" details={state.siteDetail?.alias_name} />
+              <NameLabel
+                label="Site Name"
+                details={state.siteDetail?.alias_name}
+              />
             </div>
             <div>
-              <NameLabel label="Site Type"details={state.siteDetail?.Type} />
+              <NameLabel label="Site Type" details={state.siteDetail?.Type} />
             </div>
             <div>
               <span className="p_label">Address:</span>
@@ -110,9 +109,8 @@ export default function ParticularSiteComponent() {
                 name="story"
                 rows="5"
                 cols="33"
-                value={`${state.siteDetail?.address?.first_line}, ${state.siteDetail?.address?.landmark}, ${state.siteDetail?.address?.city}, ${state.siteDetail?.address?.state}, ${state.siteDetail?.address?.country} P.O: ${state.siteDetail?.address?.pincode}` }
-              >
-              </textarea>
+                value={`${state.siteDetail?.address?.first_line}, ${state.siteDetail?.address?.landmark}, ${state.siteDetail?.address?.city}, ${state.siteDetail?.address?.state}, ${state.siteDetail?.address?.country} P.O: ${state.siteDetail?.address?.pincode}`}
+              ></textarea>
             </div>
           </div>
           <div className="p_psite">
@@ -120,22 +118,26 @@ export default function ParticularSiteComponent() {
           </div>
         </div>
         <div className="p_particular">
-          {state.siteDetail.current_tenant?.length > 0 ?<RentersList
-            head="Renters Alloted"
-            tenantDetails = {state.siteDetail?.current_tenant[0]}
-            historyDetail = {state.siteDetail?.history[0]}
-            rent = {state.siteDetail?.rent}
-            deposit = {state.siteDetail?.deposit}
-            flat="Flat No."
-            loc="Location"
-            rentedFrom="RentedFrom"
-            rentedTill="Rented Till"
-          /> : "There no Tenant for this site"}
+          {state.siteDetail.current_tenant?.length > 0 ? (
+            <RentersList
+              head="Renters Alloted"
+              tenantDetails={state.siteDetail?.current_tenant[0]}
+              historyDetail={state.siteDetail?.history[0]}
+              rent={state.siteDetail?.rent}
+              deposit={state.siteDetail?.deposit}
+              flat="Flat No."
+              loc="Location"
+              rentedFrom="RentedFrom"
+              rentedTill="Rented Till"
+            />
+          ) : (
+            "There no Tenant for this site"
+          )}
         </div>
         {/* <div className='btn3'>
                     <button className='btn1 p_btr'>Add New Tenant</button>
                 </div> */}
-        <AllotPopup siteId={state.siteDetail?._id}/>
+        <AllotPopup siteId={state.siteDetail?._id} />
       </div>
     </>
   );
