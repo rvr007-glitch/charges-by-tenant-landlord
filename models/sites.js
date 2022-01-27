@@ -65,10 +65,7 @@ const sitesSchema = new mongoose.Schema(
     history: {
       type: Array,
     },
-    tenant: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Tenant",
-    },
+
   },
   { timestamps: true }
 );

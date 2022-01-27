@@ -135,7 +135,7 @@ export default function ParticularSiteComponent() {
         {/* <div className='btn3'>
                     <button className='btn1 p_btr'>Add New Tenant</button>
                 </div> */}
-        <AllotPopup />
+        <AllotPopup siteId={state.siteDetail?._id}/>
       </div>
     </>
   );

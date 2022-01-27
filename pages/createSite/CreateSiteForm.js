@@ -77,7 +77,7 @@ function CreateSiteForm() {
   //sending the backend request for saving the site
 
   const createSite = async () => {
-    if (state.userInfo?.token) {
+    if (Cookies.get("userInfo")) {
       closeSnackbar();
       let config = {
         headers: {
