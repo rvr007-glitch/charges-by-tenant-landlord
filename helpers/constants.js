@@ -19,6 +19,8 @@ var constants = {
   JWT_VERIFY: 913,
   NULL_TOKEN: 914,
   UPDATE_ERROR: 915,
+  UNAUTHORIZE: 916,
+  CHARGES_ERROR: 917
   //Accepted: 202
 };
 
