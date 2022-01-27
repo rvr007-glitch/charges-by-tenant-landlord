@@ -10,7 +10,6 @@ const CreateBottomRadioPart = (props) => {
   });
 
   function onValueChange(e) {
-    
     if (e.target.type == "radio") {
       if (e.target.value == "fixed") {
         setDisable(false);
@@ -29,14 +28,10 @@ const CreateBottomRadioPart = (props) => {
   useEffect(() => {
     var result = {};
     result[props.name] = valueInput;
-    // console.log(result);
     props.pushCharges(result);
   }, [valueInput]);
-  
- 
-    // console.log(valueInput);
-    
 
+  // console.log(valueInput);
 
   return (
     <section>
