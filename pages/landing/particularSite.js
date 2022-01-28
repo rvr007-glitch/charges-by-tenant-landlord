@@ -13,7 +13,6 @@ import axios from "axios";
 
 export default function ParticularSiteComponent() {
   const router = useRouter();
-  console.log(router.query.id);
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { dispatch, state } = useContext(Store);
@@ -24,7 +23,6 @@ export default function ParticularSiteComponent() {
   const getDetails = async () => {
     if (state.userInfo?.token) {
       closeSnackbar();
-      enqueueSnackbar("Signin", { varient: "success" });
       let config = {
         headers: {
           authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
@@ -40,7 +38,6 @@ export default function ParticularSiteComponent() {
 
         enqueueSnackbar("Data Retrieved", { variant: "success" });
       } catch (err) {
-        console.log(err);
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
       }
     } else {
@@ -72,7 +69,6 @@ export default function ParticularSiteComponent() {
 
         // enqueueSnackbar("Site Loaded", { variant: "success" });
       } catch (err) {
-        console.log(err);
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
       }
     } else {
