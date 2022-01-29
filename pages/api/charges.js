@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Charge = require("../../models/charge");
+const Charge = require("../../models/Charge");
 const Tenant = require("../../models/tenant")
 const History = require("../../models/history")
 const Site = require("../../models/site")
