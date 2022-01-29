@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Site = require("../../models/sites");
+const Site = require("../../models/site");
 import constants from "../../helpers/constants";
 import { sendError, sendSuccess } from "../../helpers/help";
 import {connectMongoDb} from "../../db/connect"
