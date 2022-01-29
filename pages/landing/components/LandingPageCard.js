@@ -2,6 +2,7 @@ import LandingCardButton from "./LandingCardButton";
 import LandingCardContent from "./LandingCardContent";
 import HorizontalLine from "./HorizontalLine";
 import { useRouter } from "next/router";
+import AllotPopup from "./AllotSite";
 
 function LandingPageCard(props) {
   const router = useRouter();
@@ -10,6 +11,11 @@ function LandingPageCard(props) {
   const changePange = () => {
     router.push(`/landing/particularSite?id=${props._id}`);
   };
+
+  const goToGenerateChargesPage = () => {
+    router.push(`/charges/generateCharges?site_id=${props._id}`);
+  };
+
   return (
     <section className="a-card">
       <div
@@ -24,6 +30,7 @@ function LandingPageCard(props) {
               alt="Card image cap"
             />
           </div>
+
           <div className="col col-lg-8">
             <div className="card-body a-card-body">
               <h5 className="card-title a-landing-card-title">
@@ -44,26 +51,38 @@ function LandingPageCard(props) {
                     leftHeading="Address"
                     rightdata={props.address}
                   />
+                  {
+                    props.siteStatus == 0 ? <LandingCardContent leftHeading="Status" rightdata="Vacant"/>: ""
+                  }
+                  {
+                    props.siteStatus == 1 ? <LandingCardContent leftHeading="Status" rightdata="Requested"/>: ""
+                  }
+                  {
+                    props.siteStatus == 2 ? <LandingCardContent leftHeading="Status" rightdata="Alloted"/>: ""
+                  }
+                  
                 </div>
               </div>
               <div className="container">
                 <div>
                   <div
                     className="a-button-container"
-                    onClick={() => changePange(props._id)}
+                    // onClick={() => changePange(props._id)}
+                    // onClick={() => goToGenerateChargesPage(props._id)}
                   >
                     <LandingCardButton
                       classNameProp={props.class1}
                       name={props.text1}
+                      changePange={changePange}
                     />
-                    <LandingCardButton
-                      classNameProp={props.class2}
-                      name={props.text2}
-                    />
-                    <LandingCardButton
+                    {props.siteStatus == 2 ? <LandingCardButton
                       classNameProp={props.class3}
                       name={props.text3}
-                    />
+                      goToGenerateChargesPage={goToGenerateChargesPage}
+                    /> : ""}
+                    {
+                      props.siteStatus == 0 ? <button className="btn btn-primary">ALLOT</button> : ""
+                    }
                   </div>
                 </div>
               </div>

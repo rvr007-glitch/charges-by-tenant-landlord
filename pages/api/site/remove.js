@@ -10,7 +10,7 @@ const {isEmail, isMongoId} = require("validator")
 const bcrypt = require("bcrypt");
 const config = require("../../../config/config");
 
-export default async function (req,res){
+export default async function handler(req,res){
     if(req.method == "POST"){
         var siteId = req.body.siteId
 

@@ -82,12 +82,13 @@ function AllotPopup(props) {
 
   const{email} = details
 
+  console.log(props.siteStatus)
   return (
     <>
       <div className="p_btn3">
-        <button onClick={handleShow} className="p_btn1 p_btr">
+        {props.siteStatus == 0 ? <button onClick={handleShow} className="p_btn1 p_btr">
           Add New Tenant
-        </button>
+        </button> : ""}
       </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
