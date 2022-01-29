@@ -51,7 +51,7 @@ export default async function Sitesave(req, res) {
               else{
                 //create the charges after its veirfied that the site is been alloted and the tenant is valid
                 try {
-                  var newCharges = new Charges({
+                  var newCharges = new Charge({
                     site_id: req.body.site_id, 
                     tenant_id: req.body.tenant_id,
                     landlord_id,
@@ -92,7 +92,7 @@ export default async function Sitesave(req, res) {
           else if(site.landlord_id  != landlord_id) return sendError(res, "UnAuth Access", constants.UNAUTHORIZE);
           else{
             if(!charges.isPaid){
-              Charges.findByIdAndDelete(charges._id, (err, history) => {
+              Charge.findByIdAndDelete(charges._id, (err, history) => {
                 if(err) return sendError(res, err.message, constants.BAD_REQUEST);
                 else{
                   return sendSuccess(res, "DELETED");
