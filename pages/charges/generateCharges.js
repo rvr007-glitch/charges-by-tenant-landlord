@@ -2,9 +2,7 @@ import Image from "next/image";
 import DifferentCharges from "../../public/images/DifferentCharges.png";
 import Header1 from "../components/Header1";
 import Taskbar from "../components/Taskbar";
-import NameLabel from "../components/NameLabel";
 import HorizontalInput from "./components/HorizontalInput";
-import getParticularSite from "../routeFunction/getParticularSite";
 import React, { useContext, useEffect, useState } from "react";
 import { Store } from "../../utility/Store";
 import Cookies from "js-cookie";
@@ -42,8 +40,7 @@ export default function GenerateCharges() {
               payload: res.data,
             });
           });
-
-        // enqueueSnackbar("Site Loaded", { variant: "success" });
+        enqueueSnackbar("Site Loaded", { variant: "success" });
       } catch (err) {
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
       }
@@ -55,7 +52,7 @@ export default function GenerateCharges() {
   var { charges_param } = state.siteDetail;
   const [description, setDescription] = useState(charges_param);
 
-  var tempCharges = {};
+  var tempCharges = { rent: state.siteDetail?.rent };
   const updateCharges = () => {
     Object.keys(charges_param ? charges_param : {}).map((data, index) => {
       if (charges_param[data].fixed) {
@@ -83,12 +80,13 @@ export default function GenerateCharges() {
           authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
         },
       };
+      var details = {
+        site_id: state.siteDetail?._id,
+        tenant_id: state.siteDetail?.current_tenant[0]?._id,
+        description,
+      };
+      console.log(details);
       try {
-        var details = {
-          site_id: state.siteDetail?._id,
-          tenant_id: state.siteDetail?.current_tenant[0]?._id,
-          description,
-        };
         await axios
           .post(
             "/api/charges",
@@ -139,6 +137,12 @@ export default function GenerateCharges() {
           />
 
           <div className="charges">
+            <HorizontalInput
+              fieldName="Rent"
+              isDisable={true}
+              name="rent"
+              defaultValue={state.siteDetail?.rent}
+            />
             {charges_param
               ? Object.keys(charges_param).map((data, index) => {
                   var currentObj = charges_param[data];
@@ -177,7 +181,6 @@ export default function GenerateCharges() {
         <div className="dc">
           <Image src={DifferentCharges} alt="dc" />
         </div>
-        <button onClick={updateCharges}>Hello</button>
       </div>
     </>
   );
