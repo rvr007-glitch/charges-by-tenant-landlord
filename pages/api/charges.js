@@ -54,6 +54,7 @@ export default async function Sitesave(req, res) {
                   var newCharges = new Charges({
                     site_id: req.body.site_id, 
                     tenant_id: req.body.tenant_id,
+                    landlord_id,
                     isPaid: req.body.isPaid,
                     description: req.body.description,
                   });
