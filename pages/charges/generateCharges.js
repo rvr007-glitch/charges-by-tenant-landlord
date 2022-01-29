@@ -104,7 +104,7 @@ export default function GenerateCharges() {
               type: "CREATING_SITE",
               payload: res.data,
             });
-            router.push(`/landing/particularSite?id=${res.data.data.site_id}`);
+            router.push(`/landing/particularSite?id=${res.data.data.site_id}`); //small change to trigger github PR
             enqueueSnackbar("Charges Created", { variant: "success" });
           });
       } catch (err) {
