@@ -20,15 +20,12 @@ export default async function handler(req, res){
             landlordId = authData.id
         })
 
-        var data = await Transaction.find({landlord_id: landlordId}).populate('charge_id')
+        var data = await Transaction.find({landlord_id: landlordId}).populate('charge_id', {'isPaid': true})
         if(data){
             return sendSuccess(res, data)
         }
         else{
             return sendError(res, "error in finding paid data", 500)
         }
-    }
-    else{
-        return sendError(res, "ROUTE NOT FOUND", constants.NOT_FOUND)
     }
 }

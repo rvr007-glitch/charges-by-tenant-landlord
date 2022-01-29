@@ -26,15 +26,22 @@ export default async function handler(req, res){
             landlordId = authData.id
         })
 
-                    Charge.find({site_id: siteId, landlord_id: landlordId}, function(err, data){
+        Site.findById(siteId, function(err, siteData){
+            if(err)return sendError(res, err.message, 500)
+            else{
+                if(siteData.landlord_id == landlordId){
+                    Charge.find({site_id: siteId}, function(err, data){
                         if(err)return sendError(res, err.message, 500)
                         else{
                             return sendSuccess(res, data)
                         }
                     })
+                }
+                else{
+                    return sendError(res, "access denied", 500)
+                }
+            }
+        })
 
-    }
-    else{
-        return sendError(res, "ROUTE NOT FOUND", constants.NOT_FOUND)
     }
 }

@@ -11,11 +11,6 @@ const chargeSchema = new mongoose.Schema(
       requred: true,
       ref: "Tenant"
     },
-    landlord_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      requred: true,
-      ref: "Landlord"
-    },
     isPaid: {
       type: Boolean,
       default: false,
