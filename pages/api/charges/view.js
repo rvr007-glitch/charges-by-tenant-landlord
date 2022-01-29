@@ -25,7 +25,6 @@ export default async function handler(req, res){
             if(err)return sendError(res, err.message, 500)
             landlordId = authData.id
         })
-
         Site.findById(siteId, function(err, siteData){
             if(err)return sendError(res, err.message, 500)
             else{
@@ -43,5 +42,8 @@ export default async function handler(req, res){
             }
         })
 
+    }
+    else{
+        return sendError(res, "ROUTE NOT FOUND", constants.NOT_FOUND)
     }
 }
