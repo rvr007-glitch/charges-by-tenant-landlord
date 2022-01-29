@@ -1,4 +1,5 @@
 import React from "react";
+import Moment from "react-moment";
 
 const RentersList = (props) => {
   return (
@@ -32,9 +33,26 @@ const RentersList = (props) => {
           <tr>
             <th scope="row">{props.tenantDetails?.firstName}</th>
             {/* <td>Near Road, XYZ Town, AUS</td> */}
-            <td>{props.historyDetail?.joined_at ?props.historyDetail?.joined_at : "Requested"} </td>
-            <td>{props.historyDetail?.joined_at ? props.historyDetail?.leave_at ? props.historyDetail?.leave_at : "Presently Living" : "Requested"}</td>
-            <td> <i className="fas fa-rupee-sign"></i> {props.deposit}</td>
+            <td>
+              {props.historyDetail?.joined_at ? (
+                <Moment format="MMMM Do YYYY">
+                  {props.historyDetail?.joined_at}
+                </Moment>
+              ) : (
+                "Requested"
+              )}{" "}
+            </td>
+            <td>
+              {props.historyDetail?.joined_at
+                ? props.historyDetail?.leave_at
+                  ? props.historyDetail?.leave_at
+                  : "Presently Living"
+                : "Requested"}
+            </td>
+            <td>
+              {" "}
+              <i className="fas fa-rupee-sign"></i> {props.deposit}
+            </td>
           </tr>
           {/* <tr>
             <th scope="row">Flat-404</th>

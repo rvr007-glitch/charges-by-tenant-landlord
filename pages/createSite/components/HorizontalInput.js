@@ -7,10 +7,16 @@ function HorizontalInput(props) {
         </label>
         <div className="col-sm-10">
           <input
-            type="text"
+            type={
+              props.name == "pincode" ||
+              props.name == "rent" ||
+              props.name == "deposit"
+                ? "number"
+                : "text"
+            }
             className="form-control"
             id="inputEmail3"
-            placeholder="Email"
+            placeholder={props.name}
             name={props.name}
             onChange={props.onChange}
             defaultValue={props.name == "country" ? "India" : ""}

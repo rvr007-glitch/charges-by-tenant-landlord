@@ -7,14 +7,8 @@ import { Store } from "../../utility/Store";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import axios from "axios";
+
 const tableData = [
-  // Comment delete mat karna apshabd
-  // {
-  //   FlatNo:
-  //   Addres:
-  //   AliasName:
-  //   PataNahi:
-  // },
   {
     col1: "Flat-402",
     col2: "Near Road, XYZ Town, ABC",
@@ -65,21 +59,17 @@ const tableData = [
   },
 ];
 
-
 export default function Home() {
-
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { dispatch, state } = useContext(Store);
   useEffect(() => {
     getDetails();
   }, []);
 
-  console.log(state.userInfo);
-
   const getDetails = async () => {
-    if(state.userInfo?.token){
+    if (state.userInfo?.token) {
       closeSnackbar();
-        let config = {
+      let config = {
         headers: {
           authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
         },
@@ -91,14 +81,13 @@ export default function Home() {
             payload: res.data?.data,
           });
         });
-        
+
         enqueueSnackbar("Data Retrieved", { variant: "success" });
       } catch (err) {
-        console.log(err);
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
       }
-    }else{
-      enqueueSnackbar("Signup", {varient: "success"});
+    } else {
+      enqueueSnackbar("Sign/Signup required", { varient: "success" });
     }
   };
 
@@ -106,9 +95,7 @@ export default function Home() {
     <div className="Parent">
       <Taskbar />
       <div className="S_right">
-        <Details
-          details={state.userInfo}
-        />
+        <Details details={state.userInfo} />
         <hr />
         <div className="S_rightBottom">
           <Header head="Available Sites" />

@@ -34,44 +34,37 @@ function CreateSiteForm() {
     charges_params: {},
   });
 
-
   //charges_params has became a local variable that can be used
-  var {charges_params} = details;
+  var { charges_params } = details;
 
   //saving the keys of the charges params object
   var charges_params_keys = Object.keys(charges_params);
 
   //updating the charges by the modal
   const updateCharges = (fieldName) => {
-    console.log(fieldName);
     var temp = Object.keys(fieldName)[0];
     charges_params[temp] = fieldName[temp];
-    setDetails({...details, charges_params});
+    setDetails({ ...details, charges_params });
   };
 
   //this function updates the value of the parameters
-  const pushCharges = (resultant = null) =>  {
+  const pushCharges = (resultant = null) => {
     var result = Object.keys(resultant)[0];
     charges_params[`${result}`] = resultant[`${result}`];
-    setDetails({...details, charges_params})
-  }
-
-
+    setDetails({ ...details, charges_params });
+  };
 
   const onChange = (e) => {
     setDetails({ ...details, [e.target.name]: e.target.value });
-    // console.log(details);
   };
 
   function submitHandler() {
-    console.log(details);
     createSite();
   }
 
   const onSubmit = (e) => {
     e.preventDefault();
     submitHandler(details);
-    console.log(details);
   };
 
   //sending the backend request for saving the site
@@ -90,12 +83,10 @@ function CreateSiteForm() {
             type: "CREATING_SITE",
             payload: res.data,
           });
-          router.push(`/landing/particularSite?id=${res.data.data._id}`)
-        enqueueSnackbar("Site Created!👏🏻", { variant: "success" });
+          router.push(`/landing/particularSite?id=${res.data.data._id}`);
+          enqueueSnackbar("Site Created!👏🏻", { variant: "success" });
         });
-        
       } catch (err) {
-        console.log(err);
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
       }
     } else {
@@ -104,8 +95,8 @@ function CreateSiteForm() {
   };
 
   const updateState = (inputParam) => {
-    setDetails({...details, state: inputParam})
-  }
+    setDetails({ ...details, state: inputParam });
+  };
 
   return (
     <section className="a-create-side-main">
@@ -218,7 +209,7 @@ function CreateSiteForm() {
                         <label htmlFor="inputState">State:</label>
                       </div>
                       <div className="col-3">
-                        <StateOptions updateState={updateState}/>
+                        <StateOptions updateState={updateState} />
                       </div>
                       <div className="col-6">
                         <HorizontalInput
