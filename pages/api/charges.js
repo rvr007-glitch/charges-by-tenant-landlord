@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const Charges = require("../../models/charges");
+const Charge = require("../../models/Charge");
 const Tenant = require("../../models/tenant")
 const History = require("../../models/history")
-const Site = require("../../models/sites")
+const Site = require("../../models/site")
 import connectMongoDb from "../../db/connect";
 import constants from "../../helpers/constants";
 import { sendError, sendSuccess } from "../../helpers/help";
@@ -54,6 +54,7 @@ export default async function Sitesave(req, res) {
                   var newCharges = new Charges({
                     site_id: req.body.site_id, 
                     tenant_id: req.body.tenant_id,
+                    landlord_id,
                     isPaid: req.body.isPaid,
                     description: req.body.description,
                   });

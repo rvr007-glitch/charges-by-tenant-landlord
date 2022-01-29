@@ -4,10 +4,17 @@ const chargeSchema = new mongoose.Schema(
     site_id: {
       type: mongoose.Schema.Types.ObjectId,
       requred: true,
+      ref: "Site"
     },
     tenant_id: {
       type: mongoose.Schema.Types.ObjectId,
       requred: true,
+      ref: "Tenant"
+    },
+    landlord_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      requred: true,
+      ref: "Landlord"
     },
     isPaid: {
       type: Boolean,
@@ -23,4 +30,4 @@ const chargeSchema = new mongoose.Schema(
 );
 
 module.exports =
-  mongoose.models.Charges || mongoose.model("Charges", chargeSchema);
+  mongoose.models.Charge || mongoose.model("Charge", chargeSchema);
