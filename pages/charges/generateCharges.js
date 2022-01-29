@@ -73,12 +73,7 @@ export default function generateCharges() {
 
   const onChange = (e) => {
     setDescription({ ...description, [e.target.name]: e.target.value });
-    console.log(description);
   };
-
-  // console.log(state.siteDetail);
-  // console.log("site_id: " + state.siteDetail?._id);
-  // console.log("tenant_id: " + state.siteDetail?.current_tenant[0]?._id);
 
   const generateSiteCharges = async () => {
     if (Cookies.get("userInfo")) {
@@ -94,7 +89,6 @@ export default function generateCharges() {
           tenant_id: state.siteDetail?.current_tenant[0]?._id,
           description,
         };
-        console.log(JSON.stringify(details));
         await axios
           .post(
             "/api/charges",
@@ -131,7 +125,6 @@ export default function generateCharges() {
         <Taskbar />
         <div className="p_right">
           <Header1 header="GENERATE CHARGES OF DIFERENT ENTITIES" />
-          {/* <span>{JSON.stringify(state.siteDetail)}</span> */}
           <link
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
