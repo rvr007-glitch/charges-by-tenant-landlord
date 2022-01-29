@@ -57,10 +57,6 @@ export default function generateCharges() {
   // var keysData = Object.keys(charges_param ? charges_param : {});
   const [description, setDescription] = useState(charges_param);
 
-  const changeTheState = (key, value) => {
-    setDescription({...description, [key]: value})
-  }
-
   var tempCharges = {};
   const updateCharges = () => {
     Object.keys(charges_param ? charges_param : {}).map((data, index) => {
