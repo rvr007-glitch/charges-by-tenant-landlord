@@ -10,6 +10,11 @@ function LandingPageCard(props) {
   const changePange = () => {
     router.push(`/landing/particularSite?id=${props._id}`);
   };
+
+  const goToGenerateChargesPage = () => {
+    router.push(`/charges/generateCharges?site_id=${props._id}`);
+  };
+
   return (
     <section className="a-card">
       <div
@@ -50,11 +55,13 @@ function LandingPageCard(props) {
                 <div>
                   <div
                     className="a-button-container"
-                    onClick={() => changePange(props._id)}
+                    // onClick={() => changePange(props._id)}
+                    onClick={() => goToGenerateChargesPage(props._id)}
                   >
                     <LandingCardButton
                       classNameProp={props.class1}
                       name={props.text1}
+                      changePange={changePange}
                     />
                     <LandingCardButton
                       classNameProp={props.class2}
@@ -63,6 +70,7 @@ function LandingPageCard(props) {
                     <LandingCardButton
                       classNameProp={props.class3}
                       name={props.text3}
+                      goToGenerateChargesPage={goToGenerateChargesPage}
                     />
                   </div>
                 </div>
