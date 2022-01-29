@@ -5,7 +5,7 @@ import { useSnackbar } from "notistack";
 import axios from "axios";
 //  To get Particulalar site
 
-const getParticularSite = async (site_id) => {
+const GetParticularSite = async (site_id) => {
   console.log(site_id);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { dispatch, state } = useContext(Store);
@@ -33,4 +33,4 @@ const getParticularSite = async (site_id) => {
   }
 };
 
-export default getParticularSite;
+export default GetParticularSite;
