@@ -15,6 +15,8 @@ const LandLordSite = ({ siteDetails, userDetails }) => {
             owner={userDetails.name}
             alias_name={site.alias_name}
             rent={site.rent}
+            siteStatus = {site.status}
+            site={site}
             address={`${site.address.first_line}, ${site.address.landmark}, ${site.address.city}, ${site.address.state}, ${site.address.country}, P.O: ${site.address.pincode}`}
             cclass="blue"
             class1="btn-warning"
