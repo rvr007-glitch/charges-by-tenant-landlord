@@ -5,26 +5,28 @@ const tranSchema = new mongoose.Schema(
     charge_id: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "Charge"
     },
     order_date: {
       type: Date,
-      default: Date.now,
-      required: true,
+      default: Date.now()
     },
     description: {
       type: String,
-      required: true,
+      default: ""
     },
     landlord_id: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "Landlord"
     },
     tenant_id: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "Tenant"
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Transaction", tranSchema);
+module.exports = mongoose.models.Transaction ||  mongoose.model("Transaction", tranSchema);

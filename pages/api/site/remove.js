@@ -2,7 +2,7 @@ import { sendSuccess, sendError } from "../../../helpers/help";
 var constants = require("../../../helpers/constants");
 const mongoose = require("mongoose");
 var Tenant = require("../../../models/tenant");
-var Sites = require("../../../models/sites");
+var Site = require("../../../models/site");
 var History = require("../../../models/history");
 import { auth } from "../../../utility/auth";
 const jwt = require("jsonwebtoken");
@@ -22,7 +22,7 @@ export default async function handler(req,res){
             return sendError(res,"invalid siteId",500)
         }
 
-        Sites.findById(siteId,function(err,siteData){
+        Site.findById(siteId,function(err,siteData){
             if(err)return sendError(res,err.message,500)
             else{
                 var landlord_id
@@ -36,7 +36,7 @@ export default async function handler(req,res){
                     if(siteData.status === "2"){
                         var historyId = siteData.history[siteData.history.length - 1]
                         
-                        Sites.findByIdAndUpdate(siteId, {$set:{status:"0"}}, function(err,siteNewData){
+                        Site.findByIdAndUpdate(siteId, {$set:{status:"0"}}, function(err,siteNewData){
                             if(err){
                                 return sendError(res,err.message,500)
                             }

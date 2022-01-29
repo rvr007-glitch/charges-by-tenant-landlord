@@ -23,7 +23,6 @@ export default function generateCharges() {
     getSite();
   }, []);
 
-
   const getSite = async () => {
     if (Cookies.get("userInfo")) {
       closeSnackbar();
@@ -54,7 +53,6 @@ export default function generateCharges() {
   };
 
   var { charges_param } = state.siteDetail;
-  // var keysData = Object.keys(charges_param ? charges_param : {});
   const [description, setDescription] = useState(charges_param);
 
   var tempCharges = {};
@@ -72,6 +70,54 @@ export default function generateCharges() {
   useEffect(() => {
     updateCharges();
   }, [state.siteDetail?.charges_param]);
+
+  const onChange = (e) => {
+    setDescription({ ...description, [e.target.name]: e.target.value });
+  };
+
+  const generateSiteCharges = async () => {
+    if (Cookies.get("userInfo")) {
+      closeSnackbar();
+      let config = {
+        headers: {
+          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
+        },
+      };
+      try {
+        var details = {
+          site_id: state.siteDetail?._id,
+          tenant_id: state.siteDetail?.current_tenant[0]?._id,
+          description,
+        };
+        await axios
+          .post(
+            "/api/charges",
+            {
+              site_id: state.siteDetail?._id,
+              tenant_id: state.siteDetail?.current_tenant[0]?._id,
+              description,
+            },
+            config
+          )
+          .then((res) => {
+            dispatch({
+              type: "CREATING_SITE",
+              payload: res.data,
+            });
+            router.push(`/landing/particularSite?id=${res.data.data._id}`);
+            enqueueSnackbar("Charges Created", { variant: "success" });
+          });
+      } catch (err) {
+        enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+      }
+    } else {
+      enqueueSnackbar("Login/Signup Required", { varient: "success" });
+    }
+  };
+
+  const submitHandler = () => {
+    generateSiteCharges();
+  };
 
   return (
     <>
@@ -93,22 +139,6 @@ export default function generateCharges() {
           />
 
           <div className="charges">
-            {/* <NameLabel label="Electricity" />
-            <NameLabel label="Water" />
-            <NameLabel label="Gas Connection" />
-            <NameLabel label="Others" /> */}
-            {/* {charges_params_keys.length
-                  ? charges_params_keys.map((data, index) => {
-                      return (
-                        <CreateBottomRadioPart
-                          value={data}
-                          name={data}
-                          pushCharges={pushCharges}
-                          key={index}
-                        />
-                      );
-                    })
-                  : "Please add fields using Add Field button"} */}
             {charges_param
               ? Object.keys(charges_param).map((data, index) => {
                   var currentObj = charges_param[data];
@@ -129,6 +159,7 @@ export default function generateCharges() {
                         key={index}
                         isDisable={false}
                         name={data}
+                        onChange={onChange}
                       />
                     );
                   }
@@ -136,7 +167,9 @@ export default function generateCharges() {
               : "No parameters to generate charges"}
 
             <div className="btn2">
-              <button className="p_btn2">GENERATE</button>
+              <button className="p_btn2" onClick={submitHandler}>
+                GENERATE
+              </button>
             </div>
           </div>
         </div>
