@@ -23,7 +23,6 @@ export default function generateCharges() {
     getSite();
   }, []);
 
-  console.log(state.siteDetail);
 
   const getSite = async () => {
     if (Cookies.get("userInfo")) {
@@ -55,41 +54,28 @@ export default function generateCharges() {
   };
 
   var { charges_param } = state.siteDetail;
-  console.log(charges_param);
-  const [description, setDescription] = useState();
+  // var keysData = Object.keys(charges_param ? charges_param : {});
+  const [description, setDescription] = useState(charges_param);
 
+  const changeTheState = (key, value) => {
+    setDescription({...description, [key]: value})
+  }
+
+  var tempCharges = {};
   const updateCharges = () => {
     Object.keys(charges_param ? charges_param : {}).map((data, index) => {
-      // console.log(data);
-      if (charges_param[data]?.fixed) {
-        console.log(
-          data +
-            " " +
-            charges_param[data]?.fixed +
-            " " +
-            charges_param[data].value
-        );
-        var currentDesc = { ...description, [data]: charges_param[data].value };
-        setDescription(currentDesc);
-        console.log({ ...description });
+      if (charges_param[data].fixed) {
+        tempCharges[data] = charges_param[data].value;
       } else {
-        setDescription({ ...description, [data]: 0 });
+        tempCharges[data] = 0;
       }
+      setDescription(tempCharges);
     });
-    console.log(description);
   };
 
-  // useEffect(() => {
-  //   updateCharges();
-  // }, [state.siteDetail?.charges_param]);
-
-  // const initialiseDescription = () => {};
-
-  // useEffect(() => {
-  //   initialiseDescription();
-  // }, [tempCharges]);
-  // console.log(tempCharges);
-  // console.log(description);
+  useEffect(() => {
+    updateCharges();
+  }, [state.siteDetail?.charges_param]);
 
   return (
     <>
