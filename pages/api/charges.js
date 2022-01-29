@@ -47,29 +47,30 @@ export default async function Sitesave(req, res) {
             if(err) return sendError(res, err.message, constants.SERVER_ERROR);
             else if(!HistoryData) return sendError(res, "No History Found for the site", constants.NOT_FOUND);
             else{
-              console.log(HistoryData)
-              if(HistoryData.tenant_id != tenant_id) return sendError(res, "Tenant is Not Available", constants.BAD_REQUEST)
+              if(HistoryData.tenant_id != tenant_id) return sendError(res, "Wrong Tenant Id For the site", constants.BAD_REQUEST)
+              else{
+                //create the charges after its veirfied that the site is been alloted and the tenant is valid
+                try {
+                  var newCharges = new Charges({
+                    site_id: req.body.site_id, 
+                    tenant_id: req.body.tenant_id,
+                    isPaid: req.body.isPaid,
+                    description: req.body.description,
+                  });
+                  newCharges.save((err, charges) => {
+                    if(err) return sendError(res, err.message, constants.BAD_REQUEST)
+                    return sendSuccess(res,charges, 200);
+                  });
+                } catch (err) {
+                  return sendError(res, err.message, 500);
+                }
+              }
             }
           })
         }
       })
     } catch (error) {
       return sendError(res, error.message, constants.BAD_REQUEST)
-    }
-
-
-    //create the charges after its veirfied that the site is been alloted and the tenant is valid
-    try {
-      var newCharges = new Charges({
-        site_id: req.body.site_id, 
-        tenant_id: req.body.tenant_id,
-        isPaid: req.body.isPaid,
-        description: req.body.description,
-      });
-      const charges = await newCharges.save();
-      return sendSuccess(res,charges, 200);
-    } catch (err) {
-      return sendError(res, err.message, 500);
     }
   }
   else if(req.method === "DELETE")
