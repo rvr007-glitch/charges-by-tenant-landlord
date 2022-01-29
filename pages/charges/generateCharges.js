@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 
 import axios from "axios";
 
-export default function generateCharges() {
+export default function GenerateCharges() {
   const router = useRouter();
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
