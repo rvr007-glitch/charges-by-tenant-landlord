@@ -60,7 +60,6 @@ function LandingPageCard(props) {
                   {
                     props.siteStatus == 2 ? <LandingCardContent leftHeading="Status" rightdata="Alloted"/>: ""
                   }
-                  
                 </div>
               </div>
               <div className="container">
@@ -81,7 +80,21 @@ function LandingPageCard(props) {
                       goToGenerateChargesPage={goToGenerateChargesPage}
                     /> : ""}
                     {
-                      props.siteStatus == 0 ? <button className="btn btn-primary">ALLOT</button> : ""
+                      props.siteStatus == 0 ? 
+                      <div className="a-landing-card-button">
+                      <button className="btn btn-primary a-landing-card-button">
+                        Allot
+                      </button>
+                    </div> : ""
+                    }
+                    {
+                      props.siteStatus == 2 ? <div className="a-landing-card-button">
+                      <button className="btn btn-danger a-landing-card-button"
+                        // onClick={removeHandler}
+                      >
+                        Remove
+                      </button>
+                    </div> : ""
                     }
                   </div>
                 </div>

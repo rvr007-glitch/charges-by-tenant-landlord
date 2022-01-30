@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { useState } from "react";
 import AfterEditContent from "./components/AfterEditContent";
 import BeforeEditContent from "./components/BeforeEditContent";
@@ -189,65 +190,71 @@ function EditTenant() {
   ];
 
   return (
-    <section>
-      <div className="Parent">
-        <Taskbar />
-        <div className="S_right">
-          <Heading head="Edit Profile Page" />
-          <div className="a-center">
-            <div className="a-edit-container shadow-lg rounded p-3 bg-white">
-              <strong>
-                <div className="a-title">Your Information</div>
-              </strong>
-              <div className="container">
-                {allContent.map((data) => {
-                  return (
-                    <div key={data.title} className="a-row-content">
-                      {data.toShow ? (
-                        <BeforeEditContent
-                          title={data.title}
-                          content={data.content}
-                          editButtonClick={data.editButtonClick}
-                        />
-                      ) : data.title == "Birthday" ? (
-                        <EditBirthday
-                          title={data.title}
-                          saveClick={data.saveCLick}
-                          cancelClick={cancel}
-                        />
-                      ) : (
-                        <AfterEditContent
-                          title={data.title}
-                          content={data.content}
-                          saveClick={data.saveCLick}
-                          cancelClick={cancel}
-                        />
-                      )}
+    <>
+      <Head>
+        <title>Edit Profile</title>
+      </Head>
+      <section>
+        <div className="Parent">
+          <Taskbar />
+          <div className="S_right">
+            <Heading head="Edit Profile Page" />
+            <div className="a-center">
+              <div className="a-edit-container shadow-lg rounded p-3 bg-white">
+                <strong>
+                  <div className="a-title">Your Information</div>
+                </strong>
+                <div className="container">
+                  {allContent.map((data) => {
+                    return (
+                      <div key={data.title} className="a-row-content">
+                        {data.toShow ? (
+                          <BeforeEditContent
+                            title={data.title}
+                            content={data.content}
+                            editButtonClick={data.editButtonClick}
+                          />
+                        ) : data.title == "Birthday" ? (
+                          <EditBirthday
+                            title={data.title}
+                            saveClick={data.saveCLick}
+                            cancelClick={cancel}
+                          />
+                        ) : (
+                          <AfterEditContent
+                            title={data.title}
+                            content={data.content}
+                            saveClick={data.saveCLick}
+                            cancelClick={cancel}
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
+
+                  {/* History */}
+
+                  <div className="row a-edit-content a-row-wrapper">
+                    <div className="col-lg-4 col-sm-12">
+                      <span className="a-edit-left-title">History</span>
                     </div>
-                  );
-                })}
-
-                {/* History */}
-
-                <div className="row a-edit-content a-row-wrapper">
-                  <div className="col-lg-4 col-sm-12">
-                    <span className="a-edit-left-title">History</span>
-                  </div>
-                  <div className="col-lg-7 col-sm-10">
-                    <span className="a-edit-right-content a-not-provided">
-                      No History
-                    </span>
-                  </div>
-                  {/* <div className="col-lg-1 col-sm-2">
+                    <div className="col-lg-7 col-sm-10">
+                      <span className="a-edit-right-content a-not-provided">
+                        No History
+                      </span>
+                    </div>
+                    {/* <div className="col-lg-1 col-sm-2">
                 <button className="a-edit">Edit</button>
               </div> */}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
+
   );
 }
 
