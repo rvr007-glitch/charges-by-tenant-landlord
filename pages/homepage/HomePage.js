@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import HomePageBanner from "./components/HomePageBanner";
 import Features from "./components/Features";
 import GetStarted from "./components/GetStarted";
@@ -16,6 +17,9 @@ function HomePage() {
 
   return (
     <>
+      <Head>
+        <title>Home Page</title>
+      </Head>
       <HomePageBanner />
       <div className="Parent">
         <Taskbar />

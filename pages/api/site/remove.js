@@ -31,7 +31,7 @@ export default async function handler(req,res){
                     landlord_id = Data.id;
                 })
 
-                if(landlord_id == siteData.landlord_id){
+                if(landlord_id == siteData?.landlord_id){
                     //removing only those tenant that are living on site, not those whose request are pending
                     if(siteData.status === "2"){
                         var historyId = siteData.history[siteData.history.length - 1]

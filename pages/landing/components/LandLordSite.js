@@ -3,16 +3,16 @@ import Heading from "./Heading";
 import HorizontalLine from "./HorizontalLine";
 
 const LandLordSite = ({ siteDetails, userDetails }) => {
-  // console.log(siteDetails);
+  //console.log(siteDetails);
   return (
     <>
-      <Heading head="Your Sites" />
+      <Heading head="Created Sites" />
       <HorizontalLine />
       {siteDetails.map((site, index) => {
         return (
           <LandingPageCard
             _id={site._id}
-            owner={userDetails.name}
+            owner={site.alias_name}
             alias_name={site.alias_name}
             rent={site.rent}
             siteStatus = {site.status}

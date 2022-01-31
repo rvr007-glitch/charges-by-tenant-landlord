@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import Image from "next/image";
 import Landlord from "../../public/images/Landlord.png";
 import Home_fill from "../../public/images/Home_fill.png";
@@ -67,6 +68,9 @@ function Lsignup() {
 
   return (
     <>
+      <Head>
+        <title>Landlord SignUp</title>
+      </Head>
       <div className="main">
         <link
           rel="stylesheet"
