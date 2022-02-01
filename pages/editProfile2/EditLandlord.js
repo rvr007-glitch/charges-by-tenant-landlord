@@ -25,7 +25,6 @@ function EditTenant() {
   useEffect(() => {
     getDetails();
   }, []);
-  console.log(state.userInfo);
 
   const getDetails = async () => {
     if (Cookies.get("userInfo")) {
