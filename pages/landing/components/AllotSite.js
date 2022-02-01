@@ -10,85 +10,87 @@ import { useRouter } from "next/router";
 import { Store } from "../../../utility/Store";
 
 function AllotPopup(props) {
-
   const [show, setShow] = useState(false);
   const [selectedValue, setSelectedValue] = useState("email");
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const router = useRouter()
+  const router = useRouter();
   const { dispatch, state } = useContext(Store);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [details, setDetails ] = useState({
-    email:"",
-    siteId: router.query.id
-  })
+  const [details, setDetails] = useState({
+    email: "",
+    siteId: router.query.id,
+  });
   function onValueChange(e) {
     setSelectedValue(e.target.value);
     console.log(e.target.value);
   }
   const getSite = async () => {
-    if(Cookies.get("userInfo")){
+    if (Cookies.get("userInfo")) {
       closeSnackbar();
 
       let config = {
         headers: {
-          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token
+          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
         },
       };
-      
+
       try {
-        
-          await axios.get(`/api/site/${router.query.id}`, config).then((res) => {
-            dispatch({
-              type: "GET_PARTICULAR_SITE",
-              payload: res.data,
-            });
+        await axios.get(`/api/site/${router.query.id}`, config).then((res) => {
+          dispatch({
+            type: "GET_PARTICULAR_SITE",
+            payload: res.data,
           });
-          
-          // enqueueSnackbar("Site Loaded", { variant: "success" });
+        });
+
+        // enqueueSnackbar("Site Loaded", { variant: "success" });
       } catch (err) {
         console.log(err);
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
       }
-    }else{
-      enqueueSnackbar("Signup/signin Required", {varient: "success"});
+    } else {
+      enqueueSnackbar("Signup/signin Required", { varient: "success" });
     }
   };
 
   const onChange = (e) => {
-    setDetails({...details, [e.target.name]: e.target.value})
-  }
+    setDetails({ ...details, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async () => {
-    console.log(details)
+    console.log(details);
     let config = {
       headers: {
-        authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token
+        authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
       },
     };
 
     try {
       await axios.post("/api/site/reqtenant", details, config).then((res) => {
-        console.log(res.data)
-        enqueueSnackbar("Request Sent!", {variant: "success"})
-      })
+        console.log(res.data);
+        enqueueSnackbar("Request Sent!", { variant: "success" });
+      });
       handleClose();
       getSite();
     } catch (error) {
-      enqueueSnackbar(error.response?.data?.message, {variant: "failed"});
+      enqueueSnackbar(error.response?.data?.message, { variant: "failed" });
     }
-  }
+  };
 
-  const{email} = details
+  const { email } = details;
 
-  console.log(props.siteStatus)
+  // console.log(props.siteStatus)
   return (
     <>
       <div className="p_btn3">
-        {props.siteStatus == 0 ? <button onClick={handleShow} className="p_btn1 p_btr">
-          Add New Tenant
-        </button> : ""}
+        {props.siteStatus == 0 ? (
+          <button onClick={handleShow} className="p_btn1 p_btr">
+            Add New Tenant
+          </button>
+        ) : (
+          ""
+        )}
       </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

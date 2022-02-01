@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Head from "next/head";
 import Header from "../components/Header";
 import RentersList from "./components/RentersList";
 import Image from "next/image";
@@ -11,7 +11,8 @@ import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { useRouter } from "next/router";
 import axios from "axios";
-import * as ReactBootStrap from 'react-bootstrap'
+import * as ReactBootStrap from "react-bootstrap";
+import ChargesList from "./components/ChargesList";
 
 export default function ParticularSiteComponent() {
   const router = useRouter();
@@ -21,6 +22,7 @@ export default function ParticularSiteComponent() {
 
   useEffect(() => {
     getSite();
+    getParticularSiteCharges();
   }, []);
 
   const getSite = async () => {
@@ -51,6 +53,40 @@ export default function ParticularSiteComponent() {
     }
   };
 
+  const getParticularSiteCharges = async () => {
+    if (Cookies.get("userInfo")) {
+      closeSnackbar();
+      let config = {
+        headers: {
+          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
+        },
+      };
+      try {
+        await axios
+          .post(
+            "/api/charges/view",
+            {
+              siteId: router.query?.id,
+            },
+            config
+          )
+          .then((res) => {
+            dispatch({
+              type: "GET_PARTICULAR_SITE_CHARGES",
+              payload: res.data,
+            });
+            enqueueSnackbar("Charges Retrived", { variant: "success" });
+          });
+      } catch (err) {
+        enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+      }
+    } else {
+      enqueueSnackbar("Login/Signup Required", { varient: "success" });
+    }
+  };
+
+  console.log(state.siteCharges);
+
   return (
     <>
       <Head>
@@ -79,6 +115,7 @@ export default function ParticularSiteComponent() {
               <div>
                 <span className="p_label">Address:</span>
                 <textarea
+                  readOnly
                   className="p_textarea"
                   id="story"
                   name="story"
@@ -92,34 +129,53 @@ export default function ParticularSiteComponent() {
               <Image src={ParticularSite} alt="sub" />
             </div>
           </div>
-          <div className="p_particular">
-            {state.siteDetail.current_tenant?.length > 0 ? (
-              <RentersList
-                head="Renters Alloted"
-                tenantDetails={state.siteDetail?.current_tenant[0]}
-                historyDetail={state.siteDetail?.history[0]}
-                rent={state.siteDetail?.rent}
-                deposit={state.siteDetail?.deposit}
-                flat="Flat No."
-                loc="Location"
-                rentedFrom="RentedFrom"
-                rentedTill="Rented Till"
-              />
-            ) : (
-              "There no Tenant for this site"
-            )}
+          <div className="row">
+            <div className="col-sm-12 col-lg-12 col-12">
+              <div className="p_particular">
+                {state.siteDetail.current_tenant?.length > 0 ? (
+                  <RentersList
+                    head="Renters Alloted"
+                    tenantDetails={state.siteDetail?.current_tenant[0]}
+                    historyDetail={state.siteDetail?.history[0]}
+                    rent={state.siteDetail?.rent}
+                    deposit={state.siteDetail?.deposit}
+                    flat="Flat No."
+                    loc="Location"
+                    rentedFrom="RentedFrom"
+                    rentedTill="Rented Till"
+                  />
+                ) : (
+                  "There no Tenant for this site"
+                )}
+              </div>
+            </div>
+            <div className="col-sm-12 col-lg-12 col-12 mt-5">
+              <div className="p_particular">
+                {state.siteCharges?.length > 0 ? (
+                  <ChargesList
+                    head="Payment History"
+                    chargesDetails={state.siteCharges}
+                  />
+                ) : (
+                  "No charges to display, generate charges to see charges here"
+                )}
+              </div>
+            </div>
           </div>
+
           {/* <div className='btn3'>
                     <button className='btn1 p_btr'>Add New Tenant</button>
                 </div> */}
-          <AllotPopup siteId={state.siteDetail?._id} siteStatus={state.siteDetail?.status} />
+          <AllotPopup
+            siteId={state.siteDetail?._id}
+            siteStatus={state.siteDetail?.status}
+          />
         </div>
       ) : (
         <div className="p_spinner">
           <ReactBootStrap.Spinner animation="border" />
         </div>
       )}
-
     </>
   );
 }
