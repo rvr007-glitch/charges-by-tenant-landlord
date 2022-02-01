@@ -37,9 +37,13 @@ function BeforeEditContent(props) {
           )}
         </div>
         <div className="col-lg-1 col-sm-2">
-          <button className="a-edit" onClick={props.editButtonClick}>
-            Edit
-          </button>
+          {props.title == "Email" ? (
+            ""
+          ) : (
+            <button className="a-edit" onClick={props.editButtonClick}>
+              Edit
+            </button>
+          )}
         </div>
       </div>
     </div>

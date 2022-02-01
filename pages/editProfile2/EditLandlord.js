@@ -22,37 +22,41 @@ function EditTenant() {
   const { dispatch, state } = useContext(Store);
   const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   getDetails();
-  // }, []);
+  useEffect(() => {
+    getDetails();
+  }, []);
+  console.log(state.userInfo);
 
-  // const getDetails = async () => {
-  //   closeSnackbar();
-
-  //   let config = {
-  //     headers: {
-  //       authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
-  //     },
-  //   };
-  //   try {
-  //     axios.post("/api/auth/users/login", {}, config).then((res) => {
-  //       dispatch({
-  //         type: "USER_INFO_FETCHING",
-  //         payload: res.data?.data,
-  //       });
-  //       setLoading(true);
-  //     });
-  //     enqueueSnackbar("Data Retrieved", { variant: "success" });
-  //   } catch (err) {
-  //     enqueueSnackbar(err.response?.data?.message, { variant: "error" });
-  //   }
-  // };
+  const getDetails = async () => {
+    if (Cookies.get("userInfo")) {
+      closeSnackbar();
+      let config = {
+        headers: {
+          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
+        },
+      };
+      try {
+        axios.post("/api/auth/users/login", {}, config).then((res) => {
+          dispatch({
+            type: "USER_INFO_FETCHING",
+            payload: res.data?.data,
+          });
+          setLoading(true);
+        });
+        enqueueSnackbar("Data Retrieved", { variant: "success" });
+      } catch (err) {
+        enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+      }
+    } else {
+      enqueueSnackbar("Sign/Signup required", { varient: "success" });
+    }
+  };
 
   // Normal page code
   const [show, setShow] = useState({
     Username: true,
-    FirstName: true,
-    LastName: true,
+    Email: true,
+    Name: true,
     Contact: true,
     Address: true,
     Birthday: true,
@@ -62,14 +66,13 @@ function EditTenant() {
 
   const allTrue = () => {
     //  if cancelled, then update the data to original
-    initialiseDetails();
+    // initialiseDetails();
     // closing all the input fields
     setShow((previousState) => {
       return {
         ...previousState,
         Username: true,
-        FirstName: true,
-        LastName: true,
+        Name: true,
         Contact: true,
         Address: true,
         Birthday: true,
@@ -86,16 +89,10 @@ function EditTenant() {
       return { ...previousState, Username: false };
     });
   };
-  const editFirstName = () => {
+  const editName = () => {
     allTrue();
     setShow((previousState) => {
-      return { ...previousState, FirstName: false };
-    });
-  };
-  const editLastName = () => {
-    allTrue();
-    setShow((previousState) => {
-      return { ...previousState, LastName: false };
+      return { ...previousState, Name: false };
     });
   };
   const editContact = () => {
@@ -148,7 +145,7 @@ function EditTenant() {
       landmark: "",
       city: "",
       state: "",
-      country: "",
+      Country: "",
       pincode: "",
     },
     DOB: "",
@@ -156,75 +153,70 @@ function EditTenant() {
     verification: "",
   });
 
-  // function initialiseDetails() {
-  //   var notProvided = "Not Provided";
-  //   setDetails({
-  //     ...details,
-  //     username: state.userInfo?.username
-  //       ? state.userInfo.username.length
-  //         ? state.userInfo.username
-  //         : notProvided
-  //       : notProvided,
-  //     firstName: state.userInfo?.firstName
-  //       ? state.userInfo.firstName.length
-  //         ? AllFormatter(state.userInfo.firstName, 4)
-  //         : notProvided
-  //       : notProvided,
-  //     lastName: state.userInfo?.lastName
-  //       ? state.userInfo.lastName.length
-  //         ? AllFormatter(state.userInfo.lastName, 4)
-  //         : notProvided
-  //       : notProvided,
-  //     contact: state.userInfo?.contact ? state.userInfo.contact : 0,
-  //     address: {
-  //       first_line: state.userInfo?.address?.first_line
-  //         ? state.userInfo?.address?.first_line.length
-  //           ? AllFormatter(state.userInfo?.address?.first_line, 4)
-  //           : notProvided
-  //         : notProvided,
-  //       landmark: state.userInfo?.address?.landmark
-  //         ? state.userInfo?.address?.landmark.length
-  //           ? AllFormatter(state.userInfo?.address?.landmark, 4)
-  //           : notProvided
-  //         : notProvided,
-  //       city: state.userInfo?.address?.city
-  //         ? state.userInfo?.address?.city.length
-  //           ? AllFormatter(state.userInfo?.address?.city, 4)
-  //           : notProvided
-  //         : notProvided,
-  //       state: state.userInfo?.address?.state
-  //         ? state.userInfo?.address?.state.length
-  //           ? AllFormatter(state.userInfo?.address?.state, 4)
-  //           : notProvided
-  //         : notProvided,
-  //       country: state.userInfo?.address?.country
-  //         ? state.userInfo?.address?.country.length
-  //           ? AllFormatter(state.userInfo?.address?.country, 4)
-  //           : notProvided
-  //         : notProvided,
-  //       pincode: state.userInfo?.address?.pincode
-  //         ? state.userInfo?.address?.pincode
-  //         : 0,
-  //     },
-  //     DOB: state.userInfo?.DOB
-  //       ? state.userInfo.DOB.split("T")[0]
-  //       : "1111-11-11",
-  //     verification: state.userInfo?.verification
-  //       ? state.userInfo.verification.length
-  //         ? state.userInfo.verification
-  //         : notProvided
-  //       : notProvided,
-  //     occupation: state.userInfo?.occupation
-  //       ? state.userInfo.occupation.length
-  //         ? AllFormatter(state.userInfo.occupation, 4)
-  //         : notProvided
-  //       : notProvided,
-  //   });
-  // }
+  function initialiseDetails() {
+    var notProvided = "Not Provided";
+    setDetails({
+      ...details,
+      username: state.userInfo?.username
+        ? state.userInfo.username.length
+          ? state.userInfo.username
+          : notProvided
+        : notProvided,
+      name: state.userInfo?.name
+        ? state.userInfo.name.length
+          ? AllFormatter(state.userInfo.name, 4)
+          : notProvided
+        : notProvided,
+      contact: state.userInfo?.contact ? state.userInfo.contact : 0,
+      address: {
+        first_line: state.userInfo?.address?.first_line
+          ? state.userInfo?.address?.first_line.length
+            ? AllFormatter(state.userInfo?.address?.first_line, 4)
+            : notProvided
+          : notProvided,
+        landmark: state.userInfo?.address?.landmark
+          ? state.userInfo?.address?.landmark.length
+            ? AllFormatter(state.userInfo?.address?.landmark, 4)
+            : notProvided
+          : notProvided,
+        city: state.userInfo?.address?.city
+          ? state.userInfo?.address?.city.length
+            ? AllFormatter(state.userInfo?.address?.city, 4)
+            : notProvided
+          : notProvided,
+        state: state.userInfo?.address?.state
+          ? state.userInfo?.address?.state.length
+            ? AllFormatter(state.userInfo?.address?.state, 4)
+            : notProvided
+          : notProvided,
+        Country: state.userInfo?.address?.Country
+          ? state.userInfo?.address?.Country.length
+            ? AllFormatter(state.userInfo?.address?.Country, 4)
+            : notProvided
+          : notProvided,
+        pincode: state.userInfo?.address?.pincode
+          ? state.userInfo?.address?.pincode
+          : 0,
+      },
+      DOB: state.userInfo?.DOB
+        ? state.userInfo.DOB.split("T")[0]
+        : "1111-11-11",
+      verification: state.userInfo?.verification
+        ? state.userInfo.verification.length
+          ? state.userInfo.verification
+          : notProvided
+        : notProvided,
+      occupation: state.userInfo?.occupation
+        ? state.userInfo.occupation.length
+          ? state.userInfo.occupation
+          : notProvided
+        : notProvided,
+    });
+  }
 
-  // useEffect(() => {
-  //   initialiseDetails();
-  // }, [state.userInfo]);
+  useEffect(() => {
+    initialiseDetails();
+  }, [state.userInfo]);
 
   // Taking input from users
   const handleInput = (e) => {
@@ -235,33 +227,33 @@ function EditTenant() {
   };
 
   // Edit details backend route
-  // const editHandler = async (details) => {
-  //   closeSnackbar();
-  //   let config = {
-  //     headers: {
-  //       authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
-  //     },
-  //   };
-  //   try {
-  //     axios
-  //       .put("/api/profile/edit", details, config)
-  //       .then((res) => {
-  //         dispatch({
-  //           type: "USER_INFO_UPDATING",
-  //           payload: res.data?.data,
-  //         });
-  //         setLoading(true);
-  //         initialiseDetails();
-  //         enqueueSnackbar("Details Editted", { variant: "success" });
-  //         getDetails();
-  //       })
-  //       .catch((err) => {
-  //         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
-  //       });
-  //   } catch (err) {
-  //     enqueueSnackbar(err.message, { variant: "error" });
-  //   }
-  // };
+  const editHandler = async (details) => {
+    closeSnackbar();
+    let config = {
+      headers: {
+        authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
+      },
+    };
+    try {
+      axios
+        .put("/api/profile/edit", details, config)
+        .then((res) => {
+          dispatch({
+            type: "USER_INFO_UPDATING",
+            payload: res.data?.data,
+          });
+          setLoading(true);
+          initialiseDetails();
+          enqueueSnackbar("Details Editted", { variant: "success" });
+          getDetails();
+        })
+        .catch((err) => {
+          enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+        });
+    } catch (err) {
+      enqueueSnackbar(err.message, { variant: "error" });
+    }
+  };
 
   const pushAddress = async (addressInput) => {
     setDetails({ ...details, address: addressInput });
@@ -295,18 +287,16 @@ function EditTenant() {
       name: "username",
     },
     {
-      toShow: show.FirstName,
-      title: "First Name",
-      content: details.firstName,
-      editButtonClick: editFirstName,
-      name: "firstName",
+      toShow: show.Email,
+      title: "Email",
+      content: state.userInfo?.email,
     },
     {
-      toShow: show.LastName,
-      title: "Last Name",
-      content: details.lastName,
-      editButtonClick: editLastName,
-      name: "lastName",
+      toShow: show.Name,
+      title: "Full Name",
+      content: details.name,
+      editButtonClick: editName,
+      name: "name",
     },
     {
       toShow: show.Contact,
@@ -323,7 +313,7 @@ function EditTenant() {
         landmark: details.address.landmark,
         city: details.address.city,
         state: details.address.state,
-        country: details.address.country,
+        Country: details.address.Country,
         pincode: details.address.pincode,
       },
       editButtonClick: editAddress,
@@ -373,7 +363,12 @@ function EditTenant() {
                       return (
                         <div key={data.title} className="a-row-content">
                           {data.toShow ? (
-                            data.title == "Address" ? (
+                            data.title == "Email" ? (
+                              <BeforeEditContent
+                                title={data.title}
+                                content={data.content}
+                              />
+                            ) : data.title == "Address" ? (
                               // Address Before Editing
                               <div>
                                 <div className="row a-edit-content a-row-wrapper">
@@ -383,7 +378,7 @@ function EditTenant() {
                                   <div className="col-lg-1 col-sm-2">
                                     <button
                                       className="a-edit"
-                                      // onClick={editAddress}
+                                      onClick={editAddress}
                                     >
                                       Edit
                                     </button>
@@ -392,27 +387,27 @@ function EditTenant() {
                                 <div className="container">
                                   <BeforeEditAddress
                                     title="First Line"
-                                    // content={data.content.first_line}
+                                    content={data.content.first_line}
                                   />
                                   <BeforeEditAddress
                                     title="Landmark"
-                                    // content={data.content.landmark}
+                                    content={data.content.landmark}
                                   />
                                   <BeforeEditAddress
                                     title="City"
-                                    // content={data.content.city}
+                                    content={data.content.city}
                                   />
                                   <BeforeEditAddress
                                     title="State"
-                                    // content={data.content.state}
+                                    content={data.content.state}
                                   />
                                   <BeforeEditAddress
                                     title="Pincode"
-                                    // content={data.content.pincode}
+                                    content={data.content.pincode}
                                   />
                                   <BeforeEditAddress
                                     title="Country"
-                                    // content={data.content.country}
+                                    content={data.content.Country}
                                     editButtonClick={data.editButtonClick}
                                   />
                                 </div>
@@ -454,12 +449,18 @@ function EditTenant() {
                     {/* History */}
                     <div className="row a-edit-content a-row-wrapper">
                       <div className="col-lg-4 col-sm-12">
-                        <span className="a-edit-left-title">History</span>
+                        <span className="a-edit-left-title">Total Sites</span>
                       </div>
                       <div className="col-lg-8 col-sm-12">
-                        <span className="a-edit-right-content a-not-provided">
-                          No History
-                        </span>
+                        {state.userInfo?.site_list?.length > 0 ? (
+                          <span className="a-edit-right-content a-title-small">
+                            {state.userInfo?.site_list?.length}
+                          </span>
+                        ) : (
+                          <span className="a-edit-right-content a-not-provided">
+                            No Sites
+                          </span>
+                        )}
                       </div>
                     </div>
 
@@ -469,7 +470,7 @@ function EditTenant() {
                         <MyModal
                           buttonName="Change Password"
                           details={details}
-                          // updatePassword={updatePassword}
+                          updatePassword={updatePassword}
                         />
                       </div>
                     </div>

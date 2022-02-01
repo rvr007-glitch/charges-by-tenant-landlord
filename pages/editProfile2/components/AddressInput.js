@@ -7,7 +7,7 @@ function AddressInput(props) {
     landmark: props.details?.content?.landmark,
     city: props.details?.content?.city,
     state: props.details?.content?.state,
-    country: props.details?.content?.country,
+    Country: props.details?.content?.Country,
     pincode: props.details?.content?.pincode,
   });
 
@@ -72,11 +72,11 @@ function AddressInput(props) {
         />
         <AfterEditAddress
           title="Country"
-          name="country"
+          name="Country"
           content={
-            props.details?.content?.country == "Not Provided"
+            props.details?.content?.Country == "Not Provided"
               ? ""
-              : props.details?.content?.country
+              : props.details?.content?.Country
           }
           onChange={handleInput}
         />

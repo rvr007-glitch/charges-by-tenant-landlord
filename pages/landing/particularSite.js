@@ -85,8 +85,6 @@ export default function ParticularSiteComponent() {
     }
   };
 
-  console.log(state.siteCharges);
-
   return (
     <>
       <Head>

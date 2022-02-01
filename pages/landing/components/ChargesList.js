@@ -43,9 +43,9 @@ const ChargesList = (props) => {
                     <td>
                       <h4>
                         {data.isPaid ? (
-                          <span class="badge badge-success">Paid</span>
+                          <span className="badge badge-success">Paid</span>
                         ) : (
-                          <span class="badge badge-warning">Unpaid</span>
+                          <span className="badge badge-warning">Unpaid</span>
                         )}
                       </h4>
                     </td>
