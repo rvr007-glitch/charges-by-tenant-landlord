@@ -13,7 +13,6 @@ import { useSnackbar } from "notistack";
 import axios from "axios";
 import AddressInput from "./components/AddressInput";
 import MyModal from "./components/MyModal";
-import { AllFormatter } from "../functions/Formatters/AllFormatter";
 import * as ReactBootStrap from "react-bootstrap";
 
 function EditTenant() {
