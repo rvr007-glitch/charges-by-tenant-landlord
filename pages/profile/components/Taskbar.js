@@ -17,18 +17,22 @@ const Taskbar = () => {
         path="/profile/landlord"
       ></Icons>
       <Icons
-        classprop="fal fa-home-lg-alt S_icon S_icon1"
+        classprop="fas fa-house-damage S_icon S_icon1"
         path="/landing/landlord"
       ></Icons>
-      <Icons
-        classprop="fal fa-grip-lines-vertical S_icon S_icon2"
+      {/* <Icons
+        classprop="fas fa-file-invoice-dollar S_icon S_icon2"
         path="/charges/generateCharges"
-      ></Icons>
+      ></Icons> */}
       <Icons
-        classprop="fal fa-rupee-sign S_icon S_icon3"
+        classprop="far fa-plus-square S_icon S_icon3"
         path="/createSite/CreateSiteForm"
       ></Icons>
-      <LogOut classprop="fal fa-sign-out S_icon S_icon5"></LogOut>
+      <Icons
+        classprop="fas fa-money-bill-alt S_icon S_icon4"
+        path="/landing/AllChargesHistory"
+      ></Icons>
+      <LogOut classprop="fas fa-sign-out-alt S_icon S_icon5"></LogOut>
     </div>
   );
 };

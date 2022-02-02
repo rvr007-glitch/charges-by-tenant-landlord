@@ -9,6 +9,7 @@ const initialState = {
   siteDetail: {},
   mySites: [],
   siteCharges: [],
+  allCharges: [],
 };
 
 function reducer(state, action) {
@@ -27,6 +28,8 @@ function reducer(state, action) {
       return { ...state, siteCharges: action.payload?.data };
     case "GET_ALL_SITES":
       return { ...state, mySites: action.payload?.data };
+    case "ALL_CHARGES":
+      return { ...state, allCharges: action.payload?.data };
     case "USER_LOGOUT":
       Cookies.remove("userInfo");
       return {

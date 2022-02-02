@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-
+import Moment from "react-moment";
 
 var i = 0;
 const TableList = (props) => {
@@ -16,26 +16,32 @@ const TableList = (props) => {
           <th scope="col">{props.flat}</th>
           <th scope="col">{props.loc}</th>
           <th scope="col">{props.available}</th>
+          <th scope="col">Created On</th>
           <th scope="col">{props.view}</th>
         </tr>
       </thead>
       <tbody>
         {detailsArray?.map((data) => {
-            return (
-              <tr key={i++}>
-                <th scope="row">{data?.alias_name}</th>
-                <td>{`${data?.address?.first_line}, ${data?.address?.landmark}, ${data?.address?.city}, ${data?.address?.state}, Pin : ${data?.address?.pincode}`}</td>
-                <td>{data?.Type}</td>
-                <td>
-                  <button 
-                  type="button" 
-                  className="btn btn-outline-info" 
-                  onClick={() =>changePage(data?._id)}>
-                    View
-                  </button>
-                </td>
-              </tr>
-            );
+          console.log(data);
+          return (
+            <tr key={i++}>
+              <th scope="row">{data?.alias_name}</th>
+              <td className="a-limit-width">{`${data?.address?.first_line}, ${data?.address?.landmark}, ${data?.address?.city}, ${data?.address?.state}, Pin : ${data?.address?.pincode}`}</td>
+              <td>{data?.Type}</td>
+              <td>
+                <Moment format="MMMM Do YYYY">{data.createdAt}</Moment>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  className="btn btn-outline-info"
+                  onClick={() => changePage(data?._id)}
+                >
+                  View
+                </button>
+              </td>
+            </tr>
+          );
         })}
         {/* Awara Code*/}
         {/* <tr>
