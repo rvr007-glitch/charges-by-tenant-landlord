@@ -24,6 +24,7 @@ const RentersList = (props) => {
             {/* <th scope="col">{props.loc}</th> */}
             <th scope="col">{props.rentedFrom}</th>
             <th scope="col">{props.rentedTill}</th>
+            <th scope="col">{props.rents}</th>
             <th scope="col">
               Deposit( <i className="fas fa-rupee-sign"></i> )
             </th>
@@ -49,8 +50,8 @@ const RentersList = (props) => {
                   : "Presently Living"
                 : "Requested"}
             </td>
+            <td>{props.rent}</td>
             <td>
-              {" "}
               <i className="fas fa-rupee-sign"></i> {props.deposit}
             </td>
           </tr>

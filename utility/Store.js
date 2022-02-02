@@ -7,7 +7,9 @@ const initialState = {
     ? JSON.parse(Cookies.get("userInfo")).data
     : null,
   siteDetail: {},
-  mySites: []
+  mySites: [],
+  siteCharges: [],
+  allCharges: [],
 };
 
 function reducer(state, action) {
@@ -19,13 +21,17 @@ function reducer(state, action) {
     case "USER_INFO_FETCHING":
       return { ...state, userInfo: action.payload?.profile };
     case "CREATING_SITE":
-      return {...state, siteDetail: action.payload?.data}
+      return { ...state, siteDetail: action.payload?.data };
     case "GET_PARTICULAR_SITE":
-      return {...state, siteDetail: action.payload?.data[0]}
+      return { ...state, siteDetail: action.payload?.data[0] };
+    case "GET_PARTICULAR_SITE_CHARGES":
+      return { ...state, siteCharges: action.payload?.data };
     case "GET_ALL_SITES":
-      return {...state, mySites: action.payload?.data}
+      return { ...state, mySites: action.payload?.data };
+    case "ALL_CHARGES":
+      return { ...state, allCharges: action.payload?.data };
     case "USER_LOGOUT":
-      Cookies.remove("userInfo")
+      Cookies.remove("userInfo");
       return {
         ...state,
         userInfo: null,
@@ -40,7 +46,6 @@ export function StoreProvider(props) {
   const value = { state, dispatch };
   return <Store.Provider value={value}>{props.children}</Store.Provider>;
 }
-
 
 /* 
 {

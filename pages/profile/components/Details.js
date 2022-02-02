@@ -12,7 +12,7 @@ const Details = (props) => {
             <h5>Hi {props.details?.name}</h5>
             <div className="head_secondLine">Welcome to your profile page.</div>
           </div>
-          <Link href="/editprofile/EditLandlord">
+          <Link href="/editProfile2/EditLandlord">
             <i className="fas fa-user-edit S_icon7"></i>
           </Link>
         </div>

@@ -1,15 +1,15 @@
-import Head from 'next/head'
+import Head from "next/head";
 import Image from "next/image";
 import DifferentCharges from "../../public/images/DifferentCharges.png";
 import Header1 from "../components/Header1";
-import Taskbar from "../components/Taskbar";
+import Taskbar from "../profile/components/Taskbar";
 import HorizontalInput from "./components/HorizontalInput";
 import React, { useContext, useEffect, useState } from "react";
 import { Store } from "../../utility/Store";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { useRouter } from "next/router";
-import * as ReactBootStrap from 'react-bootstrap'
+import * as ReactBootStrap from "react-bootstrap";
 
 import axios from "axios";
 
@@ -152,29 +152,29 @@ export default function GenerateCharges() {
               />
               {charges_param
                 ? Object.keys(charges_param).map((data, index) => {
-                  var currentObj = charges_param[data];
-                  if (currentObj.fixed) {
-                    return (
-                      <HorizontalInput
-                        fieldName={data}
-                        key={index}
-                        isDisable={true}
-                        name={data}
-                        defaultValue={currentObj.value}
-                      />
-                    );
-                  } else {
-                    return (
-                      <HorizontalInput
-                        fieldName={data}
-                        key={index}
-                        isDisable={false}
-                        name={data}
-                        onChange={onChange}
-                      />
-                    );
-                  }
-                })
+                    var currentObj = charges_param[data];
+                    if (currentObj.fixed) {
+                      return (
+                        <HorizontalInput
+                          fieldName={data}
+                          key={index}
+                          isDisable={true}
+                          name={data}
+                          defaultValue={currentObj.value}
+                        />
+                      );
+                    } else {
+                      return (
+                        <HorizontalInput
+                          fieldName={data}
+                          key={index}
+                          isDisable={false}
+                          name={data}
+                          onChange={onChange}
+                        />
+                      );
+                    }
+                  })
                 : "No parameters to generate charges"}
 
               <div className="btn2">
@@ -194,7 +194,6 @@ export default function GenerateCharges() {
           <ReactBootStrap.Spinner animation="border" />
         </div>
       )}
-
     </>
   );
 }
