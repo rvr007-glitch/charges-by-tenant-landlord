@@ -1,4 +1,4 @@
-export const AllFormatter = (str, val) => {
+export const AllFormatter = (props) => {
   /* 
     str = string
     val = to select type of formatting
@@ -9,8 +9,10 @@ export const AllFormatter = (str, val) => {
 */
 
   if (!str) {
-    return str;
+    return props.str;
   } else {
+    var str = props.str;
+    var val = props.val;
     str = str.trim();
     if (val == 1) {
       // Lower Case Formatter
@@ -35,7 +37,7 @@ export const AllFormatter = (str, val) => {
         str[i] = str[i]?.charAt(0).toUpperCase() + str[i]?.slice(1);
       }
       str = str?.join(" ");
-      return str;
+      return <span> {str} </span>;
     }
   }
 };
