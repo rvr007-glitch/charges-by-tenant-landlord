@@ -1,13 +1,13 @@
-import Head from 'next/head'
+import Head from "next/head";
 import Identity from "./components/Identity";
 import LandLordSite from "./components/LandLordSite";
 import LandLordReq from "./components/LandLordReq";
-import { Store } from "../../utility/Store"
+import { Store } from "../../utility/Store";
 import React, { useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import axios from "axios";
-import * as ReactBootStrap from 'react-bootstrap'
+import * as ReactBootStrap from "react-bootstrap";
 
 const Landlord = () => {
   const [siteState, setStateSite] = useState(true);
@@ -28,7 +28,6 @@ const Landlord = () => {
     }
   };
 
-
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { dispatch, state } = useContext(Store);
 
@@ -37,18 +36,21 @@ const Landlord = () => {
     await getAllSite();
   }, []);
 
+  const refreshData = () => {
+    getAllSite();
+  };
+
   const getAllSite = async () => {
     if (Cookies.get("userInfo")) {
       closeSnackbar();
 
       let config = {
         headers: {
-          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token
+          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
         },
       };
 
       try {
-
         await axios.get(`/api/site/getAllSites`, config).then((res) => {
           dispatch({
             type: "GET_ALL_SITES",
@@ -65,14 +67,13 @@ const Landlord = () => {
     } else {
       enqueueSnackbar("Signup/signin Required", { varient: "success" });
     }
-  }
-
+  };
 
   return (
     <>
       <Head>
         <title>Created Sites</title>
-    </Head>
+      </Head>
       {loading ? (
         <div className="S_tenant">
           <link
@@ -81,9 +82,24 @@ const Landlord = () => {
             integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
             crossOrigin="anonymous"
           />
-          <Identity onShow1={onHandle1} onShow2={onHandle2} userDetails={state.userInfo} />
+          <Identity
+            onShow1={onHandle1}
+            onShow2={onHandle2}
+            userDetails={state.userInfo}
+          />
           <div className="S_right S_background_image">
-            {siteState ? <LandLordSite siteDetails={state.mySites} userDetails={state.userInfo} /> : <LandLordReq siteDetails={state.mySites} userDetails={state.userInfo} />}
+            {siteState ? (
+              <LandLordSite
+                siteDetails={state.mySites}
+                userDetails={state.userInfo}
+                refreshData={refreshData}
+              />
+            ) : (
+              <LandLordReq
+                siteDetails={state.mySites}
+                userDetails={state.userInfo}
+              />
+            )}
           </div>
         </div>
       ) : (
@@ -92,7 +108,6 @@ const Landlord = () => {
         </div>
       )}
     </>
-
   );
 };
 

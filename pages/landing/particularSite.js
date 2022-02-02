@@ -141,6 +141,7 @@ export default function ParticularSiteComponent() {
                     loc="Location"
                     rentedFrom="RentedFrom"
                     rentedTill="Rented Till"
+                    rents="Rent"
                   />
                 ) : (
                   "There no Tenant for this site"

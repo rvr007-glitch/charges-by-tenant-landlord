@@ -258,7 +258,7 @@ function EditTenant() {
     if (details.address == addressInput) {
       save();
     } else {
-      enqueueSnackbar("Click Again", { variant: "success" });
+      enqueueSnackbar("Click Again", { variant: "warning" });
     }
   };
 

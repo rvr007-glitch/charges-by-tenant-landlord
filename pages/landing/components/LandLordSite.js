@@ -2,7 +2,7 @@ import LandingPageCard from "./LandingPageCard";
 import Heading from "./Heading";
 import HorizontalLine from "./HorizontalLine";
 
-const LandLordSite = ({ siteDetails, userDetails }) => {
+const LandLordSite = ({ siteDetails, userDetails, refreshData }) => {
   //console.log(siteDetails);
   return (
     <>
@@ -15,7 +15,7 @@ const LandLordSite = ({ siteDetails, userDetails }) => {
             owner={site.alias_name}
             alias_name={site.alias_name}
             rent={site.rent}
-            siteStatus = {site.status}
+            siteStatus={site.status}
             site={site}
             address={`${site.address.first_line}, ${site.address.landmark}, ${site.address.city}, ${site.address.state}, ${site.address.country}, P.O: ${site.address.pincode}`}
             cclass="blue"
@@ -26,6 +26,7 @@ const LandLordSite = ({ siteDetails, userDetails }) => {
             class3="btn-success px-2"
             text3="Generate Charges"
             key={index}
+            refreshData={refreshData}
           />
         );
       })}
