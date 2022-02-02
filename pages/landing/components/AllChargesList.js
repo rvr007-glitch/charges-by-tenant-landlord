@@ -62,7 +62,7 @@ const AllChargesList = (props) => {
                     <td>address</td>
                     <td>rent</td>
                     <td>{total}</td>
-                    <td>"rent" + {total}</td>
+                    <td>rent + {total}</td>
                     <td>
                       <Moment format="MMMM Do YYYY">{data.order_date}</Moment>
                     </td>
