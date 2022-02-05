@@ -6,6 +6,7 @@ import AllotPopup from "./AllotSite";
 import React, { useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
+import { AllFormatter } from "../../../utility/Functions/AllFormatter";
 import axios from "axios";
 
 function LandingPageCard(props) {
@@ -70,13 +71,15 @@ function LandingPageCard(props) {
             <div className="card-body a-card-body">
               <h5 className="card-title a-landing-card-title">
                 <span className="a-landing-card-heading"> Alias Name: </span>
-                <span className="a-landing-card-data">{props.alias_name}</span>
+                <span className="a-landing-card-data">
+                  {AllFormatter(props.alias_name, 4)}
+                </span>
               </h5>
               <div className="card-text">
                 <div className="container">
                   <LandingCardContent
                     leftHeading="Owner"
-                    rightdata={props.owner}
+                    rightdata={AllFormatter(props.owner, 4)}
                   />
                   <LandingCardContent
                     leftHeading="Rent"
@@ -84,7 +87,7 @@ function LandingPageCard(props) {
                   />
                   <LandingCardContent
                     leftHeading="Address"
-                    rightdata={props.address}
+                    rightdata={AllFormatter(props.address, 4)}
                   />
                   {props.siteStatus == 0 ? (
                     <LandingCardContent

@@ -14,6 +14,7 @@ import axios from "axios";
 import AddressInput from "./components/AddressInput";
 import MyModal from "./components/MyModal";
 import * as ReactBootStrap from "react-bootstrap";
+import { AllFormatter } from "../../utility/Functions/AllFormatter";
 
 function EditTenant() {
   // Integration Code
@@ -161,7 +162,7 @@ function EditTenant() {
           : notProvided
         : notProvided,
       name: state.userInfo?.name
-        ? state.userInfo.name.length
+        ? state.userInfo.name?.length
           ? AllFormatter(state.userInfo.name, 4)
           : notProvided
         : notProvided,
@@ -339,48 +340,6 @@ function EditTenant() {
       name: "occupation",
     },
   ];
-
-  const AllFormatter = (str, val) => {
-    /* 
-      str = string
-      val = to select type of formatting
-          1 => lower Case
-          2 => Upper Case
-          3 => Sentence Case
-          Any Other => Title Case
-  */
-
-    if (!str) {
-      return props.str;
-    } else {
-      str = str.trim();
-      if (val == 1) {
-        // Lower Case Formatter
-        str = str.toLowerCase();
-        return str;
-      } else if (val == 2) {
-        // Upper Case Formatter
-        str = str.toUpperCase();
-        return str;
-      } else if (val == 3) {
-        // Sentence Case
-        str = str.toLowerCase();
-        str.charAt(0).toUpperCase() + str.slice(1);
-        console.log(str);
-        return str;
-      } else {
-        // Title Case Formatter
-        str = str?.toLowerCase();
-        str = str?.split(" ");
-
-        for (var i = 0; i < str.length; i++) {
-          str[i] = str[i]?.charAt(0).toUpperCase() + str[i]?.slice(1);
-        }
-        str = str?.join(" ");
-        return str;
-      }
-    }
-  };
 
   return (
     <>
