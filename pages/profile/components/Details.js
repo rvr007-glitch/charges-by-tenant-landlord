@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AllFormatter } from "../../../utility/Functions/AllFormatter";
 
 const Details = (props) => {
   return (
@@ -9,7 +10,7 @@ const Details = (props) => {
       <div className="rightTop_details">
         <div className="details_head">
           <div className="headWriting">
-            <h5>Hi {props.details?.name}</h5>
+            <h5>Hi {AllFormatter(props.details?.name, 4)}</h5>
             <div className="head_secondLine">Welcome to your profile page.</div>
           </div>
           <Link href="/editProfile2/EditLandlord">

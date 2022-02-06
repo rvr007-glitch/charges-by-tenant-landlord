@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Profile from "../../../public/images/Profile.svg";
+import { AllFormatter } from "../../../utility/Functions/AllFormatter";
 
 const Identity = (props) => {
   return (
@@ -11,7 +12,7 @@ const Identity = (props) => {
             src="/images/Profile.svg"
             alt="Profile"
           />
-          <div className="name">{props.userDetails?.name}</div>
+          <div className="name">{AllFormatter(props.userDetails?.name, 4)}</div>
         </div>
         <div className="S_menu">
           <div className="S_option S_option1" onClick={() => props.onShow1()}>
