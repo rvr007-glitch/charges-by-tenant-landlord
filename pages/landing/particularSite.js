@@ -12,6 +12,7 @@ import { useSnackbar } from "notistack";
 import { useRouter } from "next/router";
 import axios from "axios";
 import * as ReactBootStrap from "react-bootstrap";
+import NotLoggedIn from "../withoutLogin/NotLoggedIn";
 import ChargesList from "./components/ChargesList";
 
 export default function ParticularSiteComponent() {
@@ -46,6 +47,7 @@ export default function ParticularSiteComponent() {
 
         // enqueueSnackbar("Site Loaded", { variant: "success" });
       } catch (err) {
+        setLoading(true);
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
       }
     } else {
@@ -87,93 +89,104 @@ export default function ParticularSiteComponent() {
 
   return (
     <>
-      <Head>
-        <title>Particular Site</title>
-      </Head>
-      {loading ? (
-        <div className="p_sitepage">
-          <Header header="Site Details" />
-          <link
-            rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-            integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-            crossOrigin="anonymous"
-          />
-          <div className="p_site">
-            <div className="p_sitecontainer">
-              <div>
-                <NameLabel
-                  label="Site Name"
-                  details={state.siteDetail?.alias_name}
-                />
+      {!Cookies.get("userInfo") ? (
+        <section>
+          <NotLoggedIn />
+        </section>
+      ) : (
+        <section>
+          <Head>
+            <title>Particular Site</title>
+          </Head>
+          {loading ? (
+            <div className="p_sitepage">
+              <Header header="Site Details" />
+              <link
+                rel="stylesheet"
+                href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+                integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+                crossOrigin="anonymous"
+              />
+              <div className="p_site">
+                <div className="p_sitecontainer">
+                  <div>
+                    <NameLabel
+                      label="Site Name"
+                      details={state.siteDetail?.alias_name}
+                    />
+                  </div>
+                  <div>
+                    <NameLabel
+                      label="Site Type"
+                      details={state.siteDetail?.Type}
+                    />
+                  </div>
+                  <div>
+                    <span className="p_label">Address:</span>
+                    <textarea
+                      readOnly
+                      className="p_textarea"
+                      id="story"
+                      name="story"
+                      rows="5"
+                      cols="33"
+                      value={`${state.siteDetail?.address?.first_line}, ${state.siteDetail?.address?.landmark}, ${state.siteDetail?.address?.city}, ${state.siteDetail?.address?.state}, ${state.siteDetail?.address?.country} P.O: ${state.siteDetail?.address?.pincode}`}
+                    ></textarea>
+                  </div>
+                </div>
+                <div className="p_psite">
+                  <Image src={ParticularSite} alt="sub" />
+                </div>
               </div>
-              <div>
-                <NameLabel label="Site Type" details={state.siteDetail?.Type} />
+              <div className="row">
+                <div className="col-sm-12 col-lg-12 col-12">
+                  <div className="p_particular">
+                    {state.siteDetail.current_tenant?.length > 0 ? (
+                      <RentersList
+                        head="Renters Alloted"
+                        tenantDetails={state.siteDetail?.current_tenant[0]}
+                        historyDetail={state.siteDetail?.history[0]}
+                        rent={state.siteDetail?.rent}
+                        deposit={state.siteDetail?.deposit}
+                        flat="Flat No."
+                        loc="Location"
+                        rentedFrom="RentedFrom"
+                        rentedTill="Rented Till"
+                        rents="Rent"
+                      />
+                    ) : (
+                      "There no Tenant for this site"
+                    )}
+                  </div>
+                </div>
+                <div className="col-sm-12 col-lg-12 col-12 mt-5">
+                  <div className="p_particular">
+                    {state.siteCharges?.length > 0 ? (
+                      <ChargesList
+                        head="Payment History"
+                        chargesDetails={state.siteCharges}
+                      />
+                    ) : (
+                      "No charges to display, generate charges to see charges here"
+                    )}
+                  </div>
+                </div>
               </div>
-              <div>
-                <span className="p_label">Address:</span>
-                <textarea
-                  readOnly
-                  className="p_textarea"
-                  id="story"
-                  name="story"
-                  rows="5"
-                  cols="33"
-                  value={`${state.siteDetail?.address?.first_line}, ${state.siteDetail?.address?.landmark}, ${state.siteDetail?.address?.city}, ${state.siteDetail?.address?.state}, ${state.siteDetail?.address?.country} P.O: ${state.siteDetail?.address?.pincode}`}
-                ></textarea>
-              </div>
-            </div>
-            <div className="p_psite">
-              <Image src={ParticularSite} alt="sub" />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-sm-12 col-lg-12 col-12">
-              <div className="p_particular">
-                {state.siteDetail.current_tenant?.length > 0 ? (
-                  <RentersList
-                    head="Renters Alloted"
-                    tenantDetails={state.siteDetail?.current_tenant[0]}
-                    historyDetail={state.siteDetail?.history[0]}
-                    rent={state.siteDetail?.rent}
-                    deposit={state.siteDetail?.deposit}
-                    flat="Flat No."
-                    loc="Location"
-                    rentedFrom="RentedFrom"
-                    rentedTill="Rented Till"
-                    rents="Rent"
-                  />
-                ) : (
-                  "There no Tenant for this site"
-                )}
-              </div>
-            </div>
-            <div className="col-sm-12 col-lg-12 col-12 mt-5">
-              <div className="p_particular">
-                {state.siteCharges?.length > 0 ? (
-                  <ChargesList
-                    head="Payment History"
-                    chargesDetails={state.siteCharges}
-                  />
-                ) : (
-                  "No charges to display, generate charges to see charges here"
-                )}
-              </div>
-            </div>
-          </div>
 
-          {/* <div className='btn3'>
+              {/* <div className='btn3'>
                     <button className='btn1 p_btr'>Add New Tenant</button>
                 </div> */}
-          <AllotPopup
-            siteId={state.siteDetail?._id}
-            siteStatus={state.siteDetail?.status}
-          />
-        </div>
-      ) : (
-        <div className="p_spinner">
-          <ReactBootStrap.Spinner animation="border" />
-        </div>
+              <AllotPopup
+                siteId={state.siteDetail?._id}
+                siteStatus={state.siteDetail?.status}
+              />
+            </div>
+          ) : (
+            <div className="p_spinner">
+              <ReactBootStrap.Spinner animation="border" />
+            </div>
+          )}
+        </section>
       )}
     </>
   );

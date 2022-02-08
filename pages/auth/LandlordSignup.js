@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Head from "next/head";
 import Image from "next/image";
 import Landlord from "../../public/images/Landlord.png";
 import Home_fill from "../../public/images/Home_fill.png";
@@ -17,10 +17,6 @@ function Lsignup() {
   const router = useRouter();
   const { redirect } = router.query;
   const { dispatch, state } = useContext(Store);
-
-  if (state.userInfo) {
-    router.push("/profile/landlord");
-  }
 
   const [details, setDetails] = useState({
     name: "",
@@ -51,6 +47,10 @@ function Lsignup() {
     submitHandler(details);
   };
 
+  if (state.userInfo) {
+    router.push("/profile/landlord");
+  }
+
   const submitHandler = async (details) => {
     closeSnackbar();
     try {
@@ -60,7 +60,7 @@ function Lsignup() {
       Cookies.set("userInfo", JSON.stringify(res.data));
       localStorage.setItem("userInfo", JSON.stringify(res.data));
       enqueueSnackbar("User Signed Up Successfully", { variant: "success" });
-      router.push(redirect || "/profile/landlord");
+      router.push(redirect || "/auth/LandlordSignin");
     } catch (err) {
       enqueueSnackbar(err.response?.data?.message, { variant: "error" });
     }

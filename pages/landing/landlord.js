@@ -7,6 +7,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import axios from "axios";
+import NotLoggedIn from "../withoutLogin/NotLoggedIn";
 import * as ReactBootStrap from "react-bootstrap";
 
 const Landlord = () => {
@@ -62,50 +63,60 @@ const Landlord = () => {
         // enqueueSnackbar("Site Loaded", { variant: "success" });
       } catch (err) {
         console.log(err);
+        setLoading(true);
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
       }
     } else {
-      enqueueSnackbar("Signup/signin Required", { varient: "success" });
+      // enqueueSnackbar("Signup/signin Required", { varient: "success" });
     }
   };
 
   return (
     <>
-      <Head>
-        <title>Created Sites</title>
-      </Head>
-      {loading ? (
-        <div className="S_tenant">
-          <link
-            rel="stylesheet"
-            href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-            integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-            crossOrigin="anonymous"
-          />
-          <Identity
-            onShow1={onHandle1}
-            onShow2={onHandle2}
-            userDetails={state.userInfo}
-          />
-          <div className="S_right S_background_image">
-            {siteState ? (
-              <LandLordSite
-                siteDetails={state.mySites}
-                userDetails={state.userInfo}
-                refreshData={refreshData}
-              />
-            ) : (
-              <LandLordReq
-                siteDetails={state.mySites}
-                userDetails={state.userInfo}
-              />
-            )}
-          </div>
-        </div>
+      {!Cookies.get("userInfo") ? (
+        <section>
+          <NotLoggedIn />
+        </section>
       ) : (
-        <div className="p_spinner">
-          <ReactBootStrap.Spinner animation="border" />
-        </div>
+        <section>
+          {" "}
+          <Head>
+            <title>Created Sites</title>
+          </Head>
+          {loading ? (
+            <div className="S_tenant">
+              <link
+                rel="stylesheet"
+                href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+                integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+                crossOrigin="anonymous"
+              />
+              <Identity
+                onShow1={onHandle1}
+                onShow2={onHandle2}
+                userDetails={state.userInfo}
+              />
+              <div className="S_right S_background_image">
+                {siteState ? (
+                  <LandLordSite
+                    siteDetails={state.mySites}
+                    userDetails={state.userInfo}
+                    refreshData={refreshData}
+                  />
+                ) : (
+                  <LandLordReq
+                    siteDetails={state.mySites}
+                    userDetails={state.userInfo}
+                  />
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="p_spinner">
+              <ReactBootStrap.Spinner animation="border" />
+            </div>
+          )}
+        </section>
       )}
     </>
   );
