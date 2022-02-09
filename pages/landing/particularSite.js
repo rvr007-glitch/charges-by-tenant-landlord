@@ -85,6 +85,7 @@ export default function ParticularSiteComponent() {
     }
   };
 
+  console.log(state.siteDetail)
   return (
     <>
       <Head>
@@ -111,16 +112,7 @@ export default function ParticularSiteComponent() {
                 <NameLabel label="Site Type" details={state.siteDetail?.Type} />
               </div>
               <div>
-                <span className="p_label">Address:</span>
-                <textarea
-                  readOnly
-                  className="p_textarea"
-                  id="story"
-                  name="story"
-                  rows="5"
-                  cols="33"
-                  value={`${state.siteDetail?.address?.first_line}, ${state.siteDetail?.address?.landmark}, ${state.siteDetail?.address?.city}, ${state.siteDetail?.address?.state}, ${state.siteDetail?.address?.country} P.O: ${state.siteDetail?.address?.pincode}`}
-                ></textarea>
+              <NameLabel label="Site Address" details={`${state.siteDetail?.address?.first_line}, ${state.siteDetail?.address?.landmark}, ${state.siteDetail?.address?.city}, ${state.siteDetail?.address?.state} P.O: ${state.siteDetail?.address?.pincode}`} />
               </div>
             </div>
             <div className="p_psite">
@@ -130,11 +122,10 @@ export default function ParticularSiteComponent() {
           <div className="row">
             <div className="col-sm-12 col-lg-12 col-12">
               <div className="p_particular">
-                {state.siteDetail.current_tenant?.length > 0 ? (
+                {state.siteDetail && state.siteDetail.history && state.siteDetail.history.length > 0 ? (
                   <RentersList
                     head="Renters Alloted"
-                    tenantDetails={state.siteDetail?.current_tenant[0]}
-                    historyDetail={state.siteDetail?.history[0]}
+                    historyDetail={state.siteDetail?.history}
                     rent={state.siteDetail?.rent}
                     deposit={state.siteDetail?.deposit}
                     flat="Flat No."

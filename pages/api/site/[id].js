@@ -54,21 +54,7 @@ const Siteget = async (req, res) => {
                 foreignField: "_id",
                 as: "current_tenant"
               }
-            },
-            // {
-            //   $project: {
-            //     _id: 1,
-            //     landlord_id:1,
-            //     alias_name: 1,
-            //     rent: 1,
-            //     deposit: 1,
-            //     Type: 1,
-            //     status: 1,
-            //     current_tenant: 1,
-            //     address: 1
-
-            //   }
-            // }
+            }
     ]).then(siteData => {
       if(!siteData[0]) return sendError(res, "No site Found", constants.BAD_REQUEST);
       console.log(siteData[0]?.landlord_id, landlord_id)

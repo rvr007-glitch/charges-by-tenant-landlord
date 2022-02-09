@@ -4,6 +4,8 @@ import connectMongoDb from "../../../db/connect";
 
 var Landlord = require("../../../models/landlord");
 var Transaction = require("../../../models/transaction")
+var Site = require("../../../models/site")
+var Tenant = require("../../../models/tenant")
 var Charge = require("../../../models/Charge")
 // const { isEmail } = require("validator");
 // const jwt = require("jsonwebtoken");
@@ -20,13 +22,21 @@ export default async function handler(req, res){
             landlordId = authData.id
         })
 
-        var data = await Transaction.find({landlord_id: landlordId}).populate('charge_id')
-        if(data){
-            return sendSuccess(res, data)
-        }
-        else{
-            return sendError(res, "error in finding paid data", 500)
-        }
+         Transaction.find({landlord_id: landlordId}).populate({
+             path: 'charge_id',
+             populate: {
+                 path: 'site_id',
+                 model: 'Site',
+                 select: 'alias_name address rent'
+             }
+         }).exec((err, data) => {
+            if(data){
+                return sendSuccess(res, data)
+            }
+            else{
+                return sendError(res, "error in finding paid data", 500)
+            }
+        })
     }
     else{
         return sendError(res, "ROUTE NOT FOUND", constants.NOT_FOUND)

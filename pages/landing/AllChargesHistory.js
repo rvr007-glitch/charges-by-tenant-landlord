@@ -23,17 +23,18 @@ export default function AllChargesHistory() {
         authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
       },
     };
-    try {
+    
       await axios.get("/api/charges/viewAll", config).then((res) => {
         dispatch({
           type: "ALL_CHARGES",
           payload: res.data,
-        });
+        }); 
         setLoading(true);
+      }).catch(err => {
+        enqueueSnackbar(err.message, { variant: "error" });
+        setLoading(true)
       });
-    } catch (err) {
-      enqueueSnackbar(err.message, { variant: "error" });
-    }
+
   };
 
   useEffect(() => {

@@ -20,7 +20,7 @@ const RentersList = (props) => {
       <table className="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Name</th>
+            <th scope="col">Tenant Id</th>
             {/* <th scope="col">{props.loc}</th> */}
             <th scope="col">{props.rentedFrom}</th>
             <th scope="col">{props.rentedTill}</th>
@@ -31,65 +31,36 @@ const RentersList = (props) => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">{props.tenantDetails?.firstName}</th>
-            {/* <td>Near Road, XYZ Town, AUS</td> */}
+          {props.historyDetail && props.historyDetail.map((hist, index) => {
+            return (
+              <tr key={index}>
+                {/* after populate completed */}
+                <td scope="row">{hist.tenant_id}</td>
             <td>
-              {props.historyDetail?.joined_at ? (
+              {hist.joined_at ? (
                 <Moment format="MMMM Do YYYY">
-                  {props.historyDetail?.joined_at}
+                  {hist.joined_at}
                 </Moment>
               ) : (
-                "Requested"
+                hist.rejected_at? "Rejected": "Requested"
               )}{" "}
             </td>
             <td>
-              {props.historyDetail?.joined_at
-                ? props.historyDetail?.leave_at
-                  ? props.historyDetail?.leave_at
-                  : "Presently Living"
-                : "Requested"}
+              {hist.rejected_at ? "Rejected" : (hist.joined_at
+                ? (hist.left_at
+                  ? <Moment format="MMMM Do YYYY">
+                  {hist.left_at}
+                </Moment>
+                  : "Presently Living")
+                : "Requested")}
             </td>
             <td>{props.rent}</td>
             <td>
               <i className="fas fa-rupee-sign"></i> {props.deposit}
             </td>
           </tr>
-          {/* <tr>
-            <th scope="row">Flat-404</th>
-            <td>Near Road, PQR Town, CAN</td>
-            <td></td>
-            <td></td>
-            <td>1050</td>
-          </tr>
-          <tr>
-            <th scope="row">Flat-405</th>
-            <td>Near Road, FGH Town, USA</td>
-            <td></td>
-            <td></td>
-            <td>850</td>
-          </tr>
-          <tr>
-            <th scope="row">Flat-406</th>
-            <td>Near Road, DEF Town, FRA</td>
-            <td></td>
-            <td></td>
-            <td>2400</td>
-          </tr>
-          <tr>
-            <th scope="row">Flat-407</th>
-            <td>Near Road, PWC Town, IND</td>
-            <td></td>
-            <td></td>
-            <td>1700</td>
-          </tr>
-          <tr>
-            <th scope="row">Flat-408</th>
-            <td>Near Road, RST Town, UK</td>
-            <td></td>
-            <td></td>
-            <td>1390</td>
-          </tr> */}
+            )
+          })}
         </tbody>
       </table>
     </div>
