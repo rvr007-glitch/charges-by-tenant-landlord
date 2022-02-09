@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Header from "../components/Header";
 import ChargesList from "./components/ChargesList";
 import React, { useContext, useEffect, useState } from "react";
 import { Store } from "../../utility/Store";
@@ -10,6 +9,8 @@ import axios from "axios";
 import * as ReactBootStrap from "react-bootstrap";
 import AllChargesList from "./components/AllChargesList";
 import NotLoggedIn from "../withoutLogin/NotLoggedIn";
+import Taskbar from "../profile/components/Taskbar";
+import Header from "../createSite/components/Header";
 
 export default function AllChargesHistory() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -24,18 +25,20 @@ export default function AllChargesHistory() {
         authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
       },
     };
-    
-      await axios.get("/api/charges/viewAll", config).then((res) => {
+
+    await axios
+      .get("/api/charges/viewAll", config)
+      .then((res) => {
         dispatch({
           type: "ALL_CHARGES",
           payload: res.data,
-        }); 
+        });
         setLoading(true);
-      }).catch(err => {
+      })
+      .catch((err) => {
         enqueueSnackbar(err.message, { variant: "error" });
-        setLoading(true)
+        setLoading(true);
       });
-
   };
 
   useEffect(() => {
@@ -49,36 +52,39 @@ export default function AllChargesHistory() {
           <NotLoggedIn />
         </section>
       ) : (
-        <section>
-          <Head>
-            <title>All Charges</title>
-          </Head>
-          {loading ? (
-            <div className="p_sitepage">
-              <Header header="All Charges for Your Site" />
-              <link
-                rel="stylesheet"
-                href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-                integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-                crossOrigin="anonymous"
-              />
+        <section className="Parent">
+          <Taskbar />
+          <div className="S_right">
+            <Head>
+              <title>All Charges</title>
+            </Head>
+            {loading ? (
+              <div className="p_sitepage">
+                <Header header="All Charges for Your Site" />
+                <link
+                  rel="stylesheet"
+                  href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+                  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+                  crossOrigin="anonymous"
+                />
 
-              <div className="p_particular mt-5">
-                {state.allCharges?.length > 0 ? (
-                  <AllChargesList
-                    head="All Charges"
-                    allCharges={state.allCharges}
-                  />
-                ) : (
-                  "There are no charges to display"
-                )}
+                <div className="p_particular mt-5">
+                  {state.allCharges?.length > 0 ? (
+                    <AllChargesList
+                      head="All Charges"
+                      allCharges={state.allCharges}
+                    />
+                  ) : (
+                    "There are no charges to display"
+                  )}
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="p_spinner">
-              <ReactBootStrap.Spinner animation="border" variant="light" />
-            </div>
-          )}
+            ) : (
+              <div className="p_spinner">
+                <ReactBootStrap.Spinner animation="border" variant="light" />
+              </div>
+            )}
+          </div>
         </section>
       )}
     </>

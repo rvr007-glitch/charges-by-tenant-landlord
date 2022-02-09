@@ -56,9 +56,6 @@ function Lsignup() {
     try {
       const res = await axios.post("/api/auth/users/register", details);
       dispatch({ type: "USER_SIGNUP", payload: res.data });
-      console.log(res.data);
-      Cookies.set("userInfo", JSON.stringify(res.data));
-      localStorage.setItem("userInfo", JSON.stringify(res.data));
       enqueueSnackbar("User Signed Up Successfully", { variant: "success" });
       router.push(redirect || "/auth/LandlordSignin");
     } catch (err) {

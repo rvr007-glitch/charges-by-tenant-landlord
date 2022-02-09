@@ -15,6 +15,7 @@ import { Store } from "../../utility/Store";
 import axios from "axios";
 import Cookies from "js-cookie";
 import NotLoggedIn from "../withoutLogin/NotLoggedIn";
+import Taskbar from "../profile/components/Taskbar";
 
 function CreateSiteForm() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -107,178 +108,177 @@ function CreateSiteForm() {
           <NotLoggedIn />
         </section>
       ) : (
-        <section>
-          <Head>
-            <title>Create Site</title>
-          </Head>
-          <section className="a-create-side-main">
-            <link
-              href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-              rel="stylesheet"
-              integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-              crossOrigin="anonymous"
-            />
+        <section className="Parent">
+          <Taskbar />
+          <div className="S_right">
+            <Head>
+              <title>Create Site</title>
+            </Head>
+            <section className="a-create-side-main">
+              <link
+                href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+                rel="stylesheet"
+                integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+                crossOrigin="anonymous"
+              />
 
-            <div className="a-create-site-upper">
-              <div className="row">
-                <div className="col-3 a-left-div"></div>
-                <div className="col-9">
-                  <Header header="Enter Site Details" />
-                  <div className="container">
-                    <form>
-                      <div className="row">
-                        <div className="form-group col-md-6">
-                          <VerticalInput
-                            fieldName="Alias name"
-                            name="alias_name"
-                            onChange={onChange}
-                          />
-                        </div>
-
-                        <div className="form-group col-md-6 py-3">
-                          <label htmlFor="input">Type</label>
-
-                          <div className="container py-3">
-                            <div className="row">
-                              <div className="col-4">
-                                <RadioButton
-                                  value="Room"
-                                  name="Room"
-                                  groupName="Type"
-                                  onChange={onChange}
-                                />
-                              </div>
-                              <div className="col-4">
-                                <RadioButton
-                                  value="Land"
-                                  name="Land"
-                                  groupName="Type"
-                                  details={details}
-                                  onChange={onChange}
-                                />
-                              </div>
-                              <div className="col-4">
-                                <RadioButton
-                                  value="Shop"
-                                  name="Shop"
-                                  groupName="Type"
-                                  onChange={onChange}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="row">
-                        <div className="form-group col-md-6">
-                          <VerticalInput
-                            fieldName="Rent"
-                            name="rent"
-                            onChange={onChange}
-                          />
-                        </div>
-                        <div className="form-group col-md-6">
-                          <VerticalInput
-                            fieldName="Deposit"
-                            name="deposit"
-                            onChange={onChange}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="a-address-container">
-                        <HorizontalInput
-                          fieldName="Flat no:"
-                          name="first_line"
-                          onChange={onChange}
-                        />
-                        <HorizontalInput
-                          fieldName="Landmark:"
-                          name="landmark"
-                          onChange={onChange}
-                        />
+              <div className="a-create-site-upper">
+                <div className="row">
+                  {/* <div className="col-3 a-left-div"></div> */}
+                  <div className="col-12">
+                    <Header header="Enter Site Details" />
+                    <div className="container">
+                      <form>
                         <div className="row">
-                          <div className="col-6">
-                            <HorizontalInput
-                              fieldName="City:"
-                              name="city"
+                          <div className="form-group col-md-6">
+                            <VerticalInput
+                              fieldName="Alias Name"
+                              name="alias_name"
                               onChange={onChange}
                             />
                           </div>
-                          <div className="col-6">
-                            <HorizontalInput
-                              fieldName="Pin Code:"
-                              name="pincode"
+
+                          <div className="form-group col-md-6 py-3">
+                            <label htmlFor="input">Type</label>
+
+                            <div className="container py-3">
+                              <div className="row">
+                                <div className="col-4">
+                                  <RadioButton
+                                    value="Room"
+                                    name="Room"
+                                    groupName="Type"
+                                    onChange={onChange}
+                                  />
+                                </div>
+                                <div className="col-4">
+                                  <RadioButton
+                                    value="Land"
+                                    name="Land"
+                                    groupName="Type"
+                                    details={details}
+                                    onChange={onChange}
+                                  />
+                                </div>
+                                <div className="col-4">
+                                  <RadioButton
+                                    value="Shop"
+                                    name="Shop"
+                                    groupName="Type"
+                                    onChange={onChange}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="row">
+                          <div className="form-group col-md-6">
+                            <VerticalInput
+                              fieldName="Rent"
+                              name="rent"
+                              onChange={onChange}
+                            />
+                          </div>
+                          <div className="form-group col-md-6">
+                            <VerticalInput
+                              fieldName="Deposit"
+                              name="deposit"
                               onChange={onChange}
                             />
                           </div>
                         </div>
 
-                        <div className="form-group">
-                          <div className="form-group row">
-                            <div className="col-3">
-                              <label htmlFor="inputState">State:</label>
-                            </div>
-                            <div className="col-3">
-                              <StateOptions updateState={updateState} />
+                        <div className="a-address-container">
+                          <HorizontalInput
+                            fieldName="Address"
+                            name="first_line"
+                            onChange={onChange}
+                          />
+                          <HorizontalInput
+                            fieldName="Landmark"
+                            name="landmark"
+                            onChange={onChange}
+                          />
+                          <div className="row">
+                            <div className="col-6">
+                              <HorizontalInput
+                                fieldName="City"
+                                name="city"
+                                onChange={onChange}
+                              />
                             </div>
                             <div className="col-6">
                               <HorizontalInput
-                                fieldName="Country:"
-                                name="country"
+                                fieldName="Pin Code"
+                                name="pincode"
                                 onChange={onChange}
                               />
                             </div>
                           </div>
+
+                          <div className="form-group">
+                            <div className="form-group row">
+                              <div className="col-3">
+                                <label htmlFor="inputState">State:</label>
+                              </div>
+                              <div className="col-3">
+                                <StateOptions updateState={updateState} />
+                              </div>
+                              <div className="col-6">
+                                <HorizontalInput
+                                  fieldName="Country:"
+                                  name="country"
+                                  onChange={onChange}
+                                />
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </form>
-                  </div>
-
-                  <Header header="Custom Bills (Monthly)" />
-
-                  <div className="a-monthly-container container">
-                    <div className="container a-create-bottom-radio-container">
-                      {charges_params_keys.length
-                        ? charges_params_keys.map((data, index) => {
-                            return (
-                              <CreateBottomRadioPart
-                                value={data}
-                                name={data}
-                                pushCharges={pushCharges}
-                                key={index}
-                              />
-                            );
-                          })
-                        : "Please add fields using Add Field button"}
+                      </form>
                     </div>
-                  </div>
 
-                  <div className="addField-container">
-                    {/* <NormalBootstrapButton
-                name="Add Field"
-                classNameProp="btn-warning a-right-align-button"
-              /> */}
-                    <MyModal
-                      buttonName="Add Field"
-                      fieldName="Enter the field name:"
-                      placeholderProp="Amount"
-                      classNameProp="a-right-align-button"
-                      updateCharges={updateCharges}
-                    />
-                  </div>
-                  <div className="a-finalButton-container">
-                    <NormalBootstrapButton
-                      fieldName="Generate Site"
-                      onClick={onSubmit}
-                      classNameProp="btn-warning a-final-generateButton"
-                    />
+                    <Header header="Custom Bills (Monthly)" />
+
+                    <div className="a-monthly-container container">
+                      <div className="container a-create-bottom-radio-container">
+                        {charges_params_keys.length
+                          ? charges_params_keys.map((data, index) => {
+                              return (
+                                <CreateBottomRadioPart
+                                  value={data}
+                                  name={data}
+                                  pushCharges={pushCharges}
+                                  key={index}
+                                />
+                              );
+                            })
+                          : "Please add fields using Add Field button"}
+                      </div>
+                    </div>
+
+                    <div className="addField-container">
+                      <MyModal
+                        buttonName="Add Field"
+                        fieldName="Enter the field name:"
+                        placeholderProp="Amount"
+                        classNameProp="a-right-align-button"
+                        updateCharges={updateCharges}
+                      />
+                    </div>
+                    <div className="a-finalButton-container">
+                      <NormalBootstrapButton
+                        fieldName="Generate Site"
+                        onClick={onSubmit}
+                        classNameProp="btn-warning a-final-generateButton"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+          </div>
         </section>
       )}
     </>

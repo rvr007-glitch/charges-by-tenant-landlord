@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import RadioButton from "./RadioButton";
+import { AllFormatter } from "../../../utility/Functions/AllFormatter";
 
 const CreateBottomRadioPart = (props) => {
   const [disable, setDisable] = useState(true);
@@ -10,7 +11,6 @@ const CreateBottomRadioPart = (props) => {
   });
 
   function onValueChange(e) {
-    
     if (e.target.type == "radio") {
       if (e.target.value == "fixed") {
         setDisable(false);
@@ -32,17 +32,14 @@ const CreateBottomRadioPart = (props) => {
     // console.log(result);
     props.pushCharges(result);
   }, [valueInput]);
-  
- 
-    // console.log(valueInput);
-    
 
+  // console.log(valueInput);
 
   return (
     <section>
       <div className="row">
         <div className="col-6">
-          <label htmlFor="input">{props.name}</label>
+          <label htmlFor="input">{AllFormatter(props.name, 4)}</label>
         </div>
         <div className="col-6">
           <div className="container">

@@ -19,10 +19,10 @@ const Identity = (props) => {
             <i className="fas fa-tachometer-alt-fastest"></i>
             <span>Your Sites</span>
           </div>
-          <div className="S_option S_option1" onClick={() => props.onShow2()}>
+          {/* <div className="S_option S_option1" onClick={() => props.onShow2()}>
             <i className="fab fa-buffer"></i>
             <span>Requests</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

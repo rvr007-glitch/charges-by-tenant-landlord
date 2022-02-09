@@ -8,6 +8,7 @@ import { Store } from "../../utility/Store";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import axios from "axios";
+import Link from "next/link";
 import * as ReactBootStrap from "react-bootstrap";
 import NotLoggedIn from "../withoutLogin/NotLoggedIn";
 
@@ -72,8 +73,15 @@ export default function Home() {
 
         // enqueueSnackbar("Site Loaded", { variant: "success" });
       } catch (err) {
-        console.log(err);
-        enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+        if (
+          err.response &&
+          err.response.data &&
+          err.response.data.message == "No site Found"
+        ) {
+          // Eat a 5* and do nothing
+        } else {
+          enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+        }
       }
     } else {
       // enqueueSnackbar("Signup/signin Required", { varient: "success" });
@@ -97,17 +105,26 @@ export default function Home() {
               <div className="S_right">
                 <Details details={state.userInfo} />
                 <hr />
+                {console.log(state.mySites)}
                 <div className="S_rightBottom">
-                  <Header head="Available Sites" />
-                  <TableList
-                    tableclass="table-striped Stable"
-                    flat="Flat No."
-                    loc="Address"
-                    siteName="Site Name"
-                    available="Type"
-                    view="Site"
-                    allDetails={state.mySites}
-                  />
+                  <Header head="Your Sites" />
+                  {state && state.mySites && state.mySites.length == 0 ? (
+                    <strong className="shadow-lg p-5 mt-5">
+                      No sites created,{" "}
+                      <Link href="/createSite/CreateSiteForm">Create</Link> new
+                      sites here.
+                    </strong>
+                  ) : (
+                    <TableList
+                      tableclass="table-striped Stable"
+                      flat="Flat No."
+                      loc="Address"
+                      siteName="Site Name"
+                      available="Type"
+                      view="Site"
+                      allDetails={state.mySites}
+                    />
+                  )}
                 </div>
               </div>
             </div>
