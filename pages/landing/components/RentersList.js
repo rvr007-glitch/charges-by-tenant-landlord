@@ -31,9 +31,9 @@ const RentersList = (props) => {
           </tr>
         </thead>
         <tbody>
-          {props.historyDetail && props.historyDetail.map(hist => {
+          {props.historyDetail && props.historyDetail.map((hist, index) => {
             return (
-              <tr>
+              <tr key={index}>
                 {/* after populate completed */}
                 <td scope="row">{hist.tenant_id}</td>
             <td>
