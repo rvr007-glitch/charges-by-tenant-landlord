@@ -13,9 +13,10 @@ const AllChargesList = (props) => {
   const [loading, setLoading] = useState(false);
 
   const totalCharges = (description) => {
-    var keys = Object.keys(description);
+    
+    var keys = description && Object.keys(description);
     var total = 0;
-    keys.map((data) => {
+    keys && keys.map((data) => {
       total += parseInt(description[data]);
     });
     return total;
@@ -55,14 +56,14 @@ const AllChargesList = (props) => {
         <tbody>
           {props.allCharges
             ? props.allCharges.map((data, index) => {
-                var total = totalCharges(data?.charge_id?.description);
+                var total = totalCharges(data && data.charge_id && data.charge_id.description);
                 return (
                   <tr key={index}>
-                    <td>{data?.charge_id?.site_id}</td>
-                    <td>address</td>
-                    <td>rent</td>
+                    <td>{data?.charge_id?.site_id.alias_name}</td>
+                    <td>{data && data.charge_id  && data.charge_id.site_id && data.charge_id.site_id.address && data.charge_id.site_id.address.first_line + " " + data.charge_id.site_id.address.landmark}</td>
+                    <td>{data && data.charge_id && data.charge_id.site_id && data.charge_id.site_id.rent }</td>
+                    <td>{total - Number(data && data.charge_id && data.charge_id.site_id && data.charge_id.site_id.rent) }</td>
                     <td>{total}</td>
-                    <td>rent + {total}</td>
                     <td>
                       <Moment format="MMMM Do YYYY">{data.order_date}</Moment>
                     </td>
