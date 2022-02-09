@@ -34,13 +34,15 @@ export default function Home() {
             type: "USER_INFO_FETCHING",
             payload: res.data?.data,
           });
-          setLoading(true);
         });
         enqueueSnackbar("Data Retrieved", { variant: "success" });
+        setLoading(true);
       } catch (err) {
+        setLoading(true);
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
       }
     } else {
+      setLoading(true);
       // enqueueSnackbar("Sign/Signup required", { varient: "success" });
     }
   };

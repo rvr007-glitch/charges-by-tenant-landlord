@@ -51,6 +51,7 @@ export default function ParticularSiteComponent() {
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
       }
     } else {
+      setLoading(true);
       enqueueSnackbar("Signup/signin Required", { varient: "success" });
     }
   };

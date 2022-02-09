@@ -46,9 +46,11 @@ function EditTenant() {
         enqueueSnackbar("Data Retrieved", { variant: "success" });
       } catch (err) {
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+        setLoading(true);
       }
     } else {
       enqueueSnackbar("Sign/Signup required", { varient: "success" });
+      setLoading(true);
     }
   };
 

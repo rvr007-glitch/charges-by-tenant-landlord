@@ -64,9 +64,18 @@ const Landlord = () => {
       } catch (err) {
         console.log(err);
         setLoading(true);
-        enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+        if (
+          err.response &&
+          err.response.data &&
+          err.response.data.message == "No site Found"
+        ) {
+          // Eat a 5* and do nothing
+        } else {
+          enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+        }
       }
     } else {
+      setLoading(true);
       // enqueueSnackbar("Signup/signin Required", { varient: "success" });
     }
   };

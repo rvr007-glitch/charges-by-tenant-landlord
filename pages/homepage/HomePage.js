@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Head from "next/head";
 import HomePageBanner from "./components/HomePageBanner";
 import Features from "./components/Features";
 import GetStarted from "./components/GetStarted";
@@ -21,13 +21,8 @@ function HomePage() {
         <title>Home Page</title>
       </Head>
       <HomePageBanner />
-      <div className="Parent">
-        <Taskbar />
-        <div className="S_right">
-          <Features />
-          <GetStarted />
-        </div>
-      </div>
+      <Features />
+      <GetStarted />
     </>
   );
 }

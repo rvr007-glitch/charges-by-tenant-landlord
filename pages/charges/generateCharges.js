@@ -47,6 +47,7 @@ export default function GenerateCharges() {
         enqueueSnackbar("Site Loaded", { variant: "success" });
       } catch (err) {
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+        setLoading(true);
       }
     } else {
       enqueueSnackbar("Signup/signin Required", { varient: "success" });
