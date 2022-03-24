@@ -13,7 +13,7 @@ function VerticalInput(props) {
         }
         className="form-control"
         id="inputEmail4"
-        placeholder={props.name}
+        placeholder={props.fieldName}
         name={props.name}
         onChange={props.onChange}
       />

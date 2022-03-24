@@ -1,122 +1,122 @@
 .p_label {
-    justify-content:space-around;
-    color: white;
-    text-align: center;
-    width:14vw;
-    font-size: 1.6vw;
-    margin:1% 3% 1.5% 1%;
-    background-color: #ff9800;
-    padding: 0.8% 0 0.8% 0.3%;
-    display:inline-block;
-    font-family: Arial;
-    border-radius:7px;
-  }
-  .charges{
-    margin:5%;
-    padding-left: 13%;
-  }
-  
-  .p_spinner{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-  } 
-  
-  .ip{
-    display: inline-block; 
-    padding: 0 5%; 
-    width:12vw;
-    height:7vh; 
-    background-color: #eff2f5; 
-    font-weight: 600;
-    font-size: larger;
-    border-radius: 5px; 
-    border: 1px solid ;
-  }
+  justify-content: space-around;
+  color: white;
+  text-align: center;
+  width: 14vw;
+  font-size: 1.6vw;
+  margin: 1% 3% 1.5% 1%;
+  background-color: #ff9800;
+  padding: 0.8% 0 0.8% 0.3%;
+  display: inline-block;
+  font-family: Arial;
+  border-radius: 7px;
+}
+.charges {
+  margin: 5%;
+  padding-left: 13%;
+}
 
-  .top_head {
-    font-size: 2vw;
-    font-weight: bold;
-    width: 100%;
-    background: #023c40;
-    text-align: center;
-    padding: 1%;
-    color: white;
-  }
-  .top_head1 {
-    font-size: 2vw;
-    font-weight: bold;
-    border-radius: 10px;
-    width: calc(96vw - 70px);
-    background: #023c40;
-    text-align: center;
-    padding: 1%;
-    margin-left: 1%;
-    color: white;
-  }
-  .dc{
-    position:absolute;
-    width:30vw;
-    top:12vh;
-    left:68vw;
-  }
+.p_spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
-  .btn2{
-    display: flex;
-    position: inherit;
-    padding-top: 5%;
-    padding-left: 12%;
-  }
+.ip {
+  display: inline-block;
+  padding: 0 5%;
+  width: 12vw;
+  height: 7vh;
+  background-color: #eff2f5;
+  font-weight: 600;
+  font-size: larger;
+  border-radius: 5px;
+  border: 1px solid;
+}
 
-  .p_btn2:hover{
-    background-color: #009def;
-    transform: scale(1.1) 
-  }
+.top_head {
+  font-size: 2vw;
+  font-weight: bold;
+  width: 120%;
+  background: #023c40;
+  text-align: center;
+  padding: 1%;
+  color: white;
+}
+.top_head1 {
+  font-size: 2vw;
+  font-weight: bold;
+  border-radius: 10px;
+  width: calc(96vw - 70px);
+  background: #023c40;
+  text-align: center;
+  padding: 1%;
+  margin-left: 1%;
+  color: white;
+}
+.dc {
+  position: absolute;
+  width: 30vw;
+  top: 12vh;
+  left: 68vw;
+}
 
-  .p_btn2 {
-    border: none;
-    width: 13vw;
-    color: white;
-    padding: 1% 2%;
-    text-align: center;
-    text-decoration: none;
-    font-size: larger;
-    font-weight: bold;
-    margin: 0 1%;
-    cursor: pointer;
-    border-radius: 20px;
-    background-color: #009dae;
-    transition: all 1s ease;
-    transform: scale(1);
-  }
+.btn2 {
+  display: flex;
+  position: inherit;
+  padding-top: 5%;
+  padding-left: 12%;
+}
 
-  .S_left {
-    width: 70px;
-    display: flex;
-    position: sticky;
-    top: 0;
-    left: 0;
-    flex-direction: column;
-    border-radius: 0 20px 0 0;
-    background: #023c40;
-    height: 100vh;
-    align-items: center;
-  }
+.p_btn2:hover {
+  background-color: #009def;
+  transform: scale(1.1);
+}
 
-  .p_heading {
-    height: 100vh;
-    background-color: white;
-    display: flex;
-    flex-direction: row;
-  }
-  
-  .p_right {
-    width: 100vw;
-    margin-left: 2%;
-    display: flex;
-    flex-direction: column;
-  }
+.p_btn2 {
+  border: none;
+  width: 13vw;
+  color: white;
+  padding: 1% 2%;
+  text-align: center;
+  text-decoration: none;
+  font-size: larger;
+  font-weight: bold;
+  margin: 0 1%;
+  cursor: pointer;
+  border-radius: 20px;
+  background-color: #009dae;
+  transition: all 1s ease;
+  transform: scale(1);
+}
+
+.S_left {
+  width: 70px;
+  display: flex;
+  position: sticky;
+  top: 0;
+  left: 0;
+  flex-direction: column;
+  border-radius: 0 20px 0 0;
+  background: #023c40;
+  height: 100vh;
+  align-items: center;
+}
+
+.p_heading {
+  height: 100vh;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+}
+
+.p_right {
+  width: 100vw;
+  margin-left: 2%;
+  display: flex;
+  flex-direction: column;
+}

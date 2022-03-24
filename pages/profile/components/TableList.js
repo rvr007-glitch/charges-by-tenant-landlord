@@ -18,6 +18,7 @@ const TableList = (props) => {
           <th scope="col">{props.loc}</th>
           <th scope="col">{props.available}</th>
           <th scope="col">Created On</th>
+          <th scope="col">Status</th>
           <th scope="col">{props.view}</th>
         </tr>
       </thead>
@@ -42,6 +43,13 @@ const TableList = (props) => {
               <td>{data?.Type}</td>
               <td>
                 <Moment format="MMMM Do YYYY">{data.createdAt}</Moment>
+              </td>
+              <td>
+                {data.status == 0
+                  ? "Vacant"
+                  : data.status == 1
+                  ? "Requested"
+                  : "Alloted"}
               </td>
               <td>
                 <button

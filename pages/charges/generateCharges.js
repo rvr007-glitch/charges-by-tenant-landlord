@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import { useRouter } from "next/router";
 import * as ReactBootStrap from "react-bootstrap";
+import NotLoggedIn from "../withoutLogin/NotLoggedIn";
 
 import axios from "axios";
 
@@ -46,6 +47,7 @@ export default function GenerateCharges() {
         enqueueSnackbar("Site Loaded", { variant: "success" });
       } catch (err) {
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+        setLoading(true);
       }
     } else {
       enqueueSnackbar("Signup/signin Required", { varient: "success" });
@@ -122,77 +124,85 @@ export default function GenerateCharges() {
 
   return (
     <>
-      <Head>
-        <title>Generate Charges</title>
-      </Head>
-      {loading ? (
-        <div className="p_heading">
-          <Taskbar />
-          <div className="p_right">
-            <Header1 header="GENERATE CHARGES OF DIFERENT ENTITIES" />
-            <link
-              rel="stylesheet"
-              href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-              integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-              crossOrigin="anonymous"
-            />
-            <link
-              rel="stylesheet"
-              href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-              integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-              crossOrigin="anonymous"
-            />
+      {!Cookies.get("userInfo") ? (
+        <section>
+          <NotLoggedIn />
+        </section>
+      ) : (
+        <section>
+          <Head>
+            <title>Generate Charges</title>
+          </Head>
+          {loading ? (
+            <div className="p_heading">
+              <Taskbar />
+              <div className="p_right">
+                <Header1 header="GENERATE CHARGES OF DIFERENT ENTITIES" />
+                <link
+                  rel="stylesheet"
+                  href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+                  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+                  crossOrigin="anonymous"
+                />
+                <link
+                  rel="stylesheet"
+                  href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+                  integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+                  crossOrigin="anonymous"
+                />
 
-            <div className="charges">
-              <HorizontalInput
-                fieldName="Rent"
-                isDisable={true}
-                name="rent"
-                defaultValue={state.siteDetail?.rent}
-              />
-              {charges_param
-                ? Object.keys(charges_param).map((data, index) => {
-                    var currentObj = charges_param[data];
-                    if (currentObj.fixed) {
-                      return (
-                        <HorizontalInput
-                          fieldName={data}
-                          key={index}
-                          isDisable={true}
-                          name={data}
-                          defaultValue={currentObj.value}
-                        />
-                      );
-                    } else {
-                      return (
-                        <HorizontalInput
-                          fieldName={data}
-                          key={index}
-                          isDisable={false}
-                          name={data}
-                          onChange={onChange}
-                        />
-                      );
-                    }
-                  })
-                : "No parameters to generate charges"}
+                <div className="charges">
+                  <HorizontalInput
+                    fieldName="Rent"
+                    isDisable={true}
+                    name="rent"
+                    defaultValue={state.siteDetail?.rent}
+                  />
+                  {charges_param
+                    ? Object.keys(charges_param).map((data, index) => {
+                        var currentObj = charges_param[data];
+                        if (currentObj.fixed) {
+                          return (
+                            <HorizontalInput
+                              fieldName={data}
+                              key={index}
+                              isDisable={true}
+                              name={data}
+                              defaultValue={currentObj.value}
+                            />
+                          );
+                        } else {
+                          return (
+                            <HorizontalInput
+                              fieldName={data}
+                              key={index}
+                              isDisable={false}
+                              name={data}
+                              onChange={onChange}
+                            />
+                          );
+                        }
+                      })
+                    : "No parameters to generate charges"}
 
-              <div className="btn2">
-                <button className="p_btn2" onClick={submitHandler}>
-                  GENERATE
-                </button>
+                  <div className="btn2">
+                    <button className="p_btn2" onClick={submitHandler}>
+                      GENERATE
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="dc">
+                <Image src={DifferentCharges} alt="dc" />
               </div>
             </div>
-          </div>
-
-          <div className="dc">
-            <Image src={DifferentCharges} alt="dc" />
-          </div>
-        </div>
-      ) : (
-        <div className="p_spinner">
-          <ReactBootStrap.Spinner animation="border" />
-        </div>
+          ) : (
+            <div className="p_spinner">
+              <ReactBootStrap.Spinner animation="border" />
+            </div>
+          )}
+        </section>
       )}
     </>
   );

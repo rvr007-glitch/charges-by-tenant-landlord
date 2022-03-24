@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Head from "next/head";
 import Details from "./components/Details";
 import TableList from "./components/TableList";
 import Taskbar from "./components/Taskbar";
@@ -8,7 +8,9 @@ import { Store } from "../../utility/Store";
 import Cookies from "js-cookie";
 import { useSnackbar } from "notistack";
 import axios from "axios";
-import * as ReactBootStrap from 'react-bootstrap'
+import Link from "next/link";
+import * as ReactBootStrap from "react-bootstrap";
+import NotLoggedIn from "../withoutLogin/NotLoggedIn";
 
 export default function Home() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -33,15 +35,16 @@ export default function Home() {
             type: "USER_INFO_FETCHING",
             payload: res.data?.data,
           });
-          setLoading(true);
         });
         enqueueSnackbar("Data Retrieved", { variant: "success" });
+        setLoading(true);
       } catch (err) {
+        setLoading(true);
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
       }
-    }
-    else {
-      enqueueSnackbar("Sign/Signup required", { varient: "success" });
+    } else {
+      setLoading(true);
+      // enqueueSnackbar("Sign/Signup required", { varient: "success" });
     }
   };
 
@@ -56,12 +59,11 @@ export default function Home() {
 
       let config = {
         headers: {
-          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token
+          authorization: "b " + JSON.parse(Cookies.get("userInfo")).data.token,
         },
       };
 
       try {
-
         await axios.get(`/api/site/getAllSites`, config).then((res) => {
           dispatch({
             type: "GET_ALL_SITES",
@@ -71,46 +73,68 @@ export default function Home() {
 
         // enqueueSnackbar("Site Loaded", { variant: "success" });
       } catch (err) {
-        console.log(err);
-        enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+        if (
+          err.response &&
+          err.response.data &&
+          err.response.data.message == "No site Found"
+        ) {
+          // Eat a 5* and do nothing
+        } else {
+          enqueueSnackbar(err.response?.data?.message, { variant: "error" });
+        }
       }
     } else {
-      enqueueSnackbar("Signup/signin Required", { varient: "success" });
+      // enqueueSnackbar("Signup/signin Required", { varient: "success" });
     }
-  }
+  };
 
   return (
     <>
-      <Head>
-        <title>Profile</title>
-      </Head>
-      {loading ? (
-        <div className="Parent">
-          <Taskbar />
-          <div className="S_right">
-            <Details details={state.userInfo} />
-            <hr />
-            <div className="S_rightBottom">
-              <Header head="Available Sites" />
-              <TableList
-                tableclass="table-striped Stable"
-                flat="Flat No."
-                loc="Address"
-                siteName="Site Name"
-                available="Type"
-                view="Site"
-                allDetails={state.mySites}
-              />
-            </div>
-          </div>
-        </div>
+      {!Cookies.get("userInfo") ? (
+        <section>
+          <NotLoggedIn />
+        </section>
       ) : (
-        <div className="p_spinner">
-          <ReactBootStrap.Spinner animation="border" />
-        </div>
+        <section>
+          <Head>
+            <title>Profile</title>
+          </Head>
+          {loading ? (
+            <div className="Parent">
+              <Taskbar />
+              <div className="S_right">
+                <Details details={state.userInfo} />
+                <hr />
+                {console.log(state.mySites)}
+                <div className="S_rightBottom">
+                  <Header head="Your Sites" />
+                  {state && state.mySites && state.mySites.length == 0 ? (
+                    <strong className="shadow-lg p-5 mt-5">
+                      No sites created,{" "}
+                      <Link href="/createSite/CreateSiteForm">Create</Link> new
+                      sites here.
+                    </strong>
+                  ) : (
+                    <TableList
+                      tableclass="table-striped Stable"
+                      flat="Flat No."
+                      loc="Address"
+                      siteName="Site Name"
+                      available="Type"
+                      view="Site"
+                      allDetails={state.mySites}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="p_spinner">
+              <ReactBootStrap.Spinner animation="border" />
+            </div>
+          )}
+        </section>
       )}
     </>
-
-
   );
 }

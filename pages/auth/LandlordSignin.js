@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Head from "next/head";
 import Image from "next/image";
 import Landlord from "../../public/images/Landlord.png";
 import Home_fill from "../../public/images/Home_fill.png";
@@ -45,7 +45,6 @@ function Lsignin() {
 
   const submitHandler = async (details) => {
     closeSnackbar();
-
     try {
       console.log(details);
       const res = await axios.post("/api/auth/users/signin", details);

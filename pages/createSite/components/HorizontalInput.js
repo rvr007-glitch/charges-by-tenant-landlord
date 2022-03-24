@@ -16,7 +16,7 @@ function HorizontalInput(props) {
             }
             className="form-control"
             id="inputEmail3"
-            placeholder={props.name}
+            placeholder={props.fieldName}
             name={props.name}
             onChange={props.onChange}
             defaultValue={props.name == "country" ? "India" : ""}

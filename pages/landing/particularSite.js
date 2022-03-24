@@ -12,7 +12,9 @@ import { useSnackbar } from "notistack";
 import { useRouter } from "next/router";
 import axios from "axios";
 import * as ReactBootStrap from "react-bootstrap";
+import NotLoggedIn from "../withoutLogin/NotLoggedIn";
 import ChargesList from "./components/ChargesList";
+import Taskbar from "../profile/components/Taskbar";
 
 export default function ParticularSiteComponent() {
   const router = useRouter();
@@ -46,9 +48,11 @@ export default function ParticularSiteComponent() {
 
         // enqueueSnackbar("Site Loaded", { variant: "success" });
       } catch (err) {
+        setLoading(true);
         enqueueSnackbar(err.response?.data?.message, { variant: "error" });
       }
     } else {
+      setLoading(true);
       enqueueSnackbar("Signup/signin Required", { varient: "success" });
     }
   };
@@ -85,87 +89,84 @@ export default function ParticularSiteComponent() {
     }
   };
 
-  console.log(state.siteDetail)
+  console.log(state.siteDetail);
   return (
     <>
-      <Head>
-        <title>Particular Site</title>
-      </Head>
-      {loading ? (
-        <div className="p_sitepage">
-          <Header header="Site Details" />
-          <link
-            rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-            integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-            crossOrigin="anonymous"
-          />
-          <div className="p_site">
-            <div className="p_sitecontainer">
-              <div>
-                <NameLabel
-                  label="Site Name"
-                  details={state.siteDetail?.alias_name}
-                />
+      <div className="Parent">
+        <Taskbar />
+        <div className="S_right">
+          <Head>
+            <title>Particular Site</title>
+          </Head>
+          {loading ? (
+            <div className="p_sitepage">
+              <Header header="Site Details" />
+              <link
+                rel="stylesheet"
+                href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+                integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+                crossOrigin="anonymous"
+              />
+              <div className="p_site">
+                <div className="p_sitecontainer">
+                  <div>
+                    <NameLabel
+                      label="Site Name"
+                      details={state.siteDetail?.alias_name}
+                    />
+                  </div>
+                  <div>
+                    <NameLabel
+                      label="Site Type"
+                      details={state.siteDetail?.Type}
+                    />
+                  </div>
+                  <div>
+                    <NameLabel
+                      label="Site Address"
+                      details={`${state.siteDetail?.address?.first_line}, ${state.siteDetail?.address?.landmark}, ${state.siteDetail?.address?.city}, ${state.siteDetail?.address?.state} P.O: ${state.siteDetail?.address?.pincode}`}
+                    />
+                  </div>
+                </div>
+                <div className="p_psite">
+                  <Image src={ParticularSite} alt="sub" />
+                </div>
               </div>
-              <div>
-                <NameLabel label="Site Type" details={state.siteDetail?.Type} />
-              </div>
-              <div>
-              <NameLabel label="Site Address" details={`${state.siteDetail?.address?.first_line}, ${state.siteDetail?.address?.landmark}, ${state.siteDetail?.address?.city}, ${state.siteDetail?.address?.state} P.O: ${state.siteDetail?.address?.pincode}`} />
-              </div>
-            </div>
-            <div className="p_psite">
-              <Image src={ParticularSite} alt="sub" />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-sm-12 col-lg-12 col-12">
-              <div className="p_particular">
-                {state.siteDetail && state.siteDetail.history && state.siteDetail.history.length > 0 ? (
-                  <RentersList
-                    head="Renters Alloted"
-                    historyDetail={state.siteDetail?.history}
-                    rent={state.siteDetail?.rent}
-                    deposit={state.siteDetail?.deposit}
-                    flat="Flat No."
-                    loc="Location"
-                    rentedFrom="RentedFrom"
-                    rentedTill="Rented Till"
-                    rents="Rent"
+              <div className="row">
+                <div className="col-sm-12 col-lg-12 col-12">
+                  <div className="p_particular">
+                    {state.siteDetail &&
+                    state.siteDetail.history &&
+                    state.siteDetail.history.length > 0 ? (
+                      <RentersList
+                        head="Renters Alloted"
+                        historyDetail={state.siteDetail?.history}
+                        rent={state.siteDetail?.rent}
+                        deposit={state.siteDetail?.deposit}
+                        flat="Flat No."
+                        loc="Location"
+                        rentedFrom="RentedFrom"
+                        rentedTill="Rented Till"
+                        rents="Rent"
+                      />
+                    ) : (
+                      "There no Tenant for this site"
+                    )}
+                  </div>
+                  <AllotPopup
+                    siteId={state.siteDetail?._id}
+                    siteStatus={state.siteDetail?.status}
                   />
-                ) : (
-                  "There no Tenant for this site"
-                )}
+                </div>
               </div>
             </div>
-            <div className="col-sm-12 col-lg-12 col-12 mt-5">
-              <div className="p_particular">
-                {state.siteCharges?.length > 0 ? (
-                  <ChargesList
-                    head="Payment History"
-                    chargesDetails={state.siteCharges}
-                  />
-                ) : (
-                  "No charges to display, generate charges to see charges here"
-                )}
-              </div>
+          ) : (
+            <div className="p_spinner">
+              <ReactBootStrap.Spinner animation="border" />
             </div>
-          </div>
-
-          {/* <div className='btn3'>
-                    <button className='btn1 p_btr'>Add New Tenant</button>
-                </div> */}
-          <AllotPopup
-            siteId={state.siteDetail?._id}
-            siteStatus={state.siteDetail?.status}
-          />
+          )}
         </div>
-      ) : (
-        <div className="p_spinner">
-          <ReactBootStrap.Spinner animation="border" />
-        </div>
-      )}
+      </div>
     </>
   );
 }
