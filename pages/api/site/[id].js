@@ -37,6 +37,7 @@ const Siteget = async (req, res) => {
 
     console.log(data)
 
+    //aggreagting using site id
     Site.aggregate([
       { $match: { _id: mongoose.Types.ObjectId(data) } },
             {
@@ -52,12 +53,12 @@ const Siteget = async (req, res) => {
                 from: "tenants",
                 localField: "history.tenant_id",
                 foreignField: "_id",
-                as: "current_tenant"
-              }
+                as: "tenantsDetails",
+              },
             }
     ]).then(siteData => {
       if(!siteData[0]) return sendError(res, "No site Found", constants.BAD_REQUEST);
-      console.log(siteData[0]?.landlord_id, landlord_id)
+      // console.log(siteData[0]?.landlord_id, landlord_id)
       if(siteData[0].landlord_id != landlord_id) return sendError(res, "UnAuthorize Access", 402)
       return sendSuccess(res, siteData)
     })

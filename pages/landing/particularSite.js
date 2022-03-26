@@ -45,7 +45,6 @@ export default function ParticularSiteComponent() {
           });
           setLoading(true);
         });
-
         // enqueueSnackbar("Site Loaded", { variant: "success" });
       } catch (err) {
         setLoading(true);
@@ -143,6 +142,7 @@ export default function ParticularSiteComponent() {
                         historyDetail={state.siteDetail?.history}
                         rent={state.siteDetail?.rent}
                         deposit={state.siteDetail?.deposit}
+                        tenantsDetail={state.siteDetail?.tenantsDetails}
                         flat="Flat No."
                         loc="Location"
                         rentedFrom="RentedFrom"

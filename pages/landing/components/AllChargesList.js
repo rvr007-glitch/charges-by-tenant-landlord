@@ -26,6 +26,7 @@ const AllChargesList = (props) => {
     router.push(`/landing/particularSite?id=${siteId}`);
   };
 
+
   return (
     <div className="right_bottom">
       <link
@@ -57,6 +58,7 @@ const AllChargesList = (props) => {
           {props.allCharges
             ? props.allCharges.map((data, index) => {
                 var total = totalCharges(data && data.charge_id && data.charge_id.description);
+                console.log(data);
                 return (
                   <tr key={index}>
                     <td>{data?.charge_id?.site_id.alias_name}</td>
@@ -71,7 +73,7 @@ const AllChargesList = (props) => {
                       <button
                         className="btn btn-primary"
                         onClick={() => {
-                          goToParticularSite(data?.charge_id?.site_id);
+                          goToParticularSite(data?.charge_id?.site_id?._id);
                         }}
                       >
                         Details
