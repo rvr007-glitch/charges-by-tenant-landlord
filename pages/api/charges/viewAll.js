@@ -29,6 +29,9 @@ export default async function handler(req, res){
                  model: 'Site',
                  select: 'alias_name address rent'
              }
+         }).populate({
+             path: 'tenant_id',
+             select: 'firstName lastName email'
          }).exec((err, data) => {
             if(data){
                 return sendSuccess(res, data)
