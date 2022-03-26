@@ -20,7 +20,7 @@ const RentersList = (props) => {
       <table className="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Tenant Id</th>
+            <th scope="col">Tenant Name</th>
             {/* <th scope="col">{props.loc}</th> */}
             <th scope="col">{props.rentedFrom}</th>
             <th scope="col">{props.rentedTill}</th>
@@ -32,10 +32,11 @@ const RentersList = (props) => {
         </thead>
         <tbody>
           {props.historyDetail && props.historyDetail.map((hist, index) => {
+            console.log(hist)
             return (
               <tr key={index}>
                 {/* after populate completed */}
-                <td scope="row">{hist.tenant_id}</td>
+                <td scope="row">{props.tenantsDetail[index].firstName}</td>
             <td>
               {hist.joined_at ? (
                 <Moment format="MMMM Do YYYY">

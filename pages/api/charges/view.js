@@ -29,7 +29,7 @@ export default async function handler(req, res){
             if(err)return sendError(res, err.message, 500)
             else{
                 if(siteData.landlord_id == landlordId){
-                    Charge.find({site_id: siteId}, function(err, data){
+                    Charge.find({site_id: siteId}).populate({ path: 'tenant_id',select: 'firstName lastName'}).exec(function(err, data){
                         if(err)return sendError(res, err.message, 500)
                         else{
                             return sendSuccess(res, data)
