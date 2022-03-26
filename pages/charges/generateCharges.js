@@ -13,6 +13,7 @@ import * as ReactBootStrap from "react-bootstrap";
 import NotLoggedIn from "../withoutLogin/NotLoggedIn";
 
 import axios from "axios";
+import { check } from "prettier";
 
 export default function GenerateCharges() {
   const router = useRouter();
@@ -63,7 +64,7 @@ export default function GenerateCharges() {
       if (charges_param[data].fixed) {
         tempCharges[data] = charges_param[data].value;
       } else {
-        tempCharges[data] = 0;
+        tempCharges[data] = -1;
       }
       setDescription(tempCharges);
     });
@@ -119,7 +120,22 @@ export default function GenerateCharges() {
   };
 
   const submitHandler = () => {
-    generateSiteCharges();
+    console.log(description);
+    var check = true;
+    Object.keys(description ? description : {}).map((data, index) => {
+      if (description[data].fixed) {
+        // nothing
+      } else {
+        if (description[data] == -1) {
+          alert("Please enter the charges for " + data);
+          check = false;
+        }
+      }
+      setDescription(tempCharges);
+    });
+    if (check) {
+      generateSiteCharges();
+    }
   };
 
   return (
@@ -160,29 +176,29 @@ export default function GenerateCharges() {
                   />
                   {charges_param
                     ? Object.keys(charges_param).map((data, index) => {
-                        var currentObj = charges_param[data];
-                        if (currentObj.fixed) {
-                          return (
-                            <HorizontalInput
-                              fieldName={data}
-                              key={index}
-                              isDisable={true}
-                              name={data}
-                              defaultValue={currentObj.value}
-                            />
-                          );
-                        } else {
-                          return (
-                            <HorizontalInput
-                              fieldName={data}
-                              key={index}
-                              isDisable={false}
-                              name={data}
-                              onChange={onChange}
-                            />
-                          );
-                        }
-                      })
+                      var currentObj = charges_param[data];
+                      if (currentObj.fixed) {
+                        return (
+                          <HorizontalInput
+                            fieldName={data}
+                            key={index}
+                            isDisable={true}
+                            name={data}
+                            defaultValue={currentObj.value}
+                          />
+                        );
+                      } else {
+                        return (
+                          <HorizontalInput
+                            fieldName={data}
+                            key={index}
+                            isDisable={false}
+                            name={data}
+                            onChange={onChange}
+                          />
+                        );
+                      }
+                    })
                     : "No parameters to generate charges"}
 
                   <div className="btn2">

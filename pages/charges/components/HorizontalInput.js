@@ -10,6 +10,7 @@ function HorizontalInput(props) {
             type="number"
             className="form-control"
             id="inputEmail3"
+            required
             placeholder={props.name}
             name={props.name}
             onChange={props.onChange}

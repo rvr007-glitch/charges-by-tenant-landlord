@@ -32,33 +32,34 @@ const RentersList = (props) => {
         </thead>
         <tbody>
           {props.historyDetail && props.historyDetail.map((hist, index) => {
+            console.log(hist);
             return (
               <tr key={index}>
                 {/* after populate completed */}
                 <td scope="row">{hist.tenant_id}</td>
-            <td>
-              {hist.joined_at ? (
-                <Moment format="MMMM Do YYYY">
-                  {hist.joined_at}
-                </Moment>
-              ) : (
-                hist.rejected_at? "Rejected": "Requested"
-              )}{" "}
-            </td>
-            <td>
-              {hist.rejected_at ? "Rejected" : (hist.joined_at
-                ? (hist.left_at
-                  ? <Moment format="MMMM Do YYYY">
-                  {hist.left_at}
-                </Moment>
-                  : "Presently Living")
-                : "Requested")}
-            </td>
-            <td>{props.rent}</td>
-            <td>
-              <i className="fas fa-rupee-sign"></i> {props.deposit}
-            </td>
-          </tr>
+                <td>
+                  {hist.joined_at ? (
+                    <Moment format="MMMM Do YYYY">
+                      {hist.joined_at}
+                    </Moment>
+                  ) : (
+                    hist.rejected_at ? "Rejected" : "Requested"
+                  )}{" "}
+                </td>
+                <td>
+                  {hist.rejected_at ? "Rejected" : (hist.joined_at
+                    ? (hist.left_at
+                      ? <Moment format="MMMM Do YYYY">
+                        {hist.left_at}
+                      </Moment>
+                      : "Presently Living")
+                    : "Requested")}
+                </td>
+                <td>{props.rent}</td>
+                <td>
+                  <i className="fas fa-rupee-sign"></i> {props.deposit}
+                </td>
+              </tr>
             )
           })}
         </tbody>
